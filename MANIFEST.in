@@ -1,0 +1,2 @@
+recursive-include reddit_gold/public *
+recursive-include reddit_gold/templates *
