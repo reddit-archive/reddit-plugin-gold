@@ -1,6 +1,7 @@
 from r2.lib.js import Module
 from r2.lib.plugin import Plugin
 
+
 class Gold(Plugin):
     needs_static_build = True
 
@@ -8,7 +9,7 @@ class Gold(Plugin):
         'gold': Module('gold.js',
             'gold.js',
             prefix='gold/',
-        )
+        ),
     }
 
     def add_routes(self, mc):

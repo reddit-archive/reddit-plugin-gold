@@ -3,6 +3,7 @@ from pylons import c, g
 from r2.lib.pages import BoringPage
 from reddit_gold.models import GoldPartnerDealCode
 
+
 class GoldInfoPage(BoringPage):
     def __init__(self, *args, **kwargs):
         self.prices = {
@@ -10,6 +11,7 @@ class GoldInfoPage(BoringPage):
             "gold_year_price": g.gold_year_price,
         }
         BoringPage.__init__(self, *args, **kwargs)
+
 
 class GoldPartnersPage(BoringPage):
     def __init__(self, *args, **kwargs):

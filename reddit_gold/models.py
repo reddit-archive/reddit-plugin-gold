@@ -6,6 +6,7 @@ from sqlalchemy.types import DateTime, Integer, String
 
 from r2.models.gold import Base, Session
 
+
 def with_sqlalchemy_session(f):
     """Ensures sqlalchemy session is closed (due to connection pooling)."""
     def close_session_after(*args, **kwargs):

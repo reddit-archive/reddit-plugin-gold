@@ -13,6 +13,7 @@ from r2.lib.validator import (
 from reddit_gold.models import GoldPartnerDealCode, GoldPartnerCodesExhaustedError
 from reddit_gold.pages import GoldInfoPage, GoldPartnersPage
 
+
 @add_controller
 class GoldController(RedditController):
     def GET_about(self):
@@ -20,6 +21,7 @@ class GoldController(RedditController):
 
     def GET_partners(self):
         return GoldPartnersPage(_("gold partners"), show_sidebar=False).render()
+
 
 @add_controller
 class GoldApiController(RedditController):
