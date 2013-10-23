@@ -1,3 +1,5 @@
+from datetime import datetime
+from pylons import g
 from sqlalchemy import func
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.schema import Column
