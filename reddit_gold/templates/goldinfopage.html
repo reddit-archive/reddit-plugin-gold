@@ -82,12 +82,12 @@
         '# New comment highlighting.\n'
         "What's new? Highlight which comments are new since the last time you viewed a thread."
       ), "first")}
-    ${feature_item('username-notifications',
-      static('gold/sample-butler.png'),
+    ${feature_item('store-my-visits',
+      static('gold/sample-storevisits.png'),
       _(
-        "# Notifications when you're mentioned in comments.\n"
-        """Want to say "boo" when people talk about you?  """
-        """Get an orangered whenever someone "/u/" mentions your username in a comment."""
+        "# Remember what links you've visited across computers.\n"
+        "Never click a link twice again. If you visit a link on one computer, "
+        "it'll show up purple on your other computers."
       ), "new")}
     <section id="partner-benefits">
         <h1>${_('Awesome stuff for gold members:')}</h1>
@@ -109,6 +109,13 @@
           <li>${partner_item('ups', 'logistics provider and gold supporter')}</li>
         </ul>
     </section>
+    ${feature_item('username-notifications',
+      static('gold/sample-butler.png'),
+      _(
+        "# Notifications when you're mentioned in comments.\n"
+        """Want to say "boo" when people talk about you?  """
+        """Get an orangered whenever someone "/u/" mentions your username in a comment."""
+      ))}
     ${feature_item('filter-all',
       static('gold/sample-filterall.png'),
       _(
