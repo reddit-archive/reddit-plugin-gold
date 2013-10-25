@@ -1,4 +1,5 @@
 import ConfigParser
+import logging
 import os
 import platform
 import sys
@@ -8,6 +9,10 @@ from kazoo.protocol.states import KazooState
 from kazoo.recipe.lock import Lock, Semaphore
 
 from r2.lib.zookeeper import connect_to_zookeeper
+
+
+# make kazoo's error log print out to the console etc.
+logging.basicConfig()
 
 
 ROOT = "/gold/server-names"
