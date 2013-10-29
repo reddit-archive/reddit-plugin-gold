@@ -1,0 +1,10 @@
+<p class="bottommenu debuginfo">
+  <span class="icon">&pi;</span>&nbsp;
+  <span class="content">Rendered by PID ${g.reddit_pid} on&#32;
+    % if c.gold_hostname:
+      <b class="buygold" title="${g.reddit_host}">${c.gold_hostname}</b>
+    % else:
+      ${g.reddit_host}
+    % endif
+    &#32;at ${c.start_time} running ${g.short_version}.</span>
+</p>
