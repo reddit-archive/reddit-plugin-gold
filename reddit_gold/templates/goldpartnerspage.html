@@ -53,9 +53,11 @@
 
 <%def name="content()">
   <section id="about-gold-partners">
-    ${goldinfo_header(_('reddit gold partners'),
-                      strings.gold_partners_description,
-                      css_class='large')}
+    <%call expr="goldinfo_header(_('reddit gold partners'), 'Gold members get access to exclusive stuff.', css_class='large')">
+      <div class="notice">
+        Want your company to be a gold partner?&#32;<a href="https://reddit.wufoo.com/forms/reddit-gold-partner-application/" target="_blank">Apply here</a>.
+      </div>
+    </%call>
 
     ${partner_item('backblaze',
                    "Claim your code below, then visit https://secure.backblaze.com/gift/XXXXXXX (replacing Xs with your code), and click 'Redeem &amp; Download' to install the product and enter your email/password.",
