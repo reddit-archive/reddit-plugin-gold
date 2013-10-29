@@ -1,11 +1,14 @@
 from datetime import datetime
+
 from pylons import g
+
 from sqlalchemy import func
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.schema import Column
 from sqlalchemy.sql import and_
 from sqlalchemy.types import DateTime, Integer, String
 
+from r2.models import Subreddit
 from r2.models.gold import Base, Session
 
 
@@ -75,3 +78,10 @@ class GoldPartnerDealCode(Base):
         Session.query(func.pg_advisory_unlock_all()).all()
 
         return claiming.code 
+
+
+class LoungeSubreddit(Subreddit):
+    _nodb = True
+
+    def is_contributor(self, user):
+        return user.gold or user.gold_charter
