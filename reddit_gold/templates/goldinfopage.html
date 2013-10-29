@@ -51,9 +51,9 @@
       <span class="or">${_('or')}</span>
       <a class="postcard-button" href="/gold/about#postcard"><img src="${static('gold/stamp.png')}" alt=""> ${_('send us a postcard')}</a>
     </div>
-      %if caller:
-        ${caller.body()}
-      %endif
+    %if caller:
+      ${caller.body()}
+    %endif
   </header>
 </%def>
 
