@@ -229,7 +229,6 @@ section#about-gold, section#about-gold-partners {
     header {
         @width: 960px;
         @padding-right: 50px;
-        @padding-top: 23px;
         position: relative;
         z-index: 5;
 
@@ -237,6 +236,7 @@ section#about-gold, section#about-gold-partners {
             // could use box-sizing here, but want to look semi-decent in IE7
             @height: 161px;
             @padding-left: 242px;
+            @padding-top: 16px;
             width: @width - @padding-left - @padding-right;
             height: @height - @padding-top;
             padding-top: @padding-top;
@@ -252,6 +252,7 @@ section#about-gold, section#about-gold-partners {
         &.short {
             @height: 101px;
             @padding-left: 42px;
+            @padding-top: 23px;
             width: @width - @padding-left - @padding-right;
             height: @height - @padding-top;
             padding-top: @padding-top;
@@ -306,6 +307,12 @@ section#about-gold, section#about-gold-partners {
         .or {
             font-size: 18px;
             margin: 0 16px 0 10px;
+        }
+
+        .notice {
+            display: inline-block;
+            margin: 6px 0;
+            font-size: 1.5em;
         }
     }
 
