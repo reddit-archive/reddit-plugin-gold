@@ -9,6 +9,7 @@ class Gold(Plugin):
     config = {
         ConfigValue.str: [
             "gold_hostname_file",
+            "gold_servername_sr",
         ],
     }
 
