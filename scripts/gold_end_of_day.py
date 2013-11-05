@@ -220,7 +220,7 @@ def main():
     yesterday = (now - datetime.timedelta(days=1)).date()
     post_if_goal_reached(yesterday)
 
-    # look at yesterday's if there is one
+    # look at old (now complete) threads if any
     activate_requested_names(but_not=yesterday)
 
     # wait until all our amqp / permacache changes are flushed from the
