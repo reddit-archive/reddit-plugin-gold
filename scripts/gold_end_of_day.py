@@ -1,5 +1,6 @@
 import datetime
 import os
+import random
 import re
 
 from itertools import chain
@@ -163,7 +164,7 @@ def activate_names(link, names):
 
         # reply to the user
         wp = WikiPage.get(SERVERNAME_SR, "templates/success-reply")
-        template = wp._get("content")
+        template = random.choice(wp._get("content").split("\n---\n"))
         comment, inbox_rel = Comment._new(
             author=SYSTEM_ACCOUNT,
             link=link,
