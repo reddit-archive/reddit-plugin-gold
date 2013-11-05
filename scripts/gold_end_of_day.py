@@ -92,7 +92,7 @@ def post_if_goal_reached(date):
     queries.changed(link)
 
     template = WikiPage.get(SERVERNAME_SR, "templates/notification-message")._get("content")
-    subject_template, sep, body_template = template.partition("\r\n---\r\n")
+    subject_template, sep, body_template = template.partition("\r\n")
     for id in gold_buyers_on(date):
         recipient = Account._byID(id, data=True)
         send_system_message(
