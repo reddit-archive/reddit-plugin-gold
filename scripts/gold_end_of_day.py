@@ -65,12 +65,10 @@ def post_if_goal_reached(date):
         spam=False,
     )
 
-    try:
-        template = WikiPage.get(SERVERNAME_SR, "templates/bucket-%d" % bucket)
-    except tdb_cassandra.NotFound:
-        template = WikiPage.get(SERVERNAME_SR, "templates/bucket-default")
+    template_wp = WikiPage.get(SERVERNAME_SR, "templates/selftext")
+    template = random.choice(template_wp._get("content").split("\r\n---\r\n"))
     boilerplate = WikiPage.get(SERVERNAME_SR, "templates/boilerplate")._get("content")
-    selftext_template = template._get("content") + "\n\n---\n\n" + boilerplate
+    selftext_template = template + "\n\n---\n\n" + boilerplate
 
     link.flair_text = "Name pending..."
     link.flair_css_class = "goal-bucket-%d-active" % bucket
