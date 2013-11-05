@@ -4,7 +4,7 @@ from sqlalchemy import func
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.schema import Column
 from sqlalchemy.sql import and_
-from sqlalchemy.types import DateTime, Integer, String
+from sqlalchemy.types import Boolean, DateTime, Integer, String
 
 from r2.models.gold import Base, Session
 
@@ -22,6 +22,36 @@ def with_sqlalchemy_session(f):
 
 class GoldPartnerCodesExhaustedError(Exception):
     pass
+
+
+class GoldPartner(Base):
+    """Information about reddit gold partners."""
+
+    __tablename__ = "reddit_gold_partners"
+
+    id = Column(String, primary_key=True)
+    enabled = Column(Boolean, nullable=False, default=True)
+    name = Column(String, nullable=False)
+    is_new = Column(Boolean, nullable=False, default=False)
+    about_page_desc = Column(String, nullable=False)
+    short_desc = Column(String, nullable=False)
+    instructions = Column(String, nullable=False)
+    url = Column(String)
+    image_url = Column(String)
+    discussion_id36 = Column(String)
+    button_label = Column(String)
+    button_dest = Column(String)
+    claim_dest = Column(String)
+    giveaway_desc = Column(String)
+
+    @classmethod
+    @with_sqlalchemy_session
+    def get_all_partners(cls):
+        results = (Session.query(cls)
+                   .filter(cls.enabled == True)
+                   .order_by(func.lower(GoldPartner.name))
+                   .all())
+        return results
 
 
 class GoldPartnerDealCode(Base):
