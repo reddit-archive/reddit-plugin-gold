@@ -54,6 +54,8 @@ def post_if_goal_reached(date):
     if bucket == 0:
         return
 
+    buyer_count = len(gold_buyers_on(date))
+
     link = Link._submit(
         title=date.strftime("%a %Y-%m-%d"),
         url="self",
@@ -79,6 +81,7 @@ def post_if_goal_reached(date):
     link.url = link.make_permalink(SERVERNAME_SR)
     link.selftext = selftext_template % {
         "percent": int(percent * 100),
+        "buyers": buyer_count,
     }
     link.is_self = True
     link._commit()
@@ -97,6 +100,7 @@ def post_if_goal_reached(date):
             subject_template,
             body_template % {
                 "percent": int(percent * 100),
+                "buyers": buyer_count,
                 "user": recipient.name,
                 "link": link.url,
             },
