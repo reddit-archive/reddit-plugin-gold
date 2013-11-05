@@ -32,10 +32,10 @@
   </section>
 </%def>
 
-<%def name="partner_item(name, description_html)">
+<%def name="partner_item(name, description_html, img_src)">
   <a href="/gold/partners#${name}" target="_blank">
     <div class="label-container"><span class="partner-label">${unsafe(description_html)}</span></div>
-    <div class="logo"><img src="${static('gold/partner-%s.png' % name)}" alt="${name}"></div>
+    <div class="logo"><img src="${img_src}" alt="${name}"></div>
   </a>
 </%def>
 
@@ -95,21 +95,9 @@
     <section id="partner-benefits">
         <h1>${_('Awesome stuff for gold members:')}</h1>
         <ul>
-          <li>${partner_item('backblaze', 'data backups<br>(sleep soundly)')}</li>
-          <li>${partner_item('goldbely', 'special foods from around the country')}</li>
-          <li>${partner_item('empiremayo', 'tasty spreads')}</li>
-          <li>${partner_item('betabrand', 'unique online fashions')}</li>
-          <li>${partner_item('urbilis', 'high-end home gardening')}</li>
-          <li>${partner_item('redditgifts', 'reddit bazaar')}</li>
-          <li>${partner_item('outgrowme', 'crowd-funded commodities')}</li>
-          <li>${partner_item('uber', 'chauffeur on-demand')}</li>
-          <li>${partner_item('ifixit', 'technological rectifications')}</li>
-          <li>${partner_item('rover', 'canine accomodation')}</li>
-          <li>${partner_item('solrepublic', 'acoustic accoutrements')}</li>
-          <li>${partner_item('homejoy', 'household cleansing')}</li>
-          <li>${partner_item('uberconference', 'conference calls')}</li>
-          <li>${partner_item('bridgford', 'delectable jerky')}</li>
-          <li>${partner_item('ups', 'logistics provider and gold supporter')}</li>
+        % for partner in thing.partners:
+          <li>${partner_item(partner.id, partner.about_page_desc, partner.image_url)}</li>
+        % endfor
         </ul>
     </section>
     ${feature_item('username-notifications',
