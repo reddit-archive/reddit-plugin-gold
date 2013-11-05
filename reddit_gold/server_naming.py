@@ -3,6 +3,7 @@ import datetime
 from pylons import g, c
 from sqlalchemy.sql.expression import select
 
+from r2.lib.base import abort
 from r2.lib.errors import errors
 from r2.lib.hooks import HookRegistrar
 from r2.lib.memoize import memoize
@@ -61,23 +62,20 @@ def nameaserver_comment_lockdown(sr, link, parent_comment):
             c.errors.add(errors.TOO_OLD, field="parent")
 
 
-@hooks.on("vote.forbid")
+@hooks.on("vote.validate")
 def nameaserver_vote_lockdown(thing):
-    # true => don't count the vote; false/none => it's cool
     if hasattr(thing, "sr_id"):
         sr = Subreddit._byID(thing.sr_id, data=True)
         if sr.name == g.gold_servername_sr:
             if isinstance(thing, Link):
                 # no votes on links in this subreddit
-                return True
+                abort(403, "Forbidden")
             elif isinstance(thing, Comment):
                 # only allow votes on comments in active threads by people
                 # who bought gold.
                 link = Link._byID(thing.link_id, data=True)
 
-                if not hasattr(link, "revenue_date"):
-                    return True
-                if not link.contest_mode:
-                    return True
-                if c.user._id not in gold_buyers_on(link.revenue_date):
-                    return True
+                if (hasattr(link, "revenue_date") and
+                    (not link.contest_mode or
+                     c.user._id not in gold_buyers_on(link.revenue_date))):
+                    abort(403, "Forbidden")
