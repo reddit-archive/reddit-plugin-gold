@@ -89,7 +89,7 @@ def post_if_goal_reached(date):
     queries.changed(link)
 
     template = WikiPage.get(SERVERNAME_SR, "templates/notification-message")._get("content")
-    subject_template, sep, body_template = template.partition("\n---\n")
+    subject_template, sep, body_template = template.partition("\r\n---\r\n")
     for id in gold_buyers_on(date):
         recipient = Account._byID(id, data=True)
         send_system_message(
@@ -164,7 +164,7 @@ def activate_names(link, names):
 
         # reply to the user
         wp = WikiPage.get(SERVERNAME_SR, "templates/success-reply")
-        template = random.choice(wp._get("content").split("\n---\n"))
+        template = random.choice(wp._get("content").split("\r\n---\r\n"))
         comment, inbox_rel = Comment._new(
             author=SYSTEM_ACCOUNT,
             link=link,
