@@ -208,8 +208,8 @@ def update_sidebar():
         ))
 
     # preserve human-edited content before the first <hr>
-    human_content, hr, junk = SERVERNAME_SR.description.partition("----")
-    SERVERNAME_SR.description = human_content + "----\n\n" + "".join(lines)
+    human_content, hr, junk = SERVERNAME_SR.description.partition("---")
+    SERVERNAME_SR.description = human_content + "---\n\n" + "".join(lines)
     SERVERNAME_SR._commit()
 
 
