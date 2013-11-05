@@ -57,7 +57,9 @@ def nameaserver_can_comment(sr, user):
 @hooks.on("comment.validate")
 def nameaserver_comment_lockdown(sr, link, parent_comment):
     if sr.name == g.gold_servername_sr:
-        if hasattr(link, "revenue_date") and not link.contest_mode:
+        if (hasattr(link, "revenue_date") and
+                not link.contest_mode and
+                not sr.is_moderator(c.user)):
             # this link is not one of the currently active ones. no comments!
             c.errors.add(errors.TOO_OLD, field="parent")
 
