@@ -16,8 +16,8 @@ hooks = HookRegistrar()
 
 @memoize("gold-buyers", time=86400)
 def gold_buyers_on(date):
-    start_date = datetime.combine(date, datetime.time.min)
-    end_date = datetime.combine(date, datetime.time.max)
+    start_date = datetime.datetime.combine(date, datetime.time.min)
+    end_date = datetime.datetime.combine(date, datetime.time.max)
 
     NON_REVENUE_STATUSES = ("declined", "chargeback", "fudge")
     query = (select([gold_table.c.account_id])
