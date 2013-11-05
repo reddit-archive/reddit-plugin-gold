@@ -88,12 +88,13 @@ def post_if_goal_reached(date):
     queries.changed(link)
 
     template = WikiPage.get(SERVERNAME_SR, "templates/notification-message")._get("content")
+    subject_template, sep, body_template = template.partition("\n---\n")
     for id in gold_buyers_on(date):
         recipient = Account._byID(id, data=True)
         send_system_message(
             recipient,
-            "a little thank you for buying gold",
-            template % {
+            subject_template,
+            body_template % {
                 "percent": int(percent * 100),
                 "user": recipient.name,
                 "link": link.url,
