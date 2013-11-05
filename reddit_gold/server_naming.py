@@ -53,13 +53,6 @@ def nameaserver_can_comment(sr, user):
         return user._id in gold_buyers_yesterday()
 
 
-@hooks.on("subreddit.can_submit")
-def nameaserver_can_submit(sr, user):
-    if sr.name == g.gold_servername_sr:
-        # no one but us bots here
-        return False
-
-
 @hooks.on("comment.validate")
 def nameaserver_comment_lockdown(sr, link, parent_comment):
     if sr.name == g.gold_servername_sr:
