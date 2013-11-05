@@ -51,7 +51,7 @@ def add_gold_hostname():
 @hooks.on("subreddit.can_comment")
 def nameaserver_can_comment(sr, user):
     if sr.name == g.gold_servername_sr:
-        return user._id in gold_buyers_yesterday()
+        return sr.is_moderator(user) or user._id in gold_buyers_yesterday()
 
 
 @hooks.on("comment.validate")
