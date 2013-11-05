@@ -54,11 +54,11 @@ def post_if_goal_reached(date):
         return
 
     link = Link._submit(
-        date.strftime("%a %Y-%m-%d"),
-        "self",
-        SYSTEM_ACCOUNT,
-        SERVERNAME_SR,
-        "127.0.0.1",
+        title=date.strftime("%a %Y-%m-%d"),
+        url="self",
+        author=SYSTEM_ACCOUNT,
+        sr=SERVERNAME_SR,
+        ip="127.0.0.1",
         spam=False,
     )
 
