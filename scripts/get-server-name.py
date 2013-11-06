@@ -5,6 +5,8 @@ import platform
 import sys
 import time
 
+import kazoo.exceptions
+
 from kazoo.protocol.states import KazooState
 from kazoo.recipe.lock import Lock, Semaphore
 
@@ -42,11 +44,21 @@ def acquire_name(client, hostname_path):
         max_leases=len(name_slots),
     )
 
-    print "waiting for name semaphore"
-    with semaphore:
+    # waiting on the semaphore indefinitely seems to cause things to hang up
+    # sometimes. instead, we'll cause ourselves to time out and retry if things
+    # are taking a while.
+    while True:
+        print "waiting for name semaphore"
+        try:
+            semaphore.acquire(timeout=60)
+        except kazoo.exceptions.LockTimeout:
+            continue
+        else:
+            break
+
+    try:
         # OK, we're one of the chosen servers. let's find a name that no one is
         # using.
-
         print "name semaphore acquired. finding name."
         while True:
             name_slots = client.get_children(ROOT)
@@ -74,6 +86,8 @@ def acquire_name(client, hostname_path):
                 # expire. just pause for a little while.
                 print "failed to find a name. will try again."
                 time.sleep(1)
+    finally:
+        semaphore.release()
 
 
 def main():
