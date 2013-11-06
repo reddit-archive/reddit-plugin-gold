@@ -205,7 +205,8 @@ def update_sidebar():
                 server_names = "/dev/null"
 
         lines.append("%s [%s: **%s**](%s)\n\n" % (
-            "#" * max(MAX_HEADING - link.revenue_bucket + 1, 1),
+            "#" * max(MAX_HEADING - link.revenue_bucket + 1, 1)
+                if link.revenue_bucket > 0 else ">",
             date_text,
             server_names,
             link.make_permalink(SERVERNAME_SR),
