@@ -23,7 +23,7 @@
   ${less_stylesheet('gold.less')}
 </%def>
 
-<%def name="partner_item(name, how_to_use, img_src, img_url=None, description_md='', extra_class='', button_dest=None, button_label=None, claim_dest='', discussion_link=None)">
+<%def name="partner_item(name, how_to_use, img_src, img_url=None, description_md='', extra_class='', button_dest=None, button_label=None, claim_dest='', discussion_link=None, discussion_num_comments=None)">
   <%call expr="feature_item(name, img_src, description_md, extra_class, img_url)">
     %if c.user.gold:
       <div class="how-to-use">
@@ -31,7 +31,7 @@
       </div>
     %endif
     %if discussion_link:
-      <a class="discussion-link" href="${discussion_link}">View discussion in /r/goldbenefits</a>
+      <a class="discussion-link" href="${discussion_link}">View feedback in /r/goldbenefits (${discussion_num_comments} comments)</a>
     %endif
     %if button_dest == 'claim':
       %if name in thing.existing_codes:
@@ -59,146 +59,19 @@
       </div>
     </%call>
 
-    ${partner_item('backblaze',
-                   "Claim your code below, then visit https://secure.backblaze.com/gift/XXXXXXX (replacing Xs with your code), and click 'Redeem &amp; Download' to install the product and enter your email/password.",
-                   static('gold/partner-backblaze.png'), 
-                   img_url='http://backblaze.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1g4wl2/backblaze_online_data_backup_for_your_electronic/',
-                   description_md='# Backblaze Online Backup\n'
-                                  '3 months of free service (new accounts only).',
-                   button_dest='claim',
-                   extra_class='first')}
-
-    ${partner_item('bartsbakery',
-                   "Claim your code below, then enter it as a Coupon code in your cart at http://bartsbakery.com to get 20% off any product.",
-                   static('gold/partner-bartsbakery.png'), 
-                   img_url='http://bartsbakery.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1i0xcx/barts_bakery_cookies_of_the_past_in_the_future/',
-                   description_md="# Bart's Bakery Chocolate Chip Cookies\n"
-                                  'Cookies. Really good cookies. 20% off any product.',
-                   button_dest='claim')}
-
-    ${partner_item('betabrand',
-                   "Claim your code below, then enter it as a Gift code in your cart at http://betabrand.com to get 20% off.",
-                   static('gold/partner-betabrand.png'), 
-                   img_url='http://betabrand.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1gr4zk/betabrand_unique_garments_fashions/',
-                   description_md='# Betabrand Unique Online Fashions\n'
-                                  'Presently Pantless? Get 20% off any item in our collection.',
-                   button_dest='claim')}
-
-    ${partner_item('empiremayo',
-                   "Claim your code below, then use it during the second step of the checkout process at http://empiremayo.com.",
-                   static('gold/partner-empiremayo.png'),
-                   img_url='http://empiremayo.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1g4uya/empire_mayo_exquisite_mayonnaises_to_adorn_your/',
-                   description_md='# Empire Mayonnaise\n'
-                                  'Exquisite mayonnaises. 15% discount (two uses per customer).',
-                   button_dest='claim')}
-
-    ${partner_item('goldbely',
-                   "Use the button below to visit Goldbely, then click *their* button and follow the process to authorize them to verify your gold status.",
-                   static('gold/partner-goldbely.png'),
-                   img_url='http://goldbely.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1g4v34/goldbely_gourmet_dishes_delivered_for_your/',
-                   description_md='# Goldbely Food Explorers\n'
-                                  'Gourmet dishes, delivered. $20 off purchases of $50 or more.',
-                   button_dest='https://www.goldbely.com/reddit-gold',
-                   button_label='visit Goldbely')}
-
-    ${partner_item('homejoy',
-                   'Claim your code below, then click "redeem now" after verifying availability at http://homejoy.com/foreverclean',
-                   static('gold/partner-homejoy.png'),
-                   img_url='http://homejoy.com/foreverclean',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1nxmsx/homejoy_household_cleansing/',
-                   description_md='# Homejoy Home Cleaning\n'
-                                  'Professional, high-quality home cleaning. 4 months at $15/hour plus no charge for cleaning supplies on the first visit.',
-                   button_dest='claim')}
-
-    ${partner_item('ifixit',
-                   "Claim your code below, then enter it as a Coupon Code in your cart at http://ifixit.com for $20 off a $50+ order.",
-                   static('gold/partner-ifixit.png'),
-                   img_url='http://ifixit.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1i0xf4/ifixit_technological_rectifications/',
-                   description_md='# iFixit\n'
-                                  'Guides, parts and tools for repairs. $20 off purchases of $50 or more.',
-                   button_dest='claim')}
-
-    ${partner_item('outgrowme',
-                   "Claim your code below, then use it during the second step of the checkout process at http://outgrow.me/gold.",
-                   static('gold/partner-outgrowme.png'),
-                   img_url='http://outgrow.me/gold',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1i0x4u/outgrowme_crowdfunded_commodities/',
-                   description_md='# Outgrow.me Marketplace\n'
-                                  'Successful crowd-funded items. 15% discount.',
-                   button_dest='claim')}
-
-    ${partner_item('redditgifts',
-                   "Watch your reddit PMs to see if you're one of the lucky Golden Tikkit recipients!",
-                   static('gold/partner-redditgifts.png'), 
-                   img_url='http://redditgifts.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1i0x9b/redditgifts_the_reddit_bazaar/',
-                   description_md='# redditgifts marketplace\n'
-                                  'With our "Golden Tikkit" program, five lucky gold members will be getting a t-shirt and 3 months of redditgifts Elves every week.',
-                   )}
-
-    ${partner_item('rover',
-                   "Claim your code below, then sign up and enter it at http://rover.com/redditgoldmembers to redeem your $50 credit.",
-                   static('gold/partner-rover.png'),
-                   img_url='http://rover.com/redditgoldmembers',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1lesfj/rover_canine_accomodation/',
-                   description_md='# Rover.com Dog Boarding\n'
-                                  'Dogsitting by dog lovers. $50 credit.',
-                   extra_class='new',
-                   button_dest='claim')}
-
-    ${partner_item('solrepublic',
-                   "Claim your code below, then enter it as a coupon code in your cart at http://solrepublic.com/shop",
-                   static('gold/partner-solrepublic.png'),
-                   img_url='http://solrepublic.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1lesl4/sol_republic_audio_accoutrements/',
-                   description_md='# SOL Republic Headphones\n'
-                                  '20% off purchases of $99 or more + one lucky gold member will receive a pair of custom Tracks HD headphones every month.',
-                   extra_class='new',
-                   button_dest='claim')}
-
-    ${partner_item('uber',
-                   "Claim your code below, then visit http://uber.com/app and enter the code while signing up.",
-                   static('gold/partner-uber.png'),
-                   img_url='http://uber.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1i0xhf/uber_a_chauffeur_at_your_behest/',
-                   description_md='# Uber Private Car Service\n'
-                                  'Black car service requested via mobile app. $25 off your first ride (valid only in the US).',
-                   button_dest='claim')}
-
-    ${partner_item('uberconference',
-                   "Claim your code below, then use it as a promo code during the checkout process at http://uberconference.com.",
-                   static('gold/partner-uberconference.png'),
-                   img_url='http://uberconference.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1nxmvh/%C3%BCberconference_conference_calls/',
-                   description_md='# UberConference\n'
-                                  'Conference calling done right. 3 months of premium membership.',
-                   button_dest='claim')}
-
-    ${partner_item('urbilis',
-                   "Claim your code below, then use it during the second step of the checkout process at http://urbilis.com.",
-                   static('gold/partner-urbilis.png'),
-                   img_url='http://urbilis.com',
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1g4v0s/urbilis_elegant_gardening_solutions/',
-                   description_md='# Urbilis Urban Gardening\n'
-                                  'Creative & elegant gardening solutions. $10 off purchases of $50 or more.',
-                   button_dest='claim')}
-
-    ${partner_item('ups',
-                   "Claim your code below.",
-                   static('gold/partner-ups.png'),
-                   discussion_link='http://www.reddit.com/r/goldbenefits/comments/1m9up8/ups_logistics_provider/',
-                   img_url='https://wwwapps.ups.com/mcdp?loc=en_US&WT.ac=UPS_HS_MyChoiceTab_notice_Mrktg_PX_U1_en_us&WT.mc_id=UPS_HS_MyChoiceTab_notice&WT.svl=BnrMsg',
-                   description_md='# UPS&reg; Logistics Provider and Gold Supporter\n'
-                                  '3 months of free premium [UPS My Choice&reg;](https://wwwapps.ups.com/mcdp?loc=en_US&WT.ac=UPS_HS_MyChoiceTab_notice_Mrktg_PX_U1_en_us&WT.mc_id=UPS_HS_MyChoiceTab_notice&WT.svl=BnrMsg) service to make home delivery quick and easy.',
-                   extra_class='ups new',
-                   button_dest='claim',
-                   claim_dest='https://www.ups.com/pea/register?inc={{code}}')}
+  % for partner in thing.partners:
+    ${partner_item(name=partner.id,
+                   how_to_use=partner.instructions,
+                   img_src=partner.image_url,
+                   img_url=partner.url,
+                   description_md='# {0}\n{1}'.format(partner.name, partner.short_desc),
+                   discussion_link=partner.discussion_url,
+                   discussion_num_comments=partner.discussion_num_comments,
+                   button_dest=partner.button_dest,
+                   button_label=partner.button_label,
+                   claim_dest=partner.claim_dest,
+                   extra_class=partner.extra_classes)}
+  % endfor
 
     <section id="terms" class="etc" style="border-top: none">
       <a href="#terms" onclick="$('#giveaway-rules').toggle()">View official rules for "Golden Tikkit" giveaways</a>
@@ -220,8 +93,9 @@
         <div id="prize-details">
           <h3>Prize Details</h3>
           <ul>
-            <li>redditgifts: Once a week until further notice, $20-30 in clothing to five lucky winners.</li>
-            <li>SOL Republic: Once a month until further notice, ~$130 custom headphones to one lucky winner.</li>
+          % for giveaway in thing.giveaways:
+            <li>${giveaway}</li>
+          % endfor
           </ul>
         </div>
 
