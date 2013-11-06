@@ -1,7 +1,7 @@
 import datetime
 
 from pylons import g, c
-from sqlalchemy.sql.expression import select
+from sqlalchemy.sql.expression import select, distinct
 
 from r2.lib.base import abort
 from r2.lib.errors import errors
@@ -20,7 +20,7 @@ def gold_buyers_on(date):
     end_date = datetime.datetime.combine(date, datetime.time.max)
 
     NON_REVENUE_STATUSES = ("declined", "chargeback", "fudge")
-    query = (select([gold_table.c.account_id])
+    query = (select([distinct(gold_table.c.account_id)])
                 .where(~ gold_table.c.status.in_(NON_REVENUE_STATUSES))
                 .where(gold_table.c.date >= start_date)
                 .where(gold_table.c.date <= end_date)
