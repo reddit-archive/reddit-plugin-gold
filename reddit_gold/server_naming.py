@@ -66,7 +66,7 @@ def nameaserver_comment_lockdown(sr, link, parent_comment):
 
 @hooks.on("vote.validate")
 def nameaserver_vote_lockdown(thing):
-    if hasattr(thing, "sr_id"):
+    if getattr(thing, "sr_id", None):
         sr = Subreddit._byID(thing.sr_id, data=True)
         if sr.name == g.gold_servername_sr:
             if isinstance(thing, Link):
