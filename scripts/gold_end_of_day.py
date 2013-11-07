@@ -157,7 +157,7 @@ def activate_names(link, names):
         slots.sort(key=lambda (path, (data, stat)): (bool(data), stat.mtime))
         slot_path = os.path.join(ROOT, slots[0][0])
 
-        g.zookeeper.set(slot_path, name)
+        g.zookeeper.set(slot_path, str(name))
 
         lock = g.zookeeper.Lock(slot_path)
         lock_contenders = lock.contenders()
