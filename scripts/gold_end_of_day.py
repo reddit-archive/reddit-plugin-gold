@@ -12,7 +12,7 @@ from r2.lib.db import queries
 from r2.lib.utils import in_chunks
 from r2.models import Thing, Account, Subreddit, Link, Comment
 from r2.models.admintools import send_system_message
-from r2.models.gold import gold_revenue_on
+from r2.models.gold import gold_revenue_on, gold_goal_on
 from r2.models.wiki import WikiPage
 from r2.lib.comment_tree import get_comment_tree
 from r2.lib.db import tdb_cassandra
@@ -49,7 +49,8 @@ def post_if_goal_reached(date):
             return
 
     revenue = gold_revenue_on(date)
-    percent = revenue / g.live_config["gold_revenue_goal"]
+    goal = gold_goal_on(date)
+    percent = revenue / goal
     bucket = int(percent)
     if bucket == 0:
         return
