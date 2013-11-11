@@ -12,7 +12,7 @@ from r2.lib.db import queries
 from r2.lib.utils import in_chunks
 from r2.models import Thing, Account, Subreddit, Link, Comment
 from r2.models.admintools import send_system_message
-from r2.models.gold import gold_revenue_on, gold_goal_on
+from r2.models.gold import gold_revenue_on, gold_goal_on, TIMEZONE
 from r2.models.wiki import WikiPage
 from r2.lib.comment_tree import get_comment_tree
 from r2.lib.db import tdb_cassandra
@@ -220,7 +220,7 @@ def update_sidebar():
 
 
 def main():
-    now = datetime.datetime.now(g.display_tz)
+    now = datetime.datetime.now(TIMEZONE)
 
     # post a new thread if we met our revenue goal
     yesterday = (now - datetime.timedelta(days=1)).date()

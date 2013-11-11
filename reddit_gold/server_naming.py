@@ -1,14 +1,14 @@
 import datetime
 
 from pylons import g, c
-from sqlalchemy.sql.expression import select, distinct
+from sqlalchemy.sql.expression import select, distinct, func
 
 from r2.lib.base import abort
 from r2.lib.errors import errors
 from r2.lib.hooks import HookRegistrar
 from r2.lib.memoize import memoize
 from r2.models import Subreddit, Link, Comment
-from r2.models.gold import gold_table, ENGINE
+from r2.models.gold import gold_table, ENGINE, TIMEZONE
 
 
 hooks = HookRegistrar()
@@ -20,10 +20,11 @@ def gold_buyers_on(date):
     end_date = datetime.datetime.combine(date, datetime.time.max)
 
     NON_REVENUE_STATUSES = ("declined", "chargeback", "fudge")
+    date_expr = func.timezone(TIMEZONE.zone, gold_table.c.date)
     query = (select([distinct(gold_table.c.account_id)])
                 .where(~ gold_table.c.status.in_(NON_REVENUE_STATUSES))
-                .where(gold_table.c.date >= start_date)
-                .where(gold_table.c.date <= end_date)
+                .where(date_expr >= start_date)
+                .where(date_expr <= end_date)
                 .where(gold_table.c.pennies > 0)
             )
     rows = ENGINE.execute(query)
@@ -32,7 +33,7 @@ def gold_buyers_on(date):
 
 def gold_buyers_yesterday():
     one_day = datetime.timedelta(days=1)
-    yesterday = datetime.datetime.now(g.display_tz).date() - one_day
+    yesterday = datetime.datetime.now(TIMEZONE).date() - one_day
     return gold_buyers_on(yesterday)
 
 
