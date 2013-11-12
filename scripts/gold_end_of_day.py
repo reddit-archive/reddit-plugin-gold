@@ -116,7 +116,7 @@ def activate_requested_names(but_not):
         activate_names_requested_in(link)
 
 
-valid_name_re = re.compile("^[A-Za-z0-9-]{1,25}$")
+valid_name_re = re.compile(r"(?:^|[_*])([A-Za-z0-9-]{1,25})(?:$|[_*])")
 def activate_names_requested_in(link):
     tree = get_comment_tree(link)
     acceptable_names = []
@@ -131,8 +131,9 @@ def activate_names_requested_in(link):
                 continue
 
             sanitized = comment.body.strip()
-            if valid_name_re.match(sanitized):
-                acceptable_names.append((comment, sanitized))
+            match = valid_name_re.search(sanitized)
+            if match:
+                acceptable_names.append((comment, match.group(1)))
 
     # we activate one name for each 100% of rev goal met
     names = acceptable_names[:link.revenue_bucket]
