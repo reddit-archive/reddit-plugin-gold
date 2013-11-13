@@ -76,7 +76,6 @@ def post_if_goal_reached(date):
     link.revenue_date = date
     link.revenue_bucket = bucket
     link.server_names = []
-    link.contest_mode = True
     link.url = link.make_permalink(SERVERNAME_SR)
     link.selftext = selftext_template % {
         "percent": int(percent * 100),
@@ -110,7 +109,7 @@ def activate_requested_names(but_not):
     date_to_exclude = but_not
 
     for link in get_recent_name_submissions():
-        if not link.contest_mode or link.revenue_date == date_to_exclude:
+        if link.server_names or link.revenue_date == date_to_exclude:
             continue
 
         activate_names_requested_in(link)
@@ -141,7 +140,6 @@ def activate_names_requested_in(link):
 
     activated_names = [name for comment, name in names]
     link.server_names = activated_names
-    link.contest_mode = False
     link.flair_text = ", ".join(activated_names) if names else "/dev/null"
     link.flair_css_class = "goal-bucket-%d" % link.revenue_bucket
     link._commit()
@@ -197,14 +195,11 @@ def update_sidebar():
     for link in links:
         date_text = link.revenue_date.strftime("%b-%d")
 
-        # contest_mode will be on for active threads
-        if link.contest_mode:
+        # active threads won't have any server names yet
+        if not link.server_names:
             server_names = "<<in progress>>"
         else:
-            if link.server_names:
-                server_names = ", ".join(link.server_names)
-            else:
-                server_names = "/dev/null"
+            server_names = ", ".join(link.server_names)
 
         lines.append("%s [%s: **%s**](%s)\n\n" % (
             "#" * max(MAX_HEADING - link.revenue_bucket + 1, 1)
