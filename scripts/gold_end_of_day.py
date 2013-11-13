@@ -180,6 +180,18 @@ def activate_names(link, names):
         queries.queue_vote(SYSTEM_ACCOUNT, comment, dir=True, ip="127.0.0.1")
         queries.new_comment(comment, inbox_rel)
 
+        # update the link's text
+        wp = WikiPage.get(SERVERNAME_SR, "templates/goldisms")
+        goldism = random.choice(wp._get("content").split("\r\n---\r\n"))
+        wp = WikiPage.get(SERVERNAME_SR, "templates/selftext-success")
+        template = wp._get("content")
+        link.selftext = template % {
+            "old-name": old_name,
+            "new-name": name,
+            "goldism": goldism,
+        }
+        link._commit()
+
 
 def update_sidebar():
     MAX_HEADING = 6
