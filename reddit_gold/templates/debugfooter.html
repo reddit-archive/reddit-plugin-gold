@@ -1,8 +1,8 @@
-<p class="bottommenu debuginfo">
+<p class="debuginfo">
   <span class="icon">&pi;</span>&nbsp;
   <span class="content">Rendered by PID ${g.reddit_pid} on&#32;
     % if c.gold_hostname:
-      <b class="buygold" title="${g.reddit_host}">${c.gold_hostname}</b>
+      <a class="buygold" href="${c.gold_hostname['permalink']}" title="${g.reddit_host}">${c.gold_hostname['name']}</a>
     % else:
       ${g.reddit_host}
     % endif

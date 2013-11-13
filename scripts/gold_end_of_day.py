@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 import random
 import re
@@ -157,7 +158,9 @@ def activate_names(link, names):
         slots.sort(key=lambda (path, (data, stat)): (bool(data), stat.mtime))
         slot_path = os.path.join(ROOT, slots[0][0])
 
-        g.zookeeper.set(slot_path, str(name))
+        comment_data = {'name': str(name),
+                        'permalink': comment.make_permalink_slow()}
+        g.zookeeper.set(slot_path, json.dumps(comment_data))
 
         lock = g.zookeeper.Lock(slot_path)
         lock_contenders = lock.contenders()

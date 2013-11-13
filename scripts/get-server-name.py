@@ -68,10 +68,10 @@ def acquire_name(client, hostname_path):
                 slot_lock = Lock(client, slot_path, hostname)
                 if slot_lock.acquire(blocking=False):
                     @client.DataWatch(slot_path)
-                    def on_name_change(name, stat):
-                        print "got name %r." % name
+                    def on_name_change(data, stat):
+                        print "got name data %r." % data
                         with open(hostname_path, "w") as hostname_file:
-                            print >> hostname_file, name
+                            print >> hostname_file, data
 
                     # just sit around doing nothing for ever
                     try:

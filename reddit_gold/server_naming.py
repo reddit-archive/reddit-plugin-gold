@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from pylons import g, c
 from sqlalchemy.sql.expression import select, distinct, func
@@ -44,7 +45,7 @@ def add_gold_hostname():
     if g.gold_hostname_file:
         try:
             with open(g.gold_hostname_file) as f:
-                c.gold_hostname = f.read().strip()
+                c.gold_hostname = json.loads(f.read().strip())
         except IOError:
             pass
 
