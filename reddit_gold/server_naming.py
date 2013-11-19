@@ -45,13 +45,8 @@ def add_gold_hostname():
     if g.gold_hostname_file:
         try:
             with open(g.gold_hostname_file) as f:
-                contents = f.read().strip()
-                try:
-                    c.gold_hostname = json.loads(contents)
-                except ValueError:
-                    c.gold_hostname = {'name': contents,
-                                       'permalink': 'http://www.reddit.com/r/' + g.gold_servername_sr}
-        except IOError:
+                c.gold_hostname = json.loads(f.read().strip())
+        except (IOError, ValueError):
             pass
 
 
