@@ -60,7 +60,7 @@ def nameaserver_can_comment(sr, user):
 def nameaserver_comment_lockdown(sr, link, parent_comment):
     if sr.name == g.gold_servername_sr:
         if (hasattr(link, "revenue_date") and
-                not link.contest_mode and
+                link.server_names and
                 not sr.is_moderator(c.user)):
             # this link is not one of the currently active ones. no comments!
             c.errors.add(errors.TOO_OLD, field="parent")
@@ -80,6 +80,6 @@ def nameaserver_vote_lockdown(thing):
                 link = Link._byID(thing.link_id, data=True)
 
                 if (hasattr(link, "revenue_date") and
-                    (not link.contest_mode or
+                    (link.server_names or
                      c.user._id not in gold_buyers_on(link.revenue_date))):
                     abort(403, "Forbidden")
