@@ -46,7 +46,7 @@ def add_gold_hostname():
         try:
             with open(g.gold_hostname_file) as f:
                 c.gold_hostname = json.loads(f.read().strip())
-        except IOError:
+        except (IOError, ValueError):
             pass
 
 
