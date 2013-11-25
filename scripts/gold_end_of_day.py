@@ -237,11 +237,9 @@ def update_sidebar():
 
 def determine_gold_goal(date):
     # fetch the revenues from the previous 7 days
-    previous_date = date - datetime.timedelta(days=1)
-    previous_revenues = []
-    while previous_date >= date - datetime.timedelta(days=7):
-        previous_revenues.append(gold_revenue_on(previous_date))
-        previous_date -= datetime.timedelta(days=1)
+    date_list = [date - datetime.timedelta(days=i)
+                 for i in range(1, 8)]
+    previous_revenues = gold_revenue_multi(date_list).values()
 
     # throw out highest value and set goal to 105% of average
     previous_revenues = sorted(previous_revenues)[:-1]
