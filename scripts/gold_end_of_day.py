@@ -15,6 +15,7 @@ from r2.models import Thing, Account, Subreddit, Link, Comment
 from r2.models.admintools import send_system_message
 from r2.models.gold import (
     gold_goal_on,
+    gold_revenue_multi,
     gold_revenue_on,
     GoldRevenueGoalByDate,
     TIMEZONE,
@@ -253,13 +254,15 @@ def determine_gold_goal(date):
 
     goal = round(goal, 0)
     GoldRevenueGoalByDate.set(date, goal)
+    # force update to memoized value
+    gold_goal_on(date, _update=True)
 
 
 def main():
     now = datetime.datetime.now(TIMEZONE)
 
     # calculate and store the new day's gold goal
-    determine_gold_goal(now)
+    determine_gold_goal(now.date())
 
     # post a new thread if we met our revenue goal
     yesterday = (now - datetime.timedelta(days=1)).date()
