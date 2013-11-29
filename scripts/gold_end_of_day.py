@@ -57,7 +57,7 @@ def post_if_goal_reached(date):
 
     revenue = gold_revenue_on(date)
     goal = gold_goal_on(date)
-    percent = revenue / goal
+    percent = revenue / float(goal)
     bucket = int(percent)
     if bucket == 0:
         return
