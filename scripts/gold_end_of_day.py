@@ -16,7 +16,6 @@ from r2.models.admintools import send_system_message
 from r2.models.gold import (
     gold_goal_on,
     gold_revenue_multi,
-    gold_revenue_on,
     GoldRevenueGoalByDate,
     TIMEZONE,
 )
@@ -55,7 +54,7 @@ def post_if_goal_reached(date):
         if link.revenue_date == date:
             return
 
-    revenue = gold_revenue_on(date)
+    revenue = gold_revenue_multi([date]).get(date, 0)
     goal = gold_goal_on(date)
     percent = revenue / float(goal)
     bucket = int(percent)
