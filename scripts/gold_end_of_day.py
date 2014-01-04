@@ -121,7 +121,7 @@ def activate_requested_names(but_not):
         activate_names_requested_in(link)
 
 
-valid_name_re = re.compile(r"(?:^|[_*])([A-Za-z0-9-]{1,25})(?:$|[_*])")
+valid_name_re = re.compile(r"(?:^|\*)([A-Za-z0-9-]{1,25})(?:$|\*)")
 def activate_names_requested_in(link):
     tree = get_comment_tree(link)
     acceptable_names = []
