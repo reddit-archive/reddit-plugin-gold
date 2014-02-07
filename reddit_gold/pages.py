@@ -1,7 +1,7 @@
 from pylons import c, g
 
 from r2.lib.pages import BoringPage
-from r2.models import Link
+from r2.models import Link, Subreddit
 from reddit_gold.models import GoldPartner, GoldPartnerDealCode
 
 
@@ -24,16 +24,17 @@ class GoldPartnersPage(BoringPage):
 
         self.partners = GoldPartner.get_all_partners()
         self.giveaways = []
-        first = True
+
+        # batch-lookup the Links and Subreddits for discussions
+        links = Link._byID36([p.discussion_id36 for p in self.partners],
+                             data=True)
+        subreddits = Subreddit._byID([l.sr_id for l in links.values()],
+                                     data=True)
+
         for partner in self.partners:
-            extra_classes = []
-            if first:
-                extra_classes.append('first')
-                first = False
+            extra_classes = partner.css_classes
             if partner.is_new:
                 extra_classes.append('new')
-            if partner.css_classes:
-                extra_classes += partner.css_classes
             partner.extra_classes = ' '.join(extra_classes)
 
             if partner.giveaway_desc:
@@ -42,8 +43,9 @@ class GoldPartnersPage(BoringPage):
                                               partner.giveaway_desc))
 
             if partner.discussion_id36:
-                link = Link._byID36(partner.discussion_id36, data=True)
-                partner.discussion_url = link.make_permalink_slow()
+                link = links[partner.discussion_id36]
+                subreddit = subreddits[link.sr_id]
+                partner.discussion_url = link.make_permalink(subreddit)
                 partner.discussion_num_comments = link.num_comments
             else:
                 partner.discussion_url = None

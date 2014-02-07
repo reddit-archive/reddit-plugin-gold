@@ -33,17 +33,17 @@ class GoldPartner(object):
     """Information about reddit gold partners."""
 
     def __init__(self, id, name, about_page_desc, short_desc, url, image_url,
-                 enabled=True, is_new=False, instructions=None,
+                 is_enabled=True, is_new=False, instructions=None,
                  discussion_id36=None, button_label=None, button_dest=None,
                  claim_dest=None, giveaway_desc=None, css_classes=None,
-                 sorting=0, **kwargs):
+                 **kwargs):
         self.id = id
         self.name = name
         self.about_page_desc = about_page_desc
         self.short_desc = short_desc
         self.url = url
         self.image_url = image_url
-        self.enabled = enabled
+        self.is_enabled = is_enabled
         self.is_new = is_new
         self.instructions = instructions
         self.discussion_id36 = discussion_id36
@@ -51,26 +51,25 @@ class GoldPartner(object):
         self.button_dest = button_dest
         self.claim_dest = claim_dest
         self.giveaway_desc = giveaway_desc
-        self.css_classes = css_classes.split(' ') if css_classes else None
-        self.sorting = int(sorting)
+        self.css_classes = css_classes.split(' ') if css_classes else []
 
     @classmethod
     def get_all_partners(cls):
-        """Loads partner definitions from the wiki page."""
+        """Load partner definitions from the wiki page."""
         partners = []
-        cfg = SafeConfigParser()
         try:
             wp = WikiPage.get(Frontpage, g.wiki_page_gold_partners)
         except NotFound:
             return partners
         wp_content = StringIO(wp.content)
+        cfg = SafeConfigParser(allow_no_value=True)
         cfg.readfp(wp_content)
 
         for section in cfg.sections():
             partner_def = {'id': section}
             for name, value in cfg.items(section):
                 # coerce boolean variables
-                if name in ('enabled', 'is_new'):
+                if name in ('is_enabled', 'is_new'):
                     partner_def[name] = cfg.getboolean(section, name)
                 else:
                     partner_def[name] = value
@@ -81,10 +80,10 @@ class GoldPartner(object):
                 # a required variable wasn't set for this partner, skip
                 continue
 
-            if partner.enabled:
+            if partner.is_enabled:
                 partners.append(partner)
 
-        return sorted(partners, key=lambda p: (p.sorting, p.name.lower()))
+        return partners
 
 
 class GoldPartnerDealCode(Base):

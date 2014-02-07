@@ -1,6 +1,6 @@
 <%!
   from r2.lib.strings import strings
-  from r2.lib.template_helpers import static
+  from r2.lib.template_helpers import media_https_if_secure, static
 %>
 <%namespace file="less.html" import="less_stylesheet"/>
 <%namespace file="utils.html" import="classes, _md"/>
@@ -16,7 +16,7 @@
     %if img_url:
       <a href="${img_url}">
     %endif
-        <div class="sample"><img src="${img_src}" alt=""></div>
+        <div class="sample"><img src="${media_https_if_secure(img_src)}" alt=""></div>
     %if img_url:
       </a>
     %endif
@@ -35,7 +35,7 @@
 <%def name="partner_item(name, description_html, img_src)">
   <a href="/gold/partners#${name}" target="_blank">
     <div class="label-container"><span class="partner-label">${unsafe(description_html)}</span></div>
-    <div class="logo"><img src="${img_src}" alt="${name}"></div>
+    <div class="logo"><img src="${media_https_if_secure(img_src)}" alt="${name}"></div>
   </a>
 </%def>
 
