@@ -29,7 +29,7 @@ def gold_buyers_on(date):
                 .where(gold_table.c.pennies > 0)
             )
     rows = ENGINE.execute(query)
-    return [int(account_id) for (account_id,) in rows.fetchall()]
+    return [int(account_id) for (account_id,) in rows.fetchall() if account_id]
 
 
 def gold_buyers_yesterday():
