@@ -26,8 +26,8 @@ class GoldPartnersPage(BoringPage):
         self.giveaways = []
 
         # batch-lookup the Links and Subreddits for discussions
-        links = Link._byID36([p.discussion_id36 for p in self.partners],
-                             data=True)
+        id36s = [p.discussion_id36 for p in self.partners if p.discussion_id36]
+        links = Link._byID36(id36s, data=True)
         subreddits = Subreddit._byID([l.sr_id for l in links.values()],
                                      data=True)
 
