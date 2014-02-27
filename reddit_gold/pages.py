@@ -2,7 +2,7 @@ from pylons import c, g
 
 from r2.lib.pages import BoringPage
 from r2.models import Link, Subreddit
-from reddit_gold.models import GoldPartner, GoldPartnerDealCode
+from reddit_gold.models import GoldFeature, GoldPartner, GoldPartnerDealCode
 
 
 class GoldInfoPage(BoringPage):
@@ -11,7 +11,14 @@ class GoldInfoPage(BoringPage):
             "gold_month_price": g.gold_month_price,
             "gold_year_price": g.gold_year_price,
         }
-        self.partners = GoldPartner.get_all_partners()
+        all_features = GoldFeature.get_all()
+        for feature in all_features:
+            feature.extra_classes = 'new' if feature.is_new else ''
+        NUM_FEATURES_ABOVE_PARTNERS = 2
+        self.top_features = all_features[:NUM_FEATURES_ABOVE_PARTNERS]
+        self.other_features = all_features[NUM_FEATURES_ABOVE_PARTNERS:]
+
+        self.partners = GoldPartner.get_all()
         BoringPage.__init__(self, *args, **kwargs)
 
 
@@ -22,7 +29,7 @@ class GoldPartnersPage(BoringPage):
             "gold_year_price": g.gold_year_price,
         }
 
-        self.partners = GoldPartner.get_all_partners()
+        self.partners = GoldPartner.get_all()
         self.giveaways = []
 
         # batch-lookup the Links and Subreddits for discussions
