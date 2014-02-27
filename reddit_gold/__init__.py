@@ -10,6 +10,7 @@ class Gold(Plugin):
         ConfigValue.str: [
             "gold_hostname_file",
             "gold_servername_sr",
+            "wiki_page_gold_features",
             "wiki_page_gold_partners",
         ],
     }

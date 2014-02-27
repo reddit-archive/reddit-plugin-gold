@@ -79,19 +79,14 @@
   </section>
   <section id="about-gold">
     ${goldinfo_header(_('You can make reddit better.'), css_class='short')}
-    ${feature_item('comment-highlighting',
-      static('gold/sample-commenthighlighting.png'),
-      _(
-        '# New comment highlighting.\n'
-        "What's new? Highlight which comments are new since the last time you viewed a thread."
-      ), "first")}
-    ${feature_item('store-my-visits',
-      static('gold/sample-storevisits.png'),
-      _(
-        "# Remember what links you've visited across computers.\n"
-        "Never click a link twice again. If you visit a link on one computer, "
-        "it'll show up purple on your other computers."
-      ), "new")}
+
+    % for feature in thing.top_features:
+      ${feature_item(name=feature.id,
+                     img_src=feature.image_url,
+                     description_md='# {0}\n{1}'.format(feature.name, feature.description),
+                     extra_class=feature.extra_classes)}
+    % endfor
+                     
     <section id="partner-benefits">
         <h1>${_('Awesome stuff for gold members:')}</h1>
         <ul>
@@ -100,46 +95,14 @@
         % endfor
         </ul>
     </section>
-    ${feature_item('username-notifications',
-      static('gold/sample-butler.png'),
-      _(
-        "# Notifications when you're mentioned in comments.\n"
-        """Want to say "boo" when people talk about you?  """
-        """Get an orangered whenever someone "/u/" mentions your username in a comment."""
-      ))}
-    ${feature_item('filter-all',
-      static('gold/sample-filterall.png'),
-      _(
-        "# Filter specific subreddits from /r/all.\n"
-        "Are there subreddits you don't want to see? Customize /r/all by removing them with a url like /r/all-operative-badger (up to ~300 removals - limited by maximum url length)."
-      ))}
-    ${feature_item('more-comments',
-      static('gold/sample-morecomments.png'),
-      _(
-        '# More subreddits and comments per page.\n'
-        'Our servers work harder for gold members.  \n'
-        'Subscribe to up to 100 subreddits on your front page.  \n'
-        'Read comment threads 1500 comments at a time.'
-      ))}
-    ${feature_item('save-comments',
-      static('gold/sample-savecomments.png'),
-    _(
-        '# Save comments and view by subreddit.\n'
-        "Save the great comments you'd like to revisit later.  \n"
-        'Filter your favorite posts and comments by subreddit.'
-      ))}
-    ${feature_item('ads-optional',
-      static('gold/sample-adsoptions.png'),
-      _(
-        '# Turn off ads.\n'
-        'Advertisements are optional to gold members.'
-      ))}
-    ${feature_item('friend-notes',
-      static('gold/sample-friends.png'),
-      _(
-        '# Friends with benefits.\n'
-        'Add notes to keep track of them all.'
-      ))}
+
+    % for feature in thing.other_features:
+      ${feature_item(name=feature.id,
+                     img_src=feature.image_url,
+                     description_md='# {0}\n{1}'.format(feature.name, feature.description),
+                     extra_class=feature.extra_classes)}
+    % endfor
+
     <section id="other-benefits" class="etc">
       <h1>Last, but not least:</h1>
       <ul>

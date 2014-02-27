@@ -25,12 +25,62 @@ def with_sqlalchemy_session(f):
     return close_session_after
 
 
+class WikiPageIniItem(object):
+    _bool_values = ("is_enabled", "is_new")
+
+    @classmethod
+    def get_all(cls):
+        items = []
+        try:
+            wp = WikiPage.get(Frontpage, cls._wiki_page_name)
+        except NotFound:
+            return items
+        wp_content = StringIO(wp.content)
+        cfg = SafeConfigParser(allow_no_value=True)
+        cfg.readfp(wp_content)
+
+        for section in cfg.sections():
+            def_values = {'id': section}
+            for name, value in cfg.items(section):
+                # coerce boolean variables
+                if name in cls._bool_values:
+                    def_values[name] = cfg.getboolean(section, name)
+                else:
+                    def_values[name] = value
+
+            try:
+                item = cls(**def_values)
+            except TypeError:
+                # a required variable wasn't set for this item, skip
+                continue
+
+            if item.is_enabled:
+                items.append(item)
+
+        return items
+
+
+class GoldFeature(WikiPageIniItem):
+    """Information about reddit gold features."""
+    _wiki_page_name = g.wiki_page_gold_features
+
+    def __init__(self, id, name, description, image_url, is_enabled=True,
+                 is_new=False):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.image_url = image_url
+        self.is_enabled = is_enabled
+        self.is_new = is_new
+
+
 class GoldPartnerCodesExhaustedError(Exception):
     pass
 
 
-class GoldPartner(object):
+class GoldPartner(WikiPageIniItem):
     """Information about reddit gold partners."""
+    _wiki_page_name = g.wiki_page_gold_partners
 
     def __init__(self, id, name, about_page_desc, short_desc, url, image_url,
                  is_enabled=True, is_new=False, instructions=None,
@@ -52,38 +102,6 @@ class GoldPartner(object):
         self.claim_dest = claim_dest
         self.giveaway_desc = giveaway_desc
         self.css_classes = css_classes.split(' ') if css_classes else []
-
-    @classmethod
-    def get_all_partners(cls):
-        """Load partner definitions from the wiki page."""
-        partners = []
-        try:
-            wp = WikiPage.get(Frontpage, g.wiki_page_gold_partners)
-        except NotFound:
-            return partners
-        wp_content = StringIO(wp.content)
-        cfg = SafeConfigParser(allow_no_value=True)
-        cfg.readfp(wp_content)
-
-        for section in cfg.sections():
-            partner_def = {'id': section}
-            for name, value in cfg.items(section):
-                # coerce boolean variables
-                if name in ('is_enabled', 'is_new'):
-                    partner_def[name] = cfg.getboolean(section, name)
-                else:
-                    partner_def[name] = value
-
-            try:
-                partner = GoldPartner(**partner_def)
-            except TypeError:
-                # a required variable wasn't set for this partner, skip
-                continue
-
-            if partner.is_enabled:
-                partners.append(partner)
-
-        return partners
 
 
 class GoldPartnerDealCode(Base):
