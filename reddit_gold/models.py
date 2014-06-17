@@ -1,4 +1,3 @@
-from ConfigParser import SafeConfigParser
 from datetime import datetime
 from pylons import g
 from sqlalchemy import func
@@ -6,12 +5,9 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.schema import Column
 from sqlalchemy.sql import and_
 from sqlalchemy.types import DateTime, Integer, String
-from StringIO import StringIO
-
-from r2.lib.db.tdb_cassandra import NotFound
 from r2.models import Frontpage
 from r2.models.gold import Base, Session
-from r2.models.wiki import WikiPage
+from r2.models.wiki import WikiPageIniItem
 
 
 def with_sqlalchemy_session(f):
@@ -25,44 +21,12 @@ def with_sqlalchemy_session(f):
     return close_session_after
 
 
-class WikiPageIniItem(object):
-    _bool_values = ("is_enabled", "is_new")
-
-    @classmethod
-    def get_all(cls):
-        items = []
-        try:
-            wp = WikiPage.get(Frontpage, cls._wiki_page_name)
-        except NotFound:
-            return items
-        wp_content = StringIO(wp.content)
-        cfg = SafeConfigParser(allow_no_value=True)
-        cfg.readfp(wp_content)
-
-        for section in cfg.sections():
-            def_values = {'id': section}
-            for name, value in cfg.items(section):
-                # coerce boolean variables
-                if name in cls._bool_values:
-                    def_values[name] = cfg.getboolean(section, name)
-                else:
-                    def_values[name] = value
-
-            try:
-                item = cls(**def_values)
-            except TypeError:
-                # a required variable wasn't set for this item, skip
-                continue
-
-            if item.is_enabled:
-                items.append(item)
-
-        return items
-
-
 class GoldFeature(WikiPageIniItem):
     """Information about reddit gold features."""
-    _wiki_page_name = g.wiki_page_gold_features
+
+    @classmethod
+    def _get_wiki_config(cls):
+        return Frontpage, g.wiki_page_gold_features
 
     def __init__(self, id, name, description, image_url, is_enabled=True,
                  is_new=False):
@@ -80,7 +44,10 @@ class GoldPartnerCodesExhaustedError(Exception):
 
 class GoldPartner(WikiPageIniItem):
     """Information about reddit gold partners."""
-    _wiki_page_name = g.wiki_page_gold_partners
+    
+    @classmethod
+    def _get_wiki_config(cls):
+        return Frontpage, g.wiki_page_gold_partners
 
     def __init__(self, id, name, about_page_desc, short_desc, url, image_url,
                  is_enabled=True, is_new=False, instructions=None,
