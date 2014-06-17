@@ -7,7 +7,7 @@ from sqlalchemy.sql import and_
 from sqlalchemy.types import DateTime, Integer, String
 from r2.models import Frontpage
 from r2.models.gold import Base, Session
-from r2.models.wiki import WikiPage, WikiPageIniItem
+from r2.models.wiki import WikiPageIniItem
 
 
 def with_sqlalchemy_session(f):
@@ -44,7 +44,7 @@ class GoldPartner(WikiPageIniItem):
     """Information about reddit gold partners."""
     _wiki_page_name = g.wiki_page_gold_partners
     _sr = Frontpage
-    
+
     def __init__(self, id, name, about_page_desc, short_desc, url, image_url,
                  is_enabled=True, is_new=False, instructions=None,
                  discussion_id36=None, button_label=None, button_dest=None,
