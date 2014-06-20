@@ -23,8 +23,10 @@ def with_sqlalchemy_session(f):
 
 class GoldFeature(WikiPageIniItem):
     """Information about reddit gold features."""
-    _wiki_page_name = g.wiki_page_gold_features
-    _sr = Frontpage
+
+    @classmethod
+    def _get_wiki_config(cls):
+        return Frontpage, g.wiki_page_gold_features
 
     def __init__(self, id, name, description, image_url, is_enabled=True,
                  is_new=False):
@@ -42,8 +44,10 @@ class GoldPartnerCodesExhaustedError(Exception):
 
 class GoldPartner(WikiPageIniItem):
     """Information about reddit gold partners."""
-    _wiki_page_name = g.wiki_page_gold_partners
-    _sr = Frontpage
+    
+    @classmethod
+    def _get_wiki_config(cls):
+        return Frontpage, g.wiki_page_gold_partners
 
     def __init__(self, id, name, about_page_desc, short_desc, url, image_url,
                  is_enabled=True, is_new=False, instructions=None,
