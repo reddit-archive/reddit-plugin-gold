@@ -53,9 +53,10 @@ class GoldPartner(WikiPageIniItem):
                  is_enabled=True, is_new=False, instructions=None,
                  discussion_id36=None, button_label=None, button_dest=None,
                  claim_dest=None, giveaway_desc=None, css_classes=None,
-                 **kwargs):
+                 category=None, **kwargs):
         self.id = id
         self.name = name
+        self.category = category
         self.about_page_desc = about_page_desc
         self.short_desc = short_desc
         self.url = url

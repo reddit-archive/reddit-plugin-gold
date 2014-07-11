@@ -23,8 +23,8 @@
   ${less_stylesheet('gold.less')}
 </%def>
 
-<%def name="partner_item(name, how_to_use, img_src, img_url=None, description_md='', extra_class='', button_dest=None, button_label=None, claim_dest='', discussion_link=None, discussion_num_comments=None)">
-  <%call expr="feature_item(name, img_src, description_md, extra_class, img_url)">
+<%def name="partner_item(name, category, how_to_use, img_src, img_url=None, description_md='', extra_class='', button_dest=None, button_label=None, claim_dest='', discussion_link=None, discussion_num_comments=None)">
+  <%call expr="feature_item(name, img_src, description_md, extra_class, img_url, category)">
     %if c.user.gold:
       <div class="how-to-use">
         ${_md(how_to_use)}
@@ -59,8 +59,19 @@
       </div>
     </%call>
 
+  <section id="category-nav">
+    <h1>filter partners by category</h1>
+    <ul>
+      <li class="active"><a href="#">all</a></li>
+    % for category in thing.categories:
+      <li><a href="#">${category}</a></li>
+    % endfor
+    </ul>
+  </section>
+
   % for partner in thing.partners:
     ${partner_item(name=partner.id,
+                   category=partner.category,
                    how_to_use=partner.instructions,
                    img_src=partner.image_url,
                    img_url=partner.url,

@@ -3,6 +3,22 @@ r.gold = {
         $('section#about-gold-partners').on('click', 'input.code', function() {
             $(this).select()
         })
+
+        $('#category-nav li').on('click', function(e) {
+          e.preventDefault()
+          e.stopPropagation()
+          var category = $(this).text()
+
+          $('#category-nav li.active').removeClass('active')
+          $(this).addClass('active')
+
+          if (category == "all") {
+            $('section[data-category]').show()
+          } else {
+            $('section[data-category]').hide()
+            $('section[data-category="' + category + '"]').show()
+          }
+        })
     },
 
     claim_gold_partner_deal_code: function (elem, name, redirect_url) {
