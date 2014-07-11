@@ -11,8 +11,8 @@
   ${less_stylesheet('gold.less')}
 </%def>
 
-<%def name="feature_item(name, img_src, description_md, extra_class='', img_url=None)">
-  <section id="${name}" ${classes(extra_class)}>
+<%def name="feature_item(name, img_src, description_md, extra_class='', img_url=None, category='')">
+  <section id="${name}" ${classes(extra_class)} data-category="${category}">
     %if img_url:
       <a href="${img_url}">
     %endif

@@ -30,6 +30,7 @@ class GoldPartnersPage(BoringPage):
         }
 
         self.partners = GoldPartner.get_all()
+        self.categories = set()
         self.giveaways = []
 
         # batch-lookup the Links and Subreddits for discussions
@@ -39,6 +40,9 @@ class GoldPartnersPage(BoringPage):
                                      data=True)
 
         for partner in self.partners:
+            if partner.category:
+                self.categories.add(partner.category)
+
             extra_classes = partner.css_classes
             if partner.is_new:
                 extra_classes.append('new')
@@ -57,6 +61,8 @@ class GoldPartnersPage(BoringPage):
             else:
                 partner.discussion_url = None
                 partner.discussion_num_comments = None
+
+        self.categories = sorted(self.categories)
 
         if c.user_is_loggedin:
             self.existing_codes = GoldPartnerDealCode.get_codes_for_user(c.user)
