@@ -11,7 +11,7 @@ r.gold = {
             $('section[data-category]').show()
           } else {
             $('section[data-category]').hide()
-            $('section[data-category="'+category+'"]').show()
+            $('section[data-category="' + category + '"]').show()
           }
         })
     },
