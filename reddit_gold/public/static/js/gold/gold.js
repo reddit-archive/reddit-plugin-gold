@@ -4,8 +4,13 @@ r.gold = {
             $(this).select()
         })
 
-        $('section#category-nav a').on('click', function() {
+        $('#category-nav li').on('click', function(e) {
+          e.preventDefault()
+          e.stopPropagation()
           var category = $(this).text()
+
+          $('#category-nav li.active').removeClass('active')
+          $(this).addClass('active')
 
           if (category == "all") {
             $('section[data-category]').show()
