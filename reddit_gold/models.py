@@ -1,6 +1,7 @@
 from datetime import datetime
 from pylons import g
 from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.schema import Column
 from sqlalchemy.sql import and_
@@ -123,3 +124,31 @@ class GoldPartnerDealCode(Base):
         Session.query(func.pg_advisory_unlock_all()).all()
 
         return claiming.code 
+
+
+class GoldAppBetaSignup(Base):
+    """Signup data for the gold app beta."""
+
+    __tablename__ = "reddit_gold_app_beta_signups"
+
+    user = Column(Integer, primary_key=True)
+    email = Column(String, nullable=False)
+    os = Column(String, nullable=False)
+    date = Column(DateTime(timezone=True), nullable=False)
+
+    @with_sqlalchemy_session
+    def __init__(self, user, email, os):
+        self.user = user._id
+        self.email = email
+        self.os = os
+        self.date = datetime.now(g.tz)
+        Session.add(self)
+        try:
+            Session.commit()
+        except IntegrityError:
+            # user has already signed up
+            raise GoldAppDuplicateRegistrationError
+
+
+class GoldAppDuplicateRegistrationError(Exception):
+    pass
