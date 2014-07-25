@@ -24,6 +24,8 @@ class Gold(Plugin):
 
     def add_routes(self, mc):
         mc('/gold/about', controller='gold', action='about')
+        mc('/about/gold', controller='redirect', action='redirect',
+           dest='/gold/about')
         mc('/gold/partners', controller='gold', action='partners')
         mc('/api/claim_gold_partner_deal_code', controller='goldapi', action='claim_gold_partner_deal_code')
 
