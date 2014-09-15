@@ -27,9 +27,7 @@ class Gold(Plugin):
         mc('/about/gold', controller='redirect', action='redirect',
            dest='/gold/about')
         mc('/gold/partners', controller='gold', action='partners')
-        mc('/gold/appbeta', controller='gold', action='app_beta')
         mc('/api/claim_gold_partner_deal_code', controller='goldapi', action='claim_gold_partner_deal_code')
-        mc('/api/register_for_app_beta', controller='goldapi', action='register_for_app_beta')
 
     def load_controllers(self):
         from reddit_gold.controllers import GoldController, GoldApiController

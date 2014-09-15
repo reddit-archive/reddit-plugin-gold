@@ -69,13 +69,3 @@ class GoldPartnersPage(BoringPage):
         else:
             self.existing_codes = []
         BoringPage.__init__(self, *args, **kwargs)
-
-
-class GoldAppBetaPage(BoringPage):
-    def __init__(self, *args, **kwargs):
-        if getattr(c.user, "ama_app_beta_registered", False):
-            self.already_registered = True
-        else:
-            self.already_registered = False
-
-        BoringPage.__init__(self, *args, **kwargs)
