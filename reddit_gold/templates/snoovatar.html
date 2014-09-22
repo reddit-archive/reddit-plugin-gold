@@ -1,0 +1,28 @@
+<%!
+  from r2.lib import js
+%>
+
+<h1>this is placeholder text</h1>
+
+## To save state from JS:
+##
+## $.request("gold/snoovatar", {
+##   "api_type": "json",
+##   "public": true,
+##   "components": "a,b,c",
+## })
+##
+## If you want to use the old built-in form stuff in reddit (e.g. r.ui.Form),
+## take out `api_type: json`.
+
+<pre id="snoovatar-debug"></pre>
+
+${unsafe(js.use("snoovatar"))}
+
+<%
+  data_source = js.DataSource(
+  wrap="r.snoovatar.initialize({content})",
+    data=thing.snoovatar,
+  )
+%>
+${unsafe(data_source.use())}

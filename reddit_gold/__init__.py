@@ -20,6 +20,11 @@ class Gold(Plugin):
             'gold.js',
             prefix='gold/',
         ),
+
+        "snoovatar": Module("snoovatar.js",
+            "snoovatar.js",
+            prefix="snoovatar/",
+        ),
     }
 
     def add_routes(self, mc):
@@ -28,6 +33,9 @@ class Gold(Plugin):
            dest='/gold/about')
         mc('/gold/partners', controller='gold', action='partners')
         mc('/api/claim_gold_partner_deal_code', controller='goldapi', action='claim_gold_partner_deal_code')
+
+        mc('/user/:username/snoo', controller='gold', action="snoovatar")
+        mc("/api/gold/snoovatar", controller="goldapi", action="snoovatar")
 
     def load_controllers(self):
         from reddit_gold.controllers import GoldController, GoldApiController

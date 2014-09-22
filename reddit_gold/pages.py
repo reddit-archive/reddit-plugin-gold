@@ -1,6 +1,7 @@
 from pylons import c, g
 
-from r2.lib.pages import BoringPage
+from r2.lib.pages import BoringPage, ProfilePage
+from r2.lib.wrapped import Templated
 from r2.models import Link, Subreddit
 from reddit_gold.models import GoldFeature, GoldPartner, GoldPartnerDealCode
 
@@ -69,3 +70,16 @@ class GoldPartnersPage(BoringPage):
         else:
             self.existing_codes = []
         BoringPage.__init__(self, *args, **kwargs)
+
+
+class SnoovatarProfilePage(ProfilePage):
+    def build_toolbars(self):
+        # just show the page name and none of the tabs
+        toolbars = ProfilePage.build_toolbars(self)
+        return toolbars[:1]
+
+
+class Snoovatar(Templated):
+    def __init__(self, snoovatar):
+        self.snoovatar = snoovatar
+        Templated.__init__(self)
