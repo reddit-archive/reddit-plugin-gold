@@ -73,6 +73,8 @@ class GoldPartnersPage(BoringPage):
 
 
 class SnoovatarProfilePage(ProfilePage):
+    extra_stylesheets = ['gold.less']
+
     def build_toolbars(self):
         # just show the page name and none of the tabs
         toolbars = ProfilePage.build_toolbars(self)
@@ -80,6 +82,8 @@ class SnoovatarProfilePage(ProfilePage):
 
 
 class Snoovatar(Templated):
-    def __init__(self, snoovatar):
+    def __init__(self, snoovatar, tailors, username):
         self.snoovatar = snoovatar
+        self.tailors = tailors
+        self.username = username
         Templated.__init__(self)

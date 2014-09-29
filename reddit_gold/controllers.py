@@ -1,4 +1,4 @@
-from pylons import c
+from pylons import c, g
 from pylons.i18n import _
 
 from r2.controllers import add_controller
@@ -11,9 +11,9 @@ from r2.lib.validator import (
     VBoolean,
     VExistingUname,
     VGold,
+    VJSON,
     VLength,
     VModhash,
-    VPrintable,
     VUser,
 )
 from reddit_gold.models import (
@@ -55,7 +55,11 @@ class GoldController(RedditController):
 
         return SnoovatarProfilePage(
             user=vuser,
-            content=Snoovatar(snoovatar=snoovatar),
+            content=Snoovatar(
+                snoovatar=snoovatar,
+                tailors=g.plugins['gold'].tailors_data,
+                username=vuser.name,
+            ),
         ).render()
 
 
@@ -78,7 +82,7 @@ class GoldApiController(RedditController):
         VGold(),
         VModhash(),
         public=VBoolean("public"),
-        components=VPrintable("components", max_length=256),
+        components=VJSON("components"),
     )
     def POST_snoovatar(self, form, jquery, public, components):
         if form.has_errors("components",
@@ -88,12 +92,11 @@ class GoldApiController(RedditController):
                           ):
             return
 
-        parsed_components = components.split(",")
         # TODO: use item manifest to validate components
 
         SnoovatarsByAccount.save(
             user=c.user,
             name="snoo",
             public=public,
-            components=parsed_components,
+            components=components,
         )

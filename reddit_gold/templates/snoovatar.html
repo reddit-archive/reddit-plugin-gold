@@ -1,28 +1,73 @@
 <%!
   from r2.lib import js
+  from r2.lib.template_helpers import static
 %>
 
-<h1>this is placeholder text</h1>
+<%namespace file="less.html" import="less_stylesheet"/>
 
-## To save state from JS:
-##
-## $.request("gold/snoovatar", {
-##   "api_type": "json",
-##   "public": true,
-##   "components": "a,b,c",
-## })
-##
-## If you want to use the old built-in form stuff in reddit (e.g. r.ui.Form),
-## take out `api_type: json`.
+${less_stylesheet('gold.less')}
 
-<pre id="snoovatar-debug"></pre>
+<div class="snoovatar-page">
+  <div class="container">
+    %if thing.snoovatar['editable']:
+      <div class="arrow-container left">
+        <div id="prevButton" class="arrow left">
+          <img src="${static('snoovatar/icons/arrow.svg')}">
+        </div>
+      </div>
+    %endif
+    <div id="snoovatar">
+    </div>
+    %if thing.snoovatar['editable']:
+      <div class="arrow-container right">
+        <div id="nextButton" class="arrow right">
+          <img src="${static('snoovatar/icons/arrow.svg')}">
+        </div>
+      </div>
+      <h1>your snoovatar!</h1>
+      <div class="selectors">
+        <ul>
+        </ul>
+      </div>
+      <div class="actions">
+        <div id="random" class="button big"><div class="icon"></div></div>
+        <div id="clear" class="button big"><div class="icon"></div></div>
+      </div>
+      <footer>
+        <div class="buttons">
+          <label class="checkbox-label">
+            <input type="checkbox" id="public"
+              %if thing.snoovatar['public']:
+                checked="checked"
+              %endif
+            >
+            <span class="proxy-checkbox"></span>
+            <span class="label">make my snoovatar public</span>
+          </label>
+          <button id="save" class="button">save</button>
+        </div>
+        <div id="message" class="message" style="display: none;"></div>
+      </footer>
+    %else:
+      <div class="username">${thing.username}</div>
+    %endif
+    <p class="">view and discuss snoovatar in <a href="/r/snoovatars">/r/snoovatars</a>!</p>
+  </div>
+</div>
 
 ${unsafe(js.use("snoovatar"))}
 
 <%
-  data_source = js.DataSource(
-  wrap="r.snoovatar.initialize({content})",
+  snoovatar_source = js.DataSource(
+  wrap="r.snoovatar.initSnoovatar({content})",
     data=thing.snoovatar,
   )
+
+  tailors_source = js.DataSource(
+  wrap="r.snoovatar.initTailors({content})",
+    data=thing.tailors,
+  )
 %>
-${unsafe(data_source.use())}
+
+${unsafe(snoovatar_source.use())}
+${unsafe(tailors_source.use())}

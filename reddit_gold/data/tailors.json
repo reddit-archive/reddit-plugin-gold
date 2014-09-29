@@ -1,0 +1,113 @@
+[
+  {
+    "name": "base",
+    "spritesheet": "base_sprite",
+    "allow_clear": false,
+    "dressings": [
+      {"name": "base", "index": 0}
+    ]
+  },
+  {
+    "name": "tops",
+    "spritesheet": "tops_sprite",
+    "allow_clear": true,
+    "dressings": [
+      {"name": "bowtie", "index": 0},
+      {"name": "cardigan", "index": 1},
+      {"name": "collared_shirt_blue", "index": 2},
+      {"name": "cylon", "index": 3},
+      {"name": "shirt_tie_blue", "index": 4},
+      {"name": "ski_jacket_red", "index": 5},
+      {"name": "swimsuit", "index": 6}
+    ]
+  },
+  {
+    "name": "head",
+    "spritesheet": "head_sprite",
+    "allow_clear": false,
+    "dressings": [
+      {"name": "head", "index": 0}
+    ]
+  },
+  {
+    "name": "glasses",
+    "spritesheet": "glasses_sprite",
+    "allow_clear": true,
+    "dressings": [
+      {"name": "accent_glasses", "index": 0},
+      {"name": "brown_glasses", "index": 1},
+      {"name": "deal_with_it", "index": 2},
+      {"name": "hipster_glasses", "index": 3},
+      {"name": "mask", "index": 4},
+      {"name": "moustache", "index": 5},
+      {"name": "oval_glasses", "index": 6},
+      {"name": "reading_glasses", "index": 7},
+      {"name": "rectangle_glasses", "index": 8},
+      {"name": "rounded_glasses", "index": 9},
+      {"name": "saftey_goggles", "index": 10},
+      {"name": "shades_rounded", "index": 11},
+      {"name": "stylish_glasses", "index": 12},
+      {"name": "sunglasses_black", "index": 13},
+      {"name": "sunglasses_orange", "index": 14}
+    ]
+  },
+  {
+    "name": "hats",
+    "spritesheet": "hats_sprite",
+    "allow_clear": true,
+    "dressings": [
+      {"name": "backwards_hat", "index": 0},
+      {"name": "baseball_blue", "index": 1},
+      {"name": "beanie_grey", "index": 2},
+      {"name": "cap-grey", "index": 3},
+      {"name": "flight_helmet", "index": 4},
+      {"name": "headband", "index": 5},
+      {"name": "hockey_mask", "index": 6},
+      {"name": "mario_hat", "index": 7},
+      {"name": "ninja_mask", "index": 8},
+      {"name": "pakol", "index": 9},
+      {"name": "rambo", "index": 10},
+      {"name": "santa", "index": 11},
+      {"name": "snow_goggles", "index": 12},
+      {"name": "viking_helmet", "index": 13},
+      {"name": "wolf_hat", "index": 14},
+      {"name": "wolverine", "index": 15}
+    ]
+  },
+  {
+    "name": "bottoms",
+    "spritesheet": "bottoms_sprite",
+    "allow_clear": true,
+    "dressings": [
+      {"name": "denim", "index": 0}
+    ]
+  },
+  {
+    "name": "grippables",
+    "spritesheet": "grippables_sprite",
+    "allow_clear": true,
+    "dressings": [
+      {"name": "axe", "index": 0},
+      {"name": "baseball", "index": 1},
+      {"name": "book", "index": 2},
+      {"name": "camera_neck", "index": 3},
+      {"name": "can", "index": 4},
+      {"name": "cupcake", "index": 5},
+      {"name": "fish", "index": 6},
+      {"name": "flower", "index": 7},
+      {"name": "helmet", "index": 8},
+      {"name": "keyboard", "index": 9},
+      {"name": "knitting", "index": 10},
+      {"name": "laptop_one_hand", "index": 11},
+      {"name": "laptop_two_hands", "index": 12},
+      {"name": "megaphone", "index": 13},
+      {"name": "phone", "index": 14},
+      {"name": "purple_flower", "index": 15},
+      {"name": "rubiks", "index": 16},
+      {"name": "skateboard", "index": 17},
+      {"name": "soccer", "index": 18},
+      {"name": "sonic_screwdriver", "index": 19},
+      {"name": "wiimote", "index": 20}
+    ]
+  }
+]
