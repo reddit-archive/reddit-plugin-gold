@@ -41,7 +41,7 @@ class GoldController(RedditController):
         vuser=VExistingUname("username"),
     )
     def GET_snoovatar(self, vuser):
-        if vuser._deleted or not vuser.gold:
+        if not vuser or vuser._deleted or not vuser.gold:
             self.abort404()
 
         snoovatar = SnoovatarsByAccount.load(vuser, "snoo")
