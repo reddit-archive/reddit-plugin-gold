@@ -51,7 +51,7 @@
   }
 
   /**
-   * returns a promise that resolves when an array of images sources are preloaded
+   * returns a promise that resolves when an array of image sources are preloaded
    * @param  {string[]} srcs list of image sources to preload
    * @return {$.Promise}
    * @resolve {Image[]}
