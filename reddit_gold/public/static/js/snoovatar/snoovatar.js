@@ -174,7 +174,7 @@
       }
 
       // create button html for tailors with > 1 dressings
-      var buttonTemplate = _.template('<li id="<%=name%>" class="button">' +
+      var buttonTemplate = _.template('<li id="<%-name%>" class="button">' +
                                       '<div class="icon"></div></li>');
       var tailors = haberdashery.elements;
       var buttonMarkup = _.reduce(tailors, function(memo, tailor) {
