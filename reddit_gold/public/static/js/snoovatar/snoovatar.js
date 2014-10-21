@@ -106,8 +106,8 @@
   var testCanvas = document.createElement('canvas');
   if (!(testCanvas.getContext && testCanvas.getContext('2d'))) {
     return $(function() {
-      $(uiSelectors.canvasContainer).html(
-        'your browser doesn\'t support snoovatars :('
+      $(uiSelectors.canvasContainer).text(
+        r._('your browser doesn\'t support snoovatars :(')
       );
     });
   }
