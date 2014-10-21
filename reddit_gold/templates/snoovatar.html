@@ -17,7 +17,11 @@ ${less_stylesheet('gold.less')}
         </div>
       </div>
     %endif
-    <div id="snoovatar">
+    <div id="snoovatar"
+      %if thing.editable:
+        class="editable"
+      %endif
+    >
     </div>
     %if thing.editable:
       <div class="arrow-container right">
@@ -60,7 +64,7 @@ ${unsafe(js.use("snoovatar"))}
 
 <%
   snoovatar_source = js.DataSource(
-  wrap="r.snoovatar.initSnoovatar({content})",
+    wrap="r.snoovatar.initSnoovatar({content})",
     data=thing.snoovatar,
   )
 %>

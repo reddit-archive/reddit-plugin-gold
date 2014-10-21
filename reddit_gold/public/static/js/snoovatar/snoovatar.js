@@ -101,7 +101,6 @@
     return data;
   });
 
-
   // test for canvas support and opt out early
   var testCanvas = document.createElement('canvas');
   if (!(testCanvas.getContext && testCanvas.getContext('2d'))) {
@@ -169,7 +168,7 @@
       $view.canvasContainer.append(haberdashery.canvas);
 
       // bail before building UI if we're in read-only mode
-      if (!snoovatarData.editable) {
+      if (!$view.canvasContainer.hasClass('editable')) {
         return;
       }
 
