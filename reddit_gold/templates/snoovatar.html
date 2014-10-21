@@ -24,7 +24,7 @@ ${less_stylesheet('gold.less')}
           <img src="${static('snoovatar/icons/arrow.svg')}">
         </div>
       </div>
-      <h1>your snoovatar!</h1>
+      <h1>${_('your snoovatar!')}</h1>
       <div class="selectors">
         <ul>
         </ul>
@@ -42,16 +42,16 @@ ${less_stylesheet('gold.less')}
               %endif
             >
             <span class="proxy-checkbox"></span>
-            <span class="label">make my snoovatar public</span>
+            <span class="label">${_('make my snoovatar public')}</span>
           </label>
-          <button id="save" class="button">save</button>
+          <button id="save" class="button">${_('save')}</button>
         </div>
         <div id="message" class="message" style="display: none;"></div>
       </footer>
     %else:
       <div class="username">${thing.username}</div>
     %endif
-    <p class="">view and discuss snoovatar in <a href="/r/snoovatars">/r/snoovatars</a>!</p>
+    <p class="">${_('view and discuss snoovatars in')}<a href="/r/snoovatars">/r/snoovatars</a></p>
   </div>
 </div>
 
