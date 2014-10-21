@@ -3,7 +3,7 @@
   var exports = r.snoovatar;
 
   // config values
-  var imagePath = '/static/snoovatar/sprites/';
+  var imagePath = r.utils.staticURL('snoovatar/sprites/');
   var filetype = 'png';
   var uiSelectors = {
     tailorButtons: '.selectors ul',
