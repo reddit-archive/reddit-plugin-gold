@@ -62,12 +62,6 @@ ${unsafe(js.use("snoovatar"))}
   wrap="r.snoovatar.initSnoovatar({content})",
     data=thing.snoovatar,
   )
-
-  tailors_source = js.DataSource(
-  wrap="r.snoovatar.initTailors({content})",
-    data=thing.tailors,
-  )
 %>
 
 ${unsafe(snoovatar_source.use())}
-${unsafe(tailors_source.use())}
