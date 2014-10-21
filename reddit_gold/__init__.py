@@ -29,8 +29,10 @@ class Gold(Plugin):
             "snoovatar.js",
             DataSource(
                 wrap="r.snoovatar.initTailors({content})",
-                data=json.load(pkg_resources.resource_stream(__name__,
-                                                             "data/tailors.json")),
+                data=json.load(pkg_resources.resource_stream(
+                    __name__,
+                    "data/tailors.json",
+                )),
             ),
             prefix="snoovatar/",
         ),
