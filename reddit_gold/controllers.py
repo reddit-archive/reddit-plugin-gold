@@ -4,6 +4,7 @@ from pylons.i18n import _
 from r2.controllers import add_controller
 from r2.controllers.reddit_base import RedditController
 from r2.lib.errors import errors
+from r2.lib.require import require, RequirementException
 from r2.lib.validator import (
     json_validate,
     validate,
@@ -81,9 +82,9 @@ class GoldApiController(RedditController):
         VGold(),
         VModhash(),
         public=VBoolean("public"),
-        components=VJSON("components"),
+        unvalidated_components=VJSON("components"),
     )
-    def POST_snoovatar(self, form, jquery, public, components):
+    def POST_snoovatar(self, form, jquery, public, unvalidated_components):
         if form.has_errors("components",
                            errors.NO_TEXT,
                            errors.TOO_LONG,
@@ -91,11 +92,35 @@ class GoldApiController(RedditController):
                           ):
             return
 
-        # TODO: use item manifest to validate components
+        try:
+            tailors = g.plugins['gold'].tailors_data
+            validated = {}
+
+            for tailor in tailors:
+                tailor_name = tailor["name"]
+                component = unvalidated_components.get(tailor_name)
+
+                # if the tailor requires a selection, ensure there is one
+                if not tailor["allow_clear"]:
+                    require(component)
+
+                # ensure this dressing exists
+                if component:
+                    for dressing in tailor["dressings"]:
+                        if component == dressing["name"]:
+                            break
+                    else:
+                        raise RequirementException
+
+                validated[tailor_name] = component
+        except RequirementException:
+            c.errors.add(errors.INVALID_SNOOVATAR, field="components")
+            form.has_errors("components", errors.INVALID_SNOOVATAR)
+            return
 
         SnoovatarsByAccount.save(
             user=c.user,
             name="snoo",
             public=public,
-            components=components,
+            components=validated,
         )

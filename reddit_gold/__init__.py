@@ -2,6 +2,8 @@ import json
 from os import path
 import pkg_resources
 
+from pylons.i18n import N_
+
 from r2.lib.configparse import ConfigValue
 from r2.lib.js import DataSource, Module
 from r2.lib.plugin import Plugin
@@ -36,6 +38,10 @@ class Gold(Plugin):
             ),
             prefix="snoovatar/",
         ),
+    }
+
+    errors = {
+        "INVALID_SNOOVATAR": N_("unknown or missing dressings"),
     }
 
     def add_routes(self, mc):
