@@ -4,6 +4,7 @@
 %>
 
 <%namespace file="less.html" import="less_stylesheet"/>
+<%namespace file="utils.html" import="_md"/>
 
 ${less_stylesheet('gold.less')}
 
@@ -51,7 +52,7 @@ ${less_stylesheet('gold.less')}
     %else:
       <div class="username">${thing.username}</div>
     %endif
-    <p class="">${_('view and discuss snoovatars in')}<a href="/r/snoovatars">/r/snoovatars</a></p>
+    <p>${_md('view and discuss snoovatars in /r/snoovatars')}</p>
   </div>
 </div>
 
