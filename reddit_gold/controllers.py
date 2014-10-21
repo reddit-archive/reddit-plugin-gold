@@ -51,11 +51,10 @@ class GoldController(RedditController):
             if not snoovatar or not snoovatar["public"]:
                 self.abort404()
 
-        snoovatar["editable"] = user_is_owner
-
         return SnoovatarProfilePage(
             user=vuser,
             content=Snoovatar(
+                editable=user_is_owner,
                 snoovatar=snoovatar,
                 tailors=g.plugins['gold'].tailors_data,
                 username=vuser.name,

@@ -9,7 +9,7 @@ ${less_stylesheet('gold.less')}
 
 <div class="snoovatar-page">
   <div class="container">
-    %if thing.snoovatar['editable']:
+    %if thing.editable:
       <div class="arrow-container left">
         <div id="prevButton" class="arrow left">
           <img src="${static('snoovatar/icons/arrow.svg')}">
@@ -18,7 +18,7 @@ ${less_stylesheet('gold.less')}
     %endif
     <div id="snoovatar">
     </div>
-    %if thing.snoovatar['editable']:
+    %if thing.editable:
       <div class="arrow-container right">
         <div id="nextButton" class="arrow right">
           <img src="${static('snoovatar/icons/arrow.svg')}">
@@ -37,7 +37,7 @@ ${less_stylesheet('gold.less')}
         <div class="buttons">
           <label class="checkbox-label">
             <input type="checkbox" id="public"
-              %if thing.snoovatar['public']:
+              %if thing.snoovatar and thing.snoovatar['public']:
                 checked="checked"
               %endif
             >
