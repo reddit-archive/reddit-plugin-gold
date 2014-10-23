@@ -456,8 +456,8 @@
    */
   Tailor.prototype.drawCanvas = function(i) {
     this.clearCanvas();
-    if (typeof this.elements[i] !== 'undefined' && this.elements[i].name) {
-      var img = this.imageMap[this.elements[i].name];
+    var img = this.getCurrentImage();
+    if (img) {
       if (!img.complete) {
         img.onload = this.forceRedraw;
         this.imgLoaded = false;
@@ -496,6 +496,19 @@
     var n = this.elements.length;
     var r = Math.random() * (n - 1) | 0;
     this.setIndex((this.index + 1 + r) % n);
+  };
+
+  /**
+   * get the image mapped to the current index
+   * @return {Image|null}
+   */
+  Tailor.prototype.getCurrentImage = function() {
+    if (typeof this.elements[i] !== 'undefined' && this.elements[i].name) {
+      return this.imageMap[this.elements[i].name];
+    }
+    else {
+      return null;
+    }
   };
 
   /**
