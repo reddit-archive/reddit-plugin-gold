@@ -463,7 +463,7 @@
    */
   Tailor.prototype.drawCanvas = function(i) {
     this.clearCanvas();
-    var img = this.getCurrentImage();
+    var img = this.getImage(i);
     if (img) {
       if (!img.complete) {
         img.onload = this.forceRedraw;
@@ -509,7 +509,7 @@
    * get the image mapped to the current index
    * @return {Image|null}
    */
-  Tailor.prototype.getCurrentImage = function() {
+  Tailor.prototype.getImage= function(i) {
     if (typeof this.elements[i] !== 'undefined' && this.elements[i].name) {
       return this.imageMap[this.elements[i].name];
     }
