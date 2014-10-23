@@ -193,10 +193,11 @@
    */
   var viewReady = $.when(uiSelectors, waitForDOM)
     .then(function buildView(uiSelectors) {
-      return _.reduce(uiSelectors, function(map, val, key) {
+      var $view = _.reduce(uiSelectors, function(map, val, key) {
         map[key] = $(val);
         return map;
       }, {});
+      $view.editable = $view.canvasContainer.hasClass('editable');
     });
 
   // build UI and bind event handlers
@@ -205,7 +206,7 @@
       $view.canvasContainer.append(haberdashery.canvas);
 
       // bail before building UI if we're in read-only mode
-      if (!$view.canvasContainer.hasClass('editable')) {
+      if (!$view.editable) {
         return;
       }
 
