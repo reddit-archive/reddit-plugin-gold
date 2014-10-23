@@ -3,8 +3,10 @@
   var exports = r.snoovatar;
 
   // config values
-  var imagePath = r.utils.staticURL('snoovatar/sprites/');
+  var imagePath = r.utils.staticURL('snoovatar/images/');
   var filetype = 'png';
+  var canvasSize = 400;
+  var pixelRatio = 2;
   var uiSelectors = {
     tailorButtons: '.selectors ul',
     nextButton: '#nextButton',
@@ -118,10 +120,14 @@
    */
   var imagesAreReady = $.when(exports.initTailors.isReady)
     .then(function(tailorData) {
-      var imageSources = _.map(tailorData, function(data) {
-        return imagePath + data.spritesheet + '.' + filetype
-      });
+      var imageSources = _.reduce(tailorData, function(list, tailor) {
+        return list.concat(_.map(tailor.dressings, function(dressing) {
+          return imagePath + tailor.name + '/' + dressing.name + '.' + filetype;
+        }));
+      }, []);
       return $.preloadImageArray(imageSources);
+    }, function() {
+      debugger
     });
 
   /**
@@ -136,14 +142,20 @@
       exports.initSnoovatar.isReady
     )
     .then(function buildImageMap(images, tailorData, snoovatarData) {
+      console.log('images loaded!')
       imageMap = _.reduce(images, function(map, img) {
-        var key = img.src.split('/').pop().slice(0, -(filetype.length + 1));
-        map[key] = img;
+        var parts = img.src.split('/').slice(-2);
+        var dressing = parts[1].slice(0, -(filetype.length + 1));
+        var tailor = parts[0];
+        if (typeof map[tailor] === 'undefined') {
+          map[tailor] = {};
+        }
+        map[tailor][dressing] = img;
         return map;
       }, {});
 
       var tailors = _.map(tailorData, function(obj) {
-        return new Tailor(obj, imageMap[obj.spritesheet]);
+        return new Tailor(obj, imageMap[obj.name]);
       });
       var components = snoovatarData && snoovatarData.components || {};
       return new Haberdashery(tailors, components);
@@ -313,12 +325,11 @@
    * @param {Object} data an object from tailors.json
    * @param {Image} img  a spritesheet containing the dressing graphics
    */
-  function Tailor(data, img) {
+  function Tailor(data, imageMap) {
     // A CanvasArray that draws a single image from its list at a time.
     this.name = data.name;
-    this.spritesheet = img;
-    this.spriteSize = img.height;
-    this.width = img.width / img.height | 0;
+    this.imageMap = imageMap;
+    this.spriteSize = canvasSize * pixelRatio;    
     this.allowClear = data.allow_clear ? 1 : 0;
     this.data = data;
     var elements = data.dressings;
@@ -384,13 +395,13 @@
    */
   Tailor.prototype.drawCanvas = function(i) {
     this.clearCanvas();
-    if (this.elements[i]) {
-      var x = (this.elements[i].index) * this.spriteSize;
-      if (x < 0) {
-        return;
-      }
-      this.ctx.drawImage(this.spritesheet,
-            x, 0, this.spriteSize, this.spriteSize,
+    if (typeof this.elements[i] === 'undefined' || !this.elements[i].name) {
+      return
+    }
+    else {
+      var img = this.imageMap[this.elements[i].name];
+      this.ctx.drawImage(img,
+            0, 0, this.spriteSize, this.spriteSize,
             0, 0, this.canvas.width, this.canvas.height);
     }
   };
