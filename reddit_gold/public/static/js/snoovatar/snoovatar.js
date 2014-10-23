@@ -134,25 +134,65 @@
   }
 
   /**
+   * promise that is resolved when the view is ready to use
+   * @type {$.Promise}
+   * @resolve {Object{$}} map of cached jQuery objects
+   */
+  var viewReady = $.when(uiSelectors, waitForDOM)
+    .then(function buildView(uiSelectors) {
+      var $view = _.reduce(uiSelectors, function(map, val, key) {
+        map[key] = $(val);
+        return map;
+      }, {});
+      $view.editable = $view.canvasContainer.hasClass('editable');
+      return $view;
+    });
+
+  /**
    * promise that is resolved when images derived from tailors.json are preloaded
    * @type {$.Promise}
    * @resolve {Image[]}
    */
-  var imagesAreReady = $.when(exports.initTailors.isReady)
-    .then(function(tailorData) {
+  var imagesAreReady = $.when(
+      viewReady,
+      exports.initTailors.isReady,
+      exports.initSnoovatar.isReady
+    )
+    .then(function($view, tailorData, snoovatarData) {
+      var getImageSources;
+      var imageSrc = function(tailorName, dressingName) {
+        return imagePath + tailorName + '/' + dressingName + '.' + filetype;
+      }
+      if (!$view.editable) {
+        var components = snoovatarData ? snoovatarData.components : {};
+        getImageSources = function(list, tailor) {
+          // get the image set for each tailor in read-only view
+          if (tailor.name in components) {
+            if (components[tailor.name]) {
+              list.push(imageSrc(tailor.name, components[tailor.name]));
+            }
+          }
+          else if (!tailor.allow_clear && tailor.dressings.length) {
+            list.push(imageSrc(tailor.name, tailor.dressings[0].name));
+          }
+          return list;
+        }
+      } 
+      else {
+        getImageSources = function(list, tailor) {
+          // get all images
+          return list.concat(_.map(tailor.dressings, function(dressing) {
+            return imageSrc(tailor.name, dressing.name);
+          }));
+        };
+      }
       tailorData.sort(function(a, b) {
         a = a['z-index'];
         b = b['z-index'];
         return a - b;
       }); 
-      var imageSources = _.reduce(tailorData, function(list, tailor) {
-        return list.concat(_.map(tailor.dressings, function(dressing) {
-          return imagePath + tailor.name + '/' + dressing.name + '.' + filetype;
-        }));
-      }, []);
+      var imageSources = _.reduce(tailorData, getImageSources, []);
       return loadImages(imageSources);
-    }, function() {
-      debugger
     });
 
   /**
@@ -184,20 +224,6 @@
       });
       var components = snoovatarData && snoovatarData.components || {};
       return new Haberdashery(tailors, components);
-    });
-
-  /**
-   * promise that is resolved when the view is ready to use
-   * @type {$.Promise}
-   * @resolve {Object{$}} map of cached jQuery objects
-   */
-  var viewReady = $.when(uiSelectors, waitForDOM)
-    .then(function buildView(uiSelectors) {
-      var $view = _.reduce(uiSelectors, function(map, val, key) {
-        map[key] = $(val);
-        return map;
-      }, {});
-      $view.editable = $view.canvasContainer.hasClass('editable');
     });
 
   // build UI and bind event handlers
