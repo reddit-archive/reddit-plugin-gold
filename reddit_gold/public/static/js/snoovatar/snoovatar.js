@@ -388,6 +388,7 @@
     this.imageMap = imageMap;
     this.spriteSize = canvasSize * pixelRatio;    
     this.allowClear = data.allow_clear ? 1 : 0;
+    this.useDynamicColor = data.use_dynamic_color ? 1 : 0;
     this.data = data;
     this.imgLoaded = false;
     var elements = data.dressings;
@@ -396,6 +397,12 @@
     }
     CanvasArray.call(this, elements, 0);
     this.canvas.width = this.canvas.height = this.spriteSize;
+    if (this.useDynamicColor) {
+      this.mask = document.createElement('canvas').getContext('2d');
+      this.mask.canvas.width = this.mask.canvas.height = this.spriteSize;
+      this.maskBrush = document.createElement('canvas').getContext('2d');
+      this.maskBrush.canvas.width = this.maskBrush.canvas.height = this.spriteSize;
+    }
     // attach to img elements that are still loading so they will trigger a 
     // redraw
     this.forceRedraw = _.bind(this.forceRedraw, this);
