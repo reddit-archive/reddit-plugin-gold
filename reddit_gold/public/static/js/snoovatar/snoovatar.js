@@ -84,6 +84,26 @@
   };
 
   /**
+   * returns an image with the given src that _may_ not be loaded yet
+   * @param  {string} src 
+   * @return {Image}     
+   */
+  function loadImage(src) {
+    var img = new Image();
+    img.src = src;
+    return img;
+  }
+
+  /**
+   * returns an array of images that may not be loaded yet
+   * @param  {string[]} srcs
+   * @return {Image[]}
+   */
+  function loadImages(srcs) {
+    return _.map(srcs, loadImage);
+  }
+
+  /**
    * exposes a public function for the mako template to pass in tailor json data
    * data is used to resolve the attached promise
    * @param  {object} data tailors.json data
@@ -130,7 +150,7 @@
           return imagePath + tailor.name + '/' + dressing.name + '.' + filetype;
         }));
       }, []);
-      return $.preloadImageArray(imageSources);
+      return loadImages(imageSources);
     }, function() {
       debugger
     });
@@ -207,7 +227,7 @@
       $view.tailorButtons.append($buttons);
 
       haberdashery.setTailor($activeButton.attr('id'));
-
+      window.h = haberdashery
       $view.tailorButtons.on('click', 'li', function() {
         $activeButton.removeClass('selected');
         $(this).addClass('selected');
@@ -337,12 +357,16 @@
     this.spriteSize = canvasSize * pixelRatio;    
     this.allowClear = data.allow_clear ? 1 : 0;
     this.data = data;
+    this.imgLoaded = false;
     var elements = data.dressings;
     if (this.allowClear) {
       elements.unshift(Tailor.blankDressing);
     }
     CanvasArray.call(this, elements, 0);
     this.canvas.width = this.canvas.height = this.spriteSize;
+    // attach to img elements that are still loading so they will trigger a 
+    // redraw
+    this.forceRedraw = _.bind(this.forceRedraw, this);
     this.drawCanvas(this.index);
   }
 
@@ -400,19 +424,38 @@
    */
   Tailor.prototype.drawCanvas = function(i) {
     this.clearCanvas();
-    if (typeof this.elements[i] === 'undefined' || !this.elements[i].name) {
-      return
-    }
-    else {
+    if (typeof this.elements[i] !== 'undefined' && this.elements[i].name) {
       var img = this.imageMap[this.elements[i].name];
-      this.ctx.drawImage(img,
-            0, 0, this.spriteSize, this.spriteSize,
-            0, 0, this.canvas.width, this.canvas.height);
+      if (!img.complete) {
+        img.onload = this.forceRedraw;
+        this.imgLoaded = false;
+      }
+      else {
+        this.imgLoaded = true;
+      }
+      if (img.width) {
+        this.ctx.drawImage(img,
+              0, 0, this.spriteSize, this.spriteSize,
+              0, 0, this.canvas.width, this.canvas.height);
+      }
+    }
+    if (this.onRedraw instanceof Function) {
+      this.onRedraw();
     }
   };
 
   // redraw the canvas whenever the pointer changes
   Tailor.prototype.onChange = Tailor.prototype.drawCanvas;
+
+  // callback when drawCanvas is finished
+  Tailor.prototype.onRedraw = function noop() {};
+
+  /**
+   * forces the canvas to redraw current state
+   */
+  Tailor.prototype.forceRedraw = function() {
+    this.drawCanvas(this.index);
+  };
 
   /**
    * set the pointer to a new random index
@@ -433,6 +476,17 @@
    */
   function Haberdashery(tailors, components) {
     CanvasArray.call(this, tailors, 0);
+
+    this.updateOnRedraw = true;
+    var onRedraw = _.bind(function(i) {
+      if (this.updateOnRedraw) {
+        this.update();
+      }
+    }, this);
+    _.each(tailors, function(tailor) {
+      tailor.onRedraw = onRedraw;
+    });
+
     this.canvas.width = this.canvas.height = 800;
     this.tailorMap = _.reduce(this.elements, function(map, obj, i) {
       map[obj.name] = i;
@@ -444,6 +498,15 @@
     }
     this._initialSerialization = this._serialize();
     this.drawCanvas();
+  }
+
+  Haberdashery.updatesManually = function(fnc) {
+    return function() {
+      this.updateOnRedraw = false;
+      var res = fnc.apply(this, arguments);
+      this.updateOnRedraw = true;
+      return res;
+    };
   }
 
   Haberdashery.prototype = Object.create(CanvasArray.prototype);
@@ -481,8 +544,11 @@
    * state against last state.
    */
   Haberdashery.prototype.update = function() {
+    var hasUnloadedImages = _.some(this.elements, function(tailor) {
+      return !tailor.imgLoaded;
+    });
     var serialization = this._serialize();
-    if (this.serialization !== serialization) {
+    if (hasUnloadedImages || this.serialization !== serialization) {
       this.serialization = serialization;
       this.drawCanvas();
     }
@@ -535,7 +601,7 @@
    * @param  {Object{string}|string} components mapping of tailor names to
    *                                            dressing names
    */
-  Haberdashery.prototype.import = function(components) {
+  Haberdashery.prototype.import = Haberdashery.updatesManually(function(components) {
     if (typeof components === 'string') {
       components = this._deserialize(components);
     }
@@ -546,7 +612,7 @@
       tailor.setIndex(i);
     });
     this.update();
-  };
+  });
 
   /**
    * get a tailor object by name
@@ -575,23 +641,23 @@
   /**
    * randomize all tailors' active dressings and update
    */
-  Haberdashery.prototype.randomize = function() {
+  Haberdashery.prototype.randomize = Haberdashery.updatesManually(function() {
     _.each(this.elements, function(tailor) {
       tailor.random();
     });
     this.update();
-  };
+  });
 
   /**
    * set all tailors' to their default dressings (usually `blankDressing`)
    * and update
    */
-  Haberdashery.prototype.clearAll = function() {
+  Haberdashery.prototype.clearAll = Haberdashery.updatesManually(function() {
     _.each(this.elements, function(tailor) {
       tailor.clear();
     });
     this.update();
-  };
+  });
 
   /**
    * returns the URI encoded serialized state for the nth possible combination
