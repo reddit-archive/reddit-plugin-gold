@@ -110,6 +110,11 @@
    * @return {object}
    */
   exports.initTailors = bond(function(data) {
+    data.sort(function(a, b) {
+      a = a['z-index'];
+      b = b['z-index'];
+      return a - b;
+    }); 
     return data;
   });
 
@@ -186,11 +191,6 @@
           }));
         };
       }
-      tailorData.sort(function(a, b) {
-        a = a['z-index'];
-        b = b['z-index'];
-        return a - b;
-      }); 
       var imageSources = _.reduce(tailorData, getImageSources, []);
       return loadImages(imageSources);
     });
@@ -240,7 +240,12 @@
       var buttonTemplate = _.template('<li id="<%-name%>" class="button">' +
                                       '<div class="icon"></div></li>');
       var tailors = haberdashery.elements;
-      var buttonMarkup = _.reduce(tailors, function(memo, tailor) {
+      var buttonMakers = tailors.slice().sort(function(a, b) {
+        a = a['z-index'];
+        b = b['z-index'];
+        return a - b;
+      });
+      var buttonMarkup = _.reduce(buttonMakers, function(memo, tailor) {
         if (tailor.elements.length > 1) {
           return memo + buttonTemplate(tailor);
         }
