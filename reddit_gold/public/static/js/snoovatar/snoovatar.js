@@ -120,6 +120,11 @@
    */
   var imagesAreReady = $.when(exports.initTailors.isReady)
     .then(function(tailorData) {
+      tailorData.sort(function(a, b) {
+        a = a['z-index'];
+        b = b['z-index'];
+        return a - b;
+      }); 
       var imageSources = _.reduce(tailorData, function(list, tailor) {
         return list.concat(_.map(tailor.dressings, function(dressing) {
           return imagePath + tailor.name + '/' + dressing.name + '.' + filetype;
