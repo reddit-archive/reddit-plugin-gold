@@ -24,7 +24,7 @@ BASE_DIR := reddit_gold
 SNOOVATAR_SOURCE_DIR := $(BASE_DIR)/public/static/snoovatar/images
 TAILOR_OUTPUT := $(BASE_DIR)/data/tailors.json
 
-all: snoovatars
+static: snoovatars
 
 snoovatars: $(SNOOVATAR_SOURCE_DIR)/
 	python scripts/write_tailor_config.py $(SNOOVATAR_SOURCE_DIR) $(TAILOR_OUTPUT)
