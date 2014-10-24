@@ -19,7 +19,10 @@
     sampleButton: '#generate-samples',
     publicCheckbox: '#public',
     messageBox: '#message',
+    color: '#color',
   };
+  var colorReplacement = [255, 255, 255];
+  var useDifferenceMask = true;
 
   /**
    * create a function with a promise property attached to it
@@ -321,6 +324,12 @@
         });
         return false;
       });
+    
+      var updateColor = function() {
+        var color = $view.color.val();
+        haberdashery.updateColor(color);
+      }
+      $view.color.on('change', updateColor);
     });
 
   /**
@@ -389,6 +398,7 @@
     this.spriteSize = canvasSize * pixelRatio;    
     this.allowClear = data.allow_clear ? 1 : 0;
     this.useDynamicColor = data.use_dynamic_color ? 1 : 0;
+    this.color = data.color ? data.color : '#FFFFFF';
     this.data = data;
     this.imgLoaded = false;
     var elements = data.dressings;
@@ -473,9 +483,16 @@
         this.imgLoaded = true;
       }
       if (img.width) {
+        var width = this.canvas.width;
+        var height = this.canvas.height;
         this.ctx.drawImage(img,
               0, 0, this.spriteSize, this.spriteSize,
-              0, 0, this.canvas.width, this.canvas.height);
+              0, 0, width, height);
+        if (this.useDynamicColor) {
+          this.ctx.globalCompositeOperation = 'source-atop';
+          this.ctx.drawImage(this.maskBrush.canvas, 0, 0, width, height);
+          this.ctx.globalCompositeOperation = 'source-over';
+        }
       }
     }
     if (this.onRedraw instanceof Function) {
@@ -483,8 +500,35 @@
     }
   };
 
+  Tailor.prototype.updateColor = function(newColor) {
+    console.time('update color '+this.name)
+    if (!this.useDynamicColor) {
+      return;
+    }
+    var width = this.canvas.width;
+    var height = this.canvas.height;
+    this.color = newColor;
+    this.maskBrush.globalCompositeOperation = 'source-over';
+    this.maskBrush.clearRect(0, 0, width, height);
+    this.maskBrush.drawImage(this.mask.canvas, 0, 0, width, height);
+    this.maskBrush.globalCompositeOperation = 'source-in';
+    this.maskBrush.fillStyle = newColor;
+    this.maskBrush.fillRect(0, 0, width, height);
+    this.drawCanvas(this.index);
+    console.timeEnd('update color '+this.name)
+  }
+
   // redraw the canvas whenever the pointer changes
-  Tailor.prototype.onChange = Tailor.prototype.drawCanvas;
+  Tailor.prototype.onChange = function(i) {
+    if (this.useDynamicColor) {
+      var img = this.getImage(i);
+      if (img) {
+        this.updateMask(img, useDifferenceMask, colorReplacement);
+        this.updateColor(this.color);
+      }
+    }
+    this.drawCanvas(i); 
+  }
 
   // callback when drawCanvas is finished
   Tailor.prototype.onRedraw = function noop() {};
@@ -493,7 +537,7 @@
    * forces the canvas to redraw current state
    */
   Tailor.prototype.forceRedraw = function() {
-    this.drawCanvas(this.index);
+    this.onChange(this.index);
   };
 
   /**
@@ -519,6 +563,122 @@
   };
 
   /**
+   * recalculates the mask used in applying user-defined color to layers
+   * @param  {Image} img   image to base mask off of
+   * @param  {boolean} smart whether to use difference blending (no IE support)
+   * @param  {Int[]} rgb   [r,g,b] each in [0...255]
+   * @return {}
+   */
+  Tailor.prototype.updateMask = function(img, smart, rgb) {
+    var mctx = this.mask;
+    var width = mctx.canvas.width;
+    var height = mctx.canvas.height;
+
+    mctx.globalCompositeOperation = 'source-over'
+    mctx.clearRect(0, 0, width, height);
+    mctx.drawImage(img, 0, 0, width, height);
+    if (smart) {
+      // difference filter the target color
+      mctx.globalCompositeOperation = 'difference'
+      mctx.fillStyle = 'rgb(' + rgb.join(',') + ')';
+      mctx.fillRect(0, 0, width, height);
+    }
+    var maskData = mctx.getImageData(0, 0, width, height);
+    var c = maskData.data;
+
+    var t = 1;
+    var isMatch, partial;
+    var ii;
+    if (smart) {
+      // if non-ie, mask is generated with difference blending.  The areas we 
+      // want to fill are 100% black, or partially black areas on the borders
+      // to deal with aliasing.
+      isMatch = function(i) {
+        return !(c[i] >= t || c[i+1] >= t || c[i+2] >= t);
+      }
+      partial = function(i) {
+        return 255 - Math.max(c[i], c[i+1], c[i+2]);
+      }
+    }
+    else {
+      // if ie, we have to just compare against the color directly. 
+      isMatch = function(i) {
+        return c[i] === rgb[0] && c[i+1] === rgb[1] && c[i+2] === rgb[2];
+      }
+      partial = function(i) {
+        return 191; 
+      }
+    }
+
+    // find smaller rectangle containing area that needs color replacement
+    // greatly improves speed for layers with small targets (e.g. hands)
+    var minX = width;
+    var minY = height;
+    var maxX = 0;
+    var maxY = 0;
+    var sample = 4;
+    for (y = 0; y < height; y += sample) {
+      for (x = 0; x < width; x += sample) {
+        i = (y * width + x) * 4;
+        if (isMatch(i)) {
+          if (x < minX) { minX = x };
+          if (x > maxX) { maxX = x };
+          if (y < minY) { minY = y };
+          if (y > maxY) { maxY = y };
+        }
+      }
+    }
+    if (minX >= maxX || minY >= maxY) {
+      mctx.clearRect(0, 0, width, height);
+      return;
+    }
+    var pad = sample * 2;
+    minX = Math.max(0, minX - pad);
+    minY = Math.max(0, minY - pad);
+    maxX = Math.min(width, maxX + pad);
+    maxY = Math.min(height, maxY + pad);
+    
+    // do color replacement
+    width = maxX - minX;
+    height = maxY - minY;
+    maskData = mctx.getImageData(minX, minY, width, height);
+    c = maskData.data;
+    var i, x, y;
+    // makingMask: for (var i = 0, l = c.length; i < l; i += 4) {
+    for (y = 0; y < height; y++) {
+      makingMask: for (x = 0; x < width; x++) {
+        i = (y * width + x) * 4;
+        if (c[i+3] < 255) {
+          c[i+3] = 0;
+        }
+        else if (isMatch(i)) {
+          c[i+3] = 255;
+        }
+        else {
+          var nx, ny;
+          var range = 1;
+          checkingNeighbors: for (nx = -range; nx <= range; nx++) {
+            for (ny = -range; ny <= range; ny++) {
+              if (!nx && !ny) {
+                continue checkingNeighbors;
+              }
+              ii = i + ((nx + width * ny) * 4);
+              if (isMatch(ii)) {
+                c[i+3] = partial(i);
+                continue makingMask;
+              }
+            }
+          }
+          c[i+3] = 0;
+        }
+
+      }
+    }
+    mctx.clearRect(0, 0, mctx.canvas.width, mctx.canvas.height);
+    mctx.putImageData(maskData, minX, minY);
+  };
+
+  /**
    * manages a list of tailors and does composite rendering of them
    * keeps track of which tailor the user is configuring, and allows loading
    * and exporting state
@@ -526,7 +686,7 @@
    * @param {Object{string}} components map of tailor names to dressing names
    *                                    used to set the initial state of tailors
    */
-  function Haberdashery(tailors, components) {
+  function Haberdashery(tailors, components, color) {
     CanvasArray.call(this, tailors, 0);
 
     this.updateOnRedraw = true;
@@ -544,6 +704,7 @@
       map[obj.name] = i;
       return map;
     }, {});
+    this.color = color || 'rgb(255,255,255)';
     this.serialization = null;
     if (components) {
       this.import(components);
@@ -614,7 +775,7 @@
     return _.map(this.elements, function(tailor) {
       return encodeURIComponent(tailor.name) + '=' +
              encodeURIComponent(tailor.getActiveDressingName());
-    }).join('&');
+    }).concat('snooColor='+this.color).join('&');
   };
 
   /**
@@ -663,6 +824,9 @@
       var i = tailor.getIndexOfDressing(dressing);
       tailor.setIndex(i);
     });
+    if (typeof components.snooColor !== 'undefined') {
+      this.color = components.snooColor;
+    }
     this.update();
   });
 
@@ -707,6 +871,18 @@
   Haberdashery.prototype.clearAll = Haberdashery.updatesManually(function() {
     _.each(this.elements, function(tailor) {
       tailor.clear();
+    });
+    this.update();
+  });
+
+  /**
+   * passes new color setting to tailors for dynamic color layers
+   * @param  {string} color any valid css color
+   */
+  Haberdashery.prototype.updateColor = Haberdashery.updatesManually(function(color) {
+    this.color = color;
+    _.each(this.elements, function(tailor) {
+      tailor.updateColor(color);
     });
     this.update();
   });
