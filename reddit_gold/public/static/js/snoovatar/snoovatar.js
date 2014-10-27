@@ -222,11 +222,11 @@
         return map;
       }, {});
 
+      var snooColor = snoovatarData && snoovatarData.snoo_color || '#FFFFFF';
       var tailors = _.map(tailorData, function(obj) {
-        return new Tailor(obj, imageMap[obj.name]);
+        return new Tailor(obj, imageMap[obj.name], snooColor);
       });
       var components = snoovatarData && snoovatarData.components || {};
-      var snooColor = snoovatarData && snoovatarData.snoo_color || '#FFFFFF';
       return new Haberdashery(tailors, components, snooColor);
     });
 
@@ -393,14 +393,14 @@
    * @param {Object} data an object from tailors.json
    * @param {Image} img  a spritesheet containing the dressing graphics
    */
-  function Tailor(data, imageMap) {
+  function Tailor(data, imageMap, snooColor) {
     // A CanvasArray that draws a single image from its list at a time.
     this.name = data.name;
     this.imageMap = imageMap;
     this.spriteSize = canvasSize * pixelRatio;    
     this.allowClear = data.allow_clear ? 1 : 0;
     this.useDynamicColor = data.use_dynamic_color ? 1 : 0;
-    this.snooColor = data.snoo_color ? data.snoo_color : '#FFFFFF';
+    this.snooColor = snooColor || '#FFFFFF';
     this.data = data;
     this.imgLoaded = false;
     var elements = data.dressings;
@@ -712,7 +712,6 @@
       this.import(components);
     }
     this._initialSerialization = this._serialize();
-    this.updateColor(this.snooColor);
     this.drawCanvas();
   }
 
