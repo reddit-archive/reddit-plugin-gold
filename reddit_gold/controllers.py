@@ -58,7 +58,6 @@ class GoldController(RedditController):
             content=Snoovatar(
                 editable=user_is_owner,
                 snoovatar=snoovatar,
-                tailors=g.plugins['gold'].tailors_data,
                 username=vuser.name,
             ),
         ).render()

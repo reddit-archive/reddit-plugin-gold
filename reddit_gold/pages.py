@@ -82,9 +82,8 @@ class SnoovatarProfilePage(ProfilePage):
 
 
 class Snoovatar(Templated):
-    def __init__(self, editable, snoovatar, tailors, username):
+    def __init__(self, editable, snoovatar, username):
         self.editable = editable
         self.snoovatar = snoovatar
-        self.tailors = tailors
         self.username = username
         Templated.__init__(self)
