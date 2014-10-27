@@ -210,7 +210,6 @@
       exports.initSnoovatar.isReady
     )
     .then(function buildImageMap(images, tailorData, snoovatarData) {
-      console.log('images loaded!')
       imageMap = _.reduce(images, function(map, img) {
         var parts = img.src.split('/').slice(-2);
         var dressing = parts[1].slice(0, -(filetype.length + 1));
@@ -503,7 +502,6 @@
   };
 
   Tailor.prototype.updateColor = function(newColor) {
-    console.time('update color '+this.name)
     if (!this.useDynamicColor) {
       return;
     }
@@ -517,7 +515,6 @@
     this.maskBrush.fillStyle = newColor;
     this.maskBrush.fillRect(0, 0, width, height);
     this.drawCanvas(this.index);
-    console.timeEnd('update color '+this.name)
   }
 
   // redraw the canvas whenever the pointer changes
