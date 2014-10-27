@@ -1,842 +1,539 @@
 [
     {
-        "allow_clear": true, 
-        "dressings": [
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 0, 
-                "name": "periwinkle_shirt", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 800, 
-                "name": "8bit", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "gi", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "star_trek", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "shirt_tie_blue", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "suspenders", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "planetside_armor", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "orangered_shirt", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 0, 
-                "name": "ski_jacket_red", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 800, 
-                "name": "cylon", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "toga", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "collared_shirt_blue", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "military", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "longsleeve", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "dress_thing", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "zip_up", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 0, 
-                "name": "ww2", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 800, 
-                "name": "historical", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "kendo_armor", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "beater", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "bhikkhu", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "bowtie", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "tux", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "jester_top", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 0, 
-                "name": "cardigan", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 800, 
-                "name": "bib", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "deep_v", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "football_jersey", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "apron", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "vneck", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "ninja", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "imperium", 
-                "height": 800
-            }
-        ], 
-        "z-index": 300, 
-        "name": "tops", 
-        "spritesheet": "tops"
-    }, 
-    {
-        "dressings": [
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 0, 
-                "name": "base-snoo", 
-                "height": 800
-            }
-        ], 
         "allow_clear": false, 
-        "spritesheet": "base", 
-        "z-index": 0, 
-        "name": "base"
-    }, 
-    {
-        "allow_clear": false, 
+        "name": "head-stroke", 
         "dressings": [
             {
-                "y": 0, 
-                "width": 800, 
-                "x": 0, 
-                "name": "default", 
-                "height": 800
+                "name": "head_stroke"
             }
         ], 
-        "z-index": 200, 
-        "name": "shoes", 
-        "spritesheet": "shoes"
+        "use_dynamic_color": true, 
+        "z-index": 450, 
+        "spritesheet": "head-stroke"
     }, 
     {
         "allow_clear": true, 
-        "dressings": [
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 0, 
-                "name": "soccer", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 800, 
-                "name": "wrench", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "purple_flower", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "mug", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "flower", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "ice_hockey_stick", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "field_hockey_stick", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "camera_neck", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 0, 
-                "name": "laptop_one_hand", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 800, 
-                "name": "basketball", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "whisk", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "can", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "american_football", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "sonic_screwdriver", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "joystick", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "garden_fork", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 0, 
-                "name": "pot_plant", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 800, 
-                "name": "phone", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "erlenmeyer_flask", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "megaphone", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "pipe", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "rugby_ball", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "baseball", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "fish", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 0, 
-                "name": "skateboard", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 800, 
-                "name": "book", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "helmet", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "bowl", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "cupcake", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "spoon", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "axe", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "baseball_bat", 
-                "height": 800
-            }, 
-            {
-                "y": 3200, 
-                "width": 800, 
-                "x": 0, 
-                "name": "wiimote", 
-                "height": 800
-            }, 
-            {
-                "y": 3200, 
-                "width": 800, 
-                "x": 800, 
-                "name": "rubiks", 
-                "height": 800
-            }, 
-            {
-                "y": 3200, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "cake", 
-                "height": 800
-            }
-        ], 
-        "z-index": 600, 
-        "name": "objects", 
-        "spritesheet": "objects"
-    }, 
-    {
-        "dressings": [
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 0, 
-                "name": "default", 
-                "height": 800
-            }
-        ], 
-        "allow_clear": false, 
-        "spritesheet": "head", 
-        "z-index": 400, 
-        "name": "head"
-    }, 
-    {
-        "allow_clear": true, 
-        "dressings": [
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 0, 
-                "name": "headband", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 800, 
-                "name": "top_hat", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "ww2_helmet", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "baseball_blue", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "short_hat", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "bizarrohat", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "pakol", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "beanie_bobble", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 0, 
-                "name": "flight_helmet", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 800, 
-                "name": "planetside_helmet", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "bow", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "mortar_board", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "snow_goggles", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "backwards_hat", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "viking_helmet", 
-                "height": 800
-            }, 
-            {
-                "y": 800, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "crown", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 0, 
-                "name": "santa", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 800, 
-                "name": "rambo", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "kerchief", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "beanie", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "wolverine", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "headphones", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "cowboy", 
-                "height": 800
-            }, 
-            {
-                "y": 1600, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "wolf_hat", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 0, 
-                "name": "admiral", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 800, 
-                "name": "chef", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "ninja_mask", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "cowl", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "jester", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "fez", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "cap-grey", 
-                "height": 800
-            }, 
-            {
-                "y": 2400, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "military_officer", 
-                "height": 800
-            }, 
-            {
-                "y": 3200, 
-                "width": 800, 
-                "x": 0, 
-                "name": "beret", 
-                "height": 800
-            }, 
-            {
-                "y": 3200, 
-                "width": 800, 
-                "x": 800, 
-                "name": "trojan_community", 
-                "height": 800
-            }
-        ], 
-        "z-index": 500, 
         "name": "hats", 
+        "dressings": [
+            {
+                "name": "cap-grey"
+            }, 
+            {
+                "name": "baseball_blue"
+            }, 
+            {
+                "name": "mortar_board"
+            }, 
+            {
+                "name": "headphones"
+            }, 
+            {
+                "name": "short_hat"
+            }, 
+            {
+                "name": "bizarrohat"
+            }, 
+            {
+                "name": "headband"
+            }, 
+            {
+                "name": "viking_helmet"
+            }, 
+            {
+                "name": "admiral"
+            }, 
+            {
+                "name": "kerchief"
+            }, 
+            {
+                "name": "jester"
+            }, 
+            {
+                "name": "cowboy"
+            }, 
+            {
+                "name": "cowl"
+            }, 
+            {
+                "name": "sun_hat"
+            }, 
+            {
+                "name": "beanie_bobble"
+            }, 
+            {
+                "name": "wolverine"
+            }, 
+            {
+                "name": "fox_hat"
+            }, 
+            {
+                "name": "pakol"
+            }, 
+            {
+                "name": "chef"
+            }, 
+            {
+                "name": "flight_helmet"
+            }, 
+            {
+                "name": "bow"
+            }, 
+            {
+                "name": "explorer"
+            }, 
+            {
+                "name": "santa"
+            }, 
+            {
+                "name": "planetside_helmet"
+            }, 
+            {
+                "name": "military_officer"
+            }, 
+            {
+                "name": "rambo"
+            }, 
+            {
+                "name": "headscarf"
+            }, 
+            {
+                "name": "crown"
+            }, 
+            {
+                "name": "trojan_community"
+            }, 
+            {
+                "name": "beret"
+            }, 
+            {
+                "name": "ninja_mask"
+            }, 
+            {
+                "name": "ww2_helmet"
+            }, 
+            {
+                "name": "fez"
+            }, 
+            {
+                "name": "beanie"
+            }, 
+            {
+                "name": "top_hat"
+            }
+        ], 
+        "use_dynamic_color": false, 
+        "z-index": 600, 
         "spritesheet": "hats"
     }, 
     {
-        "allow_clear": true, 
+        "allow_clear": false, 
+        "name": "body-fill", 
         "dressings": [
             {
-                "y": 0, 
-                "width": 800, 
-                "x": 0, 
-                "name": "denim", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 800, 
-                "name": "jester_bottoms", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 1600, 
-                "name": "yfronts", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 2400, 
-                "name": "empty", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 3200, 
-                "name": "pinstripe", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 4000, 
-                "name": "solo", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 4800, 
-                "name": "joker", 
-                "height": 800
-            }, 
-            {
-                "y": 0, 
-                "width": 800, 
-                "x": 5600, 
-                "name": "wavy_skirt", 
-                "height": 800
+                "name": "body_fill"
             }
         ], 
-        "z-index": 200, 
+        "use_dynamic_color": true, 
+        "z-index": 0, 
+        "spritesheet": "body-fill"
+    }, 
+    {
+        "allow_clear": true, 
+        "name": "grippables_left", 
+        "dressings": [
+            {
+                "name": "keyboard"
+            }, 
+            {
+                "name": "camera"
+            }, 
+            {
+                "name": "upvote"
+            }, 
+            {
+                "name": "baseball_bat"
+            }, 
+            {
+                "name": "book"
+            }, 
+            {
+                "name": "rubiks"
+            }, 
+            {
+                "name": "whisk"
+            }, 
+            {
+                "name": "erlenmeyer_flask"
+            }, 
+            {
+                "name": "phone"
+            }, 
+            {
+                "name": "sonic_screwdriver"
+            }, 
+            {
+                "name": "fish"
+            }, 
+            {
+                "name": "laptop_one_hand"
+            }, 
+            {
+                "name": "megaphone"
+            }, 
+            {
+                "name": "skateboard"
+            }, 
+            {
+                "name": "pot_plant"
+            }, 
+            {
+                "name": "ice_hockey_stick"
+            }, 
+            {
+                "name": "mug"
+            }, 
+            {
+                "name": "flower"
+            }, 
+            {
+                "name": "cake"
+            }, 
+            {
+                "name": "downvote"
+            }, 
+            {
+                "name": "ds"
+            }, 
+            {
+                "name": "wiimote"
+            }, 
+            {
+                "name": "baseball"
+            }, 
+            {
+                "name": "soccer"
+            }, 
+            {
+                "name": "wrench"
+            }, 
+            {
+                "name": "pipe"
+            }, 
+            {
+                "name": "can"
+            }, 
+            {
+                "name": "rugby_ball"
+            }, 
+            {
+                "name": "purple_flower"
+            }, 
+            {
+                "name": "champagne"
+            }, 
+            {
+                "name": "joystick"
+            }, 
+            {
+                "name": "bowl"
+            }, 
+            {
+                "name": "garden_fork"
+            }, 
+            {
+                "name": "cupcake"
+            }, 
+            {
+                "name": "spoon"
+            }, 
+            {
+                "name": "field_hockey_stick"
+            }, 
+            {
+                "name": "american_football"
+            }, 
+            {
+                "name": "basketball"
+            }
+        ], 
+        "use_dynamic_color": true, 
+        "z-index": 600, 
+        "spritesheet": "grippables_left"
+    }, 
+    {
+        "allow_clear": false, 
+        "name": "body-stroke", 
+        "dressings": [
+            {
+                "name": "body_stroke"
+            }
+        ], 
+        "use_dynamic_color": true, 
+        "z-index": 50, 
+        "spritesheet": "body-stroke"
+    }, 
+    {
+        "allow_clear": true, 
+        "name": "glasses", 
+        "dressings": [
+            {
+                "name": "stylish_glasses"
+            }, 
+            {
+                "name": "sunglasses_orange"
+            }, 
+            {
+                "name": "rounded_glasses"
+            }, 
+            {
+                "name": "rectangle_glasses"
+            }, 
+            {
+                "name": "masquerade"
+            }, 
+            {
+                "name": "sunglasses_black"
+            }, 
+            {
+                "name": "goggles_community_planetside"
+            }, 
+            {
+                "name": "deal_with_it"
+            }, 
+            {
+                "name": "disguise"
+            }, 
+            {
+                "name": "eyepatch"
+            }, 
+            {
+                "name": "mask"
+            }, 
+            {
+                "name": "monocle"
+            }, 
+            {
+                "name": "saftey_goggles"
+            }, 
+            {
+                "name": "scuba_mask"
+            }, 
+            {
+                "name": "arrow_head"
+            }, 
+            {
+                "name": "hipster_glasses"
+            }, 
+            {
+                "name": "brown_glasses"
+            }, 
+            {
+                "name": "reading_glasses"
+            }, 
+            {
+                "name": "oval_glasses"
+            }, 
+            {
+                "name": "shades_rounded"
+            }, 
+            {
+                "name": "accent_glasses"
+            }
+        ], 
+        "use_dynamic_color": false, 
+        "z-index": 500, 
+        "spritesheet": "glasses"
+    }, 
+    {
+        "allow_clear": true, 
+        "name": "tops", 
+        "dressings": [
+            {
+                "name": "imperium"
+            }, 
+            {
+                "name": "halter"
+            }, 
+            {
+                "name": "soccer_jersey"
+            }, 
+            {
+                "name": "lab_coat"
+            }, 
+            {
+                "name": "zip_up"
+            }, 
+            {
+                "name": "kendo_armor"
+            }, 
+            {
+                "name": "orangered_shirt"
+            }, 
+            {
+                "name": "historical"
+            }, 
+            {
+                "name": "vote_dress"
+            }, 
+            {
+                "name": "periwinkle_shirt"
+            }, 
+            {
+                "name": "ninja"
+            }, 
+            {
+                "name": "football_jersey"
+            }, 
+            {
+                "name": "8bit"
+            }, 
+            {
+                "name": "star_trek"
+            }, 
+            {
+                "name": "croptop"
+            }, 
+            {
+                "name": "bowtie"
+            }, 
+            {
+                "name": "vest"
+            }, 
+            {
+                "name": "ski_jacket_red"
+            }, 
+            {
+                "name": "planetside_armor"
+            }, 
+            {
+                "name": "ww2"
+            }, 
+            {
+                "name": "suspenders"
+            }, 
+            {
+                "name": "tux"
+            }, 
+            {
+                "name": "collared_shirt_blue"
+            }, 
+            {
+                "name": "longsleeve"
+            }, 
+            {
+                "name": "indy"
+            }, 
+            {
+                "name": "apron"
+            }, 
+            {
+                "name": "dinner_with_andre"
+            }, 
+            {
+                "name": "tank"
+            }, 
+            {
+                "name": "cylon"
+            }, 
+            {
+                "name": "military"
+            }, 
+            {
+                "name": "toga"
+            }, 
+            {
+                "name": "vneck"
+            }, 
+            {
+                "name": "deep_v"
+            }, 
+            {
+                "name": "bib"
+            }, 
+            {
+                "name": "plaid_shirt"
+            }, 
+            {
+                "name": "tube_top"
+            }, 
+            {
+                "name": "shirt_tie_blue"
+            }, 
+            {
+                "name": "cardigan"
+            }, 
+            {
+                "name": "gi"
+            }, 
+            {
+                "name": "bhikkhu"
+            }
+        ], 
+        "use_dynamic_color": false, 
+        "z-index": 300, 
+        "spritesheet": "tops"
+    }, 
+    {
+        "allow_clear": false, 
+        "name": "head-fill", 
+        "dressings": [
+            {
+                "name": "head_fill"
+            }
+        ], 
+        "use_dynamic_color": true, 
+        "z-index": 400, 
+        "spritesheet": "head-fill"
+    }, 
+    {
+        "allow_clear": true, 
         "name": "bottoms", 
+        "dressings": [
+            {
+                "name": "yfronts"
+            }, 
+            {
+                "name": "denim"
+            }, 
+            {
+                "name": "waistband"
+            }, 
+            {
+                "name": "grey_bottoms"
+            }, 
+            {
+                "name": "yellow_bottoms"
+            }, 
+            {
+                "name": "pinstripe"
+            }, 
+            {
+                "name": "solo"
+            }, 
+            {
+                "name": "green_bottoms"
+            }, 
+            {
+                "name": "white_bottoms"
+            }, 
+            {
+                "name": "wavy_skirt"
+            }, 
+            {
+                "name": "jester_bottoms"
+            }, 
+            {
+                "name": "cords"
+            }, 
+            {
+                "name": "joker"
+            }, 
+            {
+                "name": "blue_bottoms"
+            }
+        ], 
+        "use_dynamic_color": false, 
+        "z-index": 200, 
         "spritesheet": "bottoms"
     }
 ]
