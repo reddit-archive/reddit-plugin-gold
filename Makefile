@@ -24,10 +24,12 @@ BASE_DIR := reddit_gold
 SNOOVATAR_SOURCE_DIR := $(BASE_DIR)/public/static/snoovatar/images
 TAILOR_OUTPUT := $(BASE_DIR)/data/tailors.json
 
-static: snoovatars
+static:
 
-snoovatars: $(SNOOVATAR_SOURCE_DIR)/
-	python scripts/write_tailor_config.py $(SNOOVATAR_SOURCE_DIR) $(TAILOR_OUTPUT)
+snoovatars: $(TAILOR_OUTPUT)
+
+$(TAILOR_OUTPUT): $(shell find $(SNOOVATAR_SOURCE_DIR))
+	python scripts/write_tailor_config.py $(SNOOVATAR_SOURCE_DIR) $@
 
 clean:
 	rm -f $(TAILOR_OUTPUT)
