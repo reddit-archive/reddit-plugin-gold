@@ -147,8 +147,9 @@ class SnoovatarsByAccount(tdb_cassandra.View):
         return json.loads(raw_json)
 
     @classmethod
-    def save(cls, user, name, public, components):
+    def save(cls, user, name, public, snoo_color, components):
         cls._set_values(user._id36, {name: json.dumps({
             "public": public,
+            "snoo_color": snoo_color,
             "components": components,
         })})

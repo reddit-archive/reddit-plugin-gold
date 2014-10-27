@@ -50,7 +50,10 @@ ${less_stylesheet('gold.less')}
             <span class="label">${_('make my snoovatar public')}</span>
           </label>
           <div class="color-picker">
-            <label><input id="color" type="color" value="#ffffff"></label>
+            <%
+              snoo_color = thing.snoovatar['snoo_color'] if thing.snoovatar else '#FFFFFF'
+            %>
+            <label><input id="color" type="color" value="${snoo_color}"></label>
           </div>
           <button id="save" class="button">${_('save')}</button>
         </div>

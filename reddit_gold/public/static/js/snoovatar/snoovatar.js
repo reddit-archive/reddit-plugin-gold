@@ -21,7 +21,7 @@
     messageBox: '#message',
     color: '#color',
   };
-  var colorReplacement = [255, 255, 255];
+  var colorReplacement = [0, 255, 0];
   var useDifferenceMask = true;
 
   /**
@@ -226,7 +226,8 @@
         return new Tailor(obj, imageMap[obj.name]);
       });
       var components = snoovatarData && snoovatarData.components || {};
-      return new Haberdashery(tailors, components);
+      var snooColor = snoovatarData && snoovatarData.snoo_color || '#FFFFFF';
+      return new Haberdashery(tailors, components, snooColor);
     });
 
   // build UI and bind event handlers
@@ -294,6 +295,7 @@
         $.request("gold/snoovatar", {
           "api_type": "json",
           "public": isPublic,
+          "snoo_color": haberdashery.snooColor,
           "components": JSON.stringify(haberdashery.export()),
         }, function(res) {
           $view.saveButton.removeAttr('disabled');
@@ -398,7 +400,7 @@
     this.spriteSize = canvasSize * pixelRatio;    
     this.allowClear = data.allow_clear ? 1 : 0;
     this.useDynamicColor = data.use_dynamic_color ? 1 : 0;
-    this.color = data.color ? data.color : '#FFFFFF';
+    this.snooColor = data.snoo_color ? data.snoo_color : '#FFFFFF';
     this.data = data;
     this.imgLoaded = false;
     var elements = data.dressings;
@@ -507,7 +509,7 @@
     }
     var width = this.canvas.width;
     var height = this.canvas.height;
-    this.color = newColor;
+    this.snooColor = newColor;
     this.maskBrush.globalCompositeOperation = 'source-over';
     this.maskBrush.clearRect(0, 0, width, height);
     this.maskBrush.drawImage(this.mask.canvas, 0, 0, width, height);
@@ -524,7 +526,7 @@
       var img = this.getImage(i);
       if (img) {
         this.updateMask(img, useDifferenceMask, colorReplacement);
-        this.updateColor(this.color);
+        this.updateColor(this.snooColor);
       }
     }
     this.drawCanvas(i); 
@@ -686,7 +688,7 @@
    * @param {Object{string}} components map of tailor names to dressing names
    *                                    used to set the initial state of tailors
    */
-  function Haberdashery(tailors, components, color) {
+  function Haberdashery(tailors, components, snooColor) {
     CanvasArray.call(this, tailors, 0);
 
     this.updateOnRedraw = true;
@@ -704,12 +706,13 @@
       map[obj.name] = i;
       return map;
     }, {});
-    this.color = color || 'rgb(255,255,255)';
+    this.snooColor = snooColor || 'rgb(255,255,255)';
     this.serialization = null;
     if (components) {
       this.import(components);
     }
     this._initialSerialization = this._serialize();
+    this.updateColor(this.snooColor);
     this.drawCanvas();
   }
 
@@ -775,7 +778,7 @@
     return _.map(this.elements, function(tailor) {
       return encodeURIComponent(tailor.name) + '=' +
              encodeURIComponent(tailor.getActiveDressingName());
-    }).concat('snooColor='+this.color).join('&');
+    }).concat('snooColor='+this.snooColor).join('&');
   };
 
   /**
@@ -825,7 +828,7 @@
       tailor.setIndex(i);
     });
     if (typeof components.snooColor !== 'undefined') {
-      this.color = components.snooColor;
+      this.snooColor = components.snooColor;
     }
     this.update();
   });
@@ -879,10 +882,10 @@
    * passes new color setting to tailors for dynamic color layers
    * @param  {string} color any valid css color
    */
-  Haberdashery.prototype.updateColor = Haberdashery.updatesManually(function(color) {
-    this.color = color;
+  Haberdashery.prototype.updateColor = Haberdashery.updatesManually(function(newColor) {
+    this.snooColor = newColor;
     _.each(this.elements, function(tailor) {
-      tailor.updateColor(color);
+      tailor.updateColor(newColor);
     });
     this.update();
   });

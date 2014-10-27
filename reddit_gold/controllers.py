@@ -10,6 +10,7 @@ from r2.lib.validator import (
     validate,
     validatedForm,
     VBoolean,
+    VCssColor,
     VExistingUname,
     VGold,
     VJSON,
@@ -82,13 +83,15 @@ class GoldApiController(RedditController):
         VGold(),
         VModhash(),
         public=VBoolean("public"),
+        snoo_color=VCssColor("snoo_color"),
         unvalidated_components=VJSON("components"),
     )
-    def POST_snoovatar(self, form, jquery, public, unvalidated_components):
+    def POST_snoovatar(self, form, jquery, public, snoo_color, unvalidated_components):
         if form.has_errors("components",
                            errors.NO_TEXT,
                            errors.TOO_LONG,
-                           errors.BAD_STRING
+                           errors.BAD_STRING,
+                           errors.BAD_CSS_COLOR,
                           ):
             return
 
@@ -122,5 +125,6 @@ class GoldApiController(RedditController):
             user=c.user,
             name="snoo",
             public=public,
+            snoo_color=snoo_color,
             components=validated,
         )
