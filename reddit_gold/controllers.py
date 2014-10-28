@@ -10,7 +10,6 @@ from r2.lib.validator import (
     validate,
     validatedForm,
     VBoolean,
-    VCssColor,
     VExistingUname,
     VGold,
     VJSON,
