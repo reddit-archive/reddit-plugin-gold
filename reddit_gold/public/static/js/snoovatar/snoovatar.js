@@ -687,7 +687,7 @@
    */
   function Haberdashery(tailors, components, snooColor) {
     CanvasArray.call(this, tailors, 0);
-
+    this.hasUnloadedImages = true;
     this.updateOnRedraw = true;
     var onRedraw = _.bind(function(i) {
       if (this.updateOnRedraw) {
@@ -756,11 +756,13 @@
    * state against last state.
    */
   Haberdashery.prototype.update = function() {
-    var hasUnloadedImages = _.some(this.elements, function(tailor) {
+    var hasUnloadedImages = this.hasUnloadedImages && _.some(this.elements, function(tailor) {
       return !tailor.imgLoaded;
     });
     var serialization = this._serialize();
-    if (hasUnloadedImages || this.serialization !== serialization) {
+    if (this.hasUnloadedImages || hasUnloadedImages ||
+        this.serialization !== serialization) {
+      this.hasUnloadedImages = hasUnloadedImages;
       this.serialization = serialization;
       this.drawCanvas();
     }
