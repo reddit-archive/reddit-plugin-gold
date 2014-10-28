@@ -269,7 +269,6 @@
       $view.tailorButtons.append($buttons);
 
       haberdashery.setTailor($activeButton.attr('id'));
-      window.h = haberdashery
       $view.tailorButtons.on('click', 'li', function() {
         $activeButton.removeClass('selected');
         $(this).addClass('selected');
