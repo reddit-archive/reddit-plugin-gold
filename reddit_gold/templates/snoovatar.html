@@ -1,0 +1,79 @@
+<%!
+  from r2.lib import js
+  from r2.lib.template_helpers import static
+%>
+
+<%namespace file="less.html" import="less_stylesheet"/>
+<%namespace file="utils.html" import="_md"/>
+
+${less_stylesheet('gold.less')}
+
+<div class="snoovatar-page">
+  <div class="container">
+    %if thing.editable:
+      <div class="arrow-container left">
+        <div id="prevButton" class="arrow left">
+          <img src="${static('snoovatar/icons/arrow.svg')}">
+        </div>
+      </div>
+    %endif
+    <div id="snoovatar"
+      %if thing.editable:
+        class="editable"
+      %endif
+    >
+    </div>
+    %if thing.editable:
+      <div class="arrow-container right">
+        <div id="nextButton" class="arrow right">
+          <img src="${static('snoovatar/icons/arrow.svg')}">
+        </div>
+      </div>
+      <h1>${_('your snoovatar!')}</h1>
+      <div class="selectors">
+        <ul>
+        </ul>
+      </div>
+      <div class="actions">
+        <div id="random" class="button button-big"><div class="icon"></div></div>
+        <div id="clear" class="button button-big"><div class="icon"></div></div>
+      </div>
+      <footer>
+        <div class="inputs">
+          <label class="checkbox-label">
+            <input type="checkbox" id="public"
+              %if not thing.snoovatar or thing.snoovatar['public']:
+                checked="checked"
+              %endif
+            >
+            <span class="proxy-checkbox"></span>
+            <span class="label">${_('make my snoovatar public')}</span>
+          </label>
+          <label class="snoo-color-label">
+            <%
+              snoo_color = thing.snoovatar['snoo_color'] if thing.snoovatar else '#FFFFFF'
+            %>
+            <input id="color" type="color" value="${snoo_color}">
+            <span class="label">${_('my snoo color')}</span>
+          </label>
+          <button id="save" class="button button-big">${_('save')}</button>
+        </div>
+        <div id="message" class="message" style="display: none;"></div>
+      </footer>
+    %else:
+      <div class="username">${thing.username}</div>
+    %endif
+    <p>${_md('view and discuss snoovatars in /r/snoovatars')}</p>
+  </div>
+</div>
+
+${unsafe(js.use("snoovatar"))}
+
+<%
+  snoovatar_source = js.DataSource(
+    wrap="r.snoovatar.initSnoovatar({content})",
+    data=thing.snoovatar,
+  )
+%>
+
+${unsafe(snoovatar_source.use())}

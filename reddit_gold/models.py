@@ -1,4 +1,6 @@
 from datetime import datetime
+import json
+
 from pylons import g
 from sqlalchemy import func
 from sqlalchemy.orm.exc import NoResultFound
@@ -8,6 +10,7 @@ from sqlalchemy.types import DateTime, Integer, String
 from r2.models import Frontpage
 from r2.models.gold import Base, Session
 from r2.models.wiki import WikiPageIniItem
+from r2.lib.db import tdb_cassandra
 
 
 def with_sqlalchemy_session(f):
@@ -123,3 +126,30 @@ class GoldPartnerDealCode(Base):
         Session.query(func.pg_advisory_unlock_all()).all()
 
         return claiming.code 
+
+
+class SnoovatarsByAccount(tdb_cassandra.View):
+    _use_db = True
+    _compare_with = "AsciiType"
+    _extra_schema_creation_args = {
+        "key_validation_class": "AsciiType",
+        "default_validation_class": "UTF8Type",
+    }
+
+    @classmethod
+    def load(cls, user, name):
+        try:
+            data = cls._byID(user._id36, properties=[name])
+        except tdb_cassandra.NotFound:
+            return {}
+
+        raw_json = data[name]
+        return json.loads(raw_json)
+
+    @classmethod
+    def save(cls, user, name, public, snoo_color, components):
+        cls._set_values(user._id36, {name: json.dumps({
+            "public": public,
+            "snoo_color": snoo_color,
+            "components": components,
+        })})
