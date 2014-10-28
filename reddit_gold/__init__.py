@@ -52,8 +52,8 @@ class Gold(Plugin):
         mc('/gold/partners', controller='gold', action='partners')
         mc('/api/claim_gold_partner_deal_code', controller='goldapi', action='claim_gold_partner_deal_code')
 
-        mc('/user/:username/snoo', controller='gold', action="snoovatar")
-        mc("/api/gold/snoovatar", controller="goldapi", action="snoovatar")
+        mc('/user/:username/snoo', controller='gold', action='snoovatar')
+        mc("/api/gold/snoovatar", controller='goldapi', action='snoovatar')
 
     def load_controllers(self):
         from reddit_gold.controllers import GoldController, GoldApiController

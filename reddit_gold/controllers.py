@@ -96,7 +96,7 @@ class GoldApiController(RedditController):
             return
 
         try:
-            tailors = g.plugins['gold'].tailors_data
+            tailors = g.plugins["gold"].tailors_data
             validated = {}
 
             for tailor in tailors:
