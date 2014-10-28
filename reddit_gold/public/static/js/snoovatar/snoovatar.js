@@ -171,31 +171,34 @@
       var imageSrc = function(tailorPath, dressingName) {
         return imagePath + tailorPath + '/' + dressingName + '.' + filetype;
       }
-      if (!$view.editable) {
-        var components = snoovatarData ? snoovatarData.components : {};
-        getImageSources = function(list, tailor) {
-          // get the image set for each tailor in read-only view
-          if (tailor.name in components) {
-            if (components[tailor.name]) {
-              list.push(imageSrc(tailor.image_path, components[tailor.name]));
-            }
+      var components = snoovatarData ? snoovatarData.components : {};
+      var preloadImages = _.reduce(tailorData, function(list, tailor) {
+        // get the image set for each tailor in read-only view
+        if (tailor.name in components) {
+          if (components[tailor.name]) {
+            list.push(imageSrc(tailor.image_path, components[tailor.name]));
           }
-          else if (!tailor.allow_clear && tailor.dressings.length) {
-            list.push(imageSrc(tailor.image_path, tailor.dressings[0].name));
-          }
-          return list;
         }
+        else if (!tailor.allow_clear && tailor.dressings.length) {
+          list.push(imageSrc(tailor.image_path, tailor.dressings[0].name));
+        }
+        return list;
+      }, []);
+      var allImages = _.reduce(tailorData, function(list, tailor) {
+        // get all images
+        return list.concat(_.map(tailor.dressings, function(dressing) {
+          return imageSrc(tailor.image_path, dressing.name);
+        }));
+      }, []);
+
+      if ($view.editable) {
+        return $.preloadImageArray(preloadImages).then(function() {
+          return loadImages(allImages);
+        });
       } 
       else {
-        getImageSources = function(list, tailor) {
-          // get all images
-          return list.concat(_.map(tailor.dressings, function(dressing) {
-            return imageSrc(tailor.image_path, dressing.name);
-          }));
-        };
+        return $.preloadImages(imageSources);
       }
-      var imageSources = _.reduce(tailorData, getImageSources, []);
-      return loadImages(imageSources);
     });
 
   /**
