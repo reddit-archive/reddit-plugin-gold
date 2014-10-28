@@ -22,7 +22,6 @@
     color: '#color',
   };
   var colorReplacement = [0, 255, 0];
-  var useDifferenceMask = true;
 
   /**
    * create a function with a promise property attached to it
@@ -140,6 +139,11 @@
       );
     });
   }
+
+  // test for difference blending support
+  var testBlending = document.createElement('canvas').getContext('2d');
+  testBlending.globalCompositeOperation = 'difference';
+  useDifferenceMask = testBlending.globalCompositeOperation === 'difference';
 
   /**
    * promise that is resolved when the view is ready to use
