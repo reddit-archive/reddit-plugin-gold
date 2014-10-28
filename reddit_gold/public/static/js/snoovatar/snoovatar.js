@@ -297,11 +297,11 @@
       $view.saveButton.on('click', function() {
         $view.saveButton.attr('disabled', true);
         var isPublic = $view.publicCheckbox.is(':checked');
-        $.request("gold/snoovatar", {
-          "api_type": "json",
-          "public": isPublic,
-          "snoo_color": haberdashery.snooColor,
-          "components": JSON.stringify(haberdashery.export()),
+        $.request('gold/snoovatar', {
+          'api_type': 'json',
+          'public': isPublic,
+          'snoo_color': haberdashery.snooColor,
+          'components': JSON.stringify(haberdashery.export()),
         }, function(res) {
           $view.saveButton.removeAttr('disabled');
 
