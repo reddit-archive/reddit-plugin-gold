@@ -56,14 +56,12 @@ class Gold(Plugin):
         mc("/api/gold/snoovatar", controller="goldapi", action="snoovatar")
 
     def load_controllers(self):
-        def load(name):
-            with open(path.join(path.dirname(__file__), 'data', name)) as f:
-                data = json.load(f)
-            return data
-
         from reddit_gold.controllers import GoldController, GoldApiController
 
         from reddit_gold.server_naming import hooks
         hooks.register_all()
 
-        self.tailors_data = load('tailors.json')
+        self.tailors_data = json.load(pkg_resources.resource_stream(
+            __name__,
+            "data/tailors.json",
+        ))
