@@ -21,12 +21,13 @@ def write_tailor_config(sprite_folder, output_path):
         if not tailor:
             tailor = {}
         tailor.setdefault("allow_clear", True)
+        tailor.setdefault("flip_x", False)
+        tailor.setdefault("flippable", False)
         tailor.setdefault("name", directory)
         tailor.setdefault("image_path", directory)
+        tailor.setdefault("ui-order", 0)
         tailor.setdefault("use_dynamic_color", False)
         tailor.setdefault("z-index", 100)
-        tailor.setdefault("flippable", False)
-        tailor.setdefault("flip_x", False)
 
         tailor['dressings'] = []
         sprite_paths = glob.glob(os.path.join(
@@ -40,7 +41,8 @@ def write_tailor_config(sprite_folder, output_path):
             flipped_tailor = tailor.copy()
             flipped_tailor["name"] = 'flipped_' + tailor["name"]
             flipped_tailor["flip_x"] = True
-            flipped_tailor["z-index"] = tailor["z-index"] + 1;
+            flipped_tailor["ui-order"] = tailor["ui-order"] - 1;
+            flipped_tailor["z-index"] = tailor["z-index"] - 1;
             tailors.append(flipped_tailor)
         tailors.append(tailor)
 

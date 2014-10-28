@@ -1,7 +1,7 @@
 [
     {
         "allow_clear": false, 
-        "image_path": "body-stroke", 
+        "name": "body-stroke", 
         "dressings": [
             {
                 "name": "body_stroke"
@@ -11,11 +11,12 @@
         "z-index": 50, 
         "flippable": false, 
         "flip_x": false, 
-        "name": "body-stroke"
+        "ui-order": 0, 
+        "image_path": "body-stroke"
     }, 
     {
         "allow_clear": true, 
-        "image_path": "tops", 
+        "name": "tops", 
         "dressings": [
             {
                 "name": "periwinkle_shirt"
@@ -143,11 +144,11 @@
         "z-index": 300, 
         "flip_x": false, 
         "ui-order": 5, 
-        "name": "tops"
+        "image_path": "tops"
     }, 
     {
         "allow_clear": false, 
-        "image_path": "head-stroke", 
+        "name": "head-stroke", 
         "dressings": [
             {
                 "name": "head_stroke"
@@ -157,86 +158,12 @@
         "z-index": 450, 
         "flippable": false, 
         "flip_x": false, 
-        "name": "head-stroke"
+        "ui-order": 0, 
+        "image_path": "head-stroke"
     }, 
     {
         "allow_clear": true, 
-        "image_path": "glasses", 
-        "dressings": [
-            {
-                "name": "arrow_head"
-            }, 
-            {
-                "name": "disguise"
-            }, 
-            {
-                "name": "hipster_glasses"
-            }, 
-            {
-                "name": "sunglasses_black"
-            }, 
-            {
-                "name": "masquerade"
-            }, 
-            {
-                "name": "rectangle_glasses"
-            }, 
-            {
-                "name": "brown_glasses"
-            }, 
-            {
-                "name": "goggles_community_planetside"
-            }, 
-            {
-                "name": "shades_rounded"
-            }, 
-            {
-                "name": "sunglasses_orange"
-            }, 
-            {
-                "name": "accent_glasses"
-            }, 
-            {
-                "name": "stylish_glasses"
-            }, 
-            {
-                "name": "monocle"
-            }, 
-            {
-                "name": "mask"
-            }, 
-            {
-                "name": "eyepatch"
-            }, 
-            {
-                "name": "reading_glasses"
-            }, 
-            {
-                "name": "scuba_mask"
-            }, 
-            {
-                "name": "oval_glasses"
-            }, 
-            {
-                "name": "deal_with_it"
-            }, 
-            {
-                "name": "rounded_glasses"
-            }, 
-            {
-                "name": "saftey_goggles"
-            }
-        ], 
-        "use_dynamic_color": false, 
-        "flippable": false, 
-        "z-index": 500, 
-        "flip_x": false, 
-        "ui-order": 2, 
-        "name": "glasses"
-    }, 
-    {
-        "allow_clear": true, 
-        "name": "flipped_grippables_left", 
+        "name": "flipped_grippables", 
         "dressings": [
             {
                 "name": "soccer"
@@ -355,14 +282,14 @@
         ], 
         "use_dynamic_color": true, 
         "flippable": true, 
-        "z-index": 701, 
+        "z-index": 699, 
         "flip_x": true, 
-        "ui-order": 4, 
-        "image_path": "grippables_left"
+        "ui-order": 3, 
+        "image_path": "grippables"
     }, 
     {
         "allow_clear": true, 
-        "name": "grippables_left", 
+        "name": "grippables", 
         "dressings": [
             {
                 "name": "soccer"
@@ -484,11 +411,86 @@
         "flippable": true, 
         "flip_x": false, 
         "ui-order": 4, 
-        "image_path": "grippables_left"
+        "image_path": "grippables"
+    }, 
+    {
+        "allow_clear": true, 
+        "name": "glasses", 
+        "dressings": [
+            {
+                "name": "arrow_head"
+            }, 
+            {
+                "name": "disguise"
+            }, 
+            {
+                "name": "hipster_glasses"
+            }, 
+            {
+                "name": "sunglasses_black"
+            }, 
+            {
+                "name": "masquerade"
+            }, 
+            {
+                "name": "rectangle_glasses"
+            }, 
+            {
+                "name": "brown_glasses"
+            }, 
+            {
+                "name": "goggles_community_planetside"
+            }, 
+            {
+                "name": "shades_rounded"
+            }, 
+            {
+                "name": "sunglasses_orange"
+            }, 
+            {
+                "name": "accent_glasses"
+            }, 
+            {
+                "name": "stylish_glasses"
+            }, 
+            {
+                "name": "monocle"
+            }, 
+            {
+                "name": "mask"
+            }, 
+            {
+                "name": "eyepatch"
+            }, 
+            {
+                "name": "reading_glasses"
+            }, 
+            {
+                "name": "scuba_mask"
+            }, 
+            {
+                "name": "oval_glasses"
+            }, 
+            {
+                "name": "deal_with_it"
+            }, 
+            {
+                "name": "rounded_glasses"
+            }, 
+            {
+                "name": "saftey_goggles"
+            }
+        ], 
+        "use_dynamic_color": false, 
+        "flippable": false, 
+        "z-index": 500, 
+        "flip_x": false, 
+        "ui-order": 2, 
+        "image_path": "glasses"
     }, 
     {
         "allow_clear": false, 
-        "image_path": "head-fill", 
+        "name": "head-fill", 
         "dressings": [
             {
                 "name": "head_fill"
@@ -498,11 +500,12 @@
         "z-index": 400, 
         "flippable": false, 
         "flip_x": false, 
-        "name": "head-fill"
+        "ui-order": 0, 
+        "image_path": "head-fill"
     }, 
     {
         "allow_clear": true, 
-        "image_path": "hats", 
+        "name": "hats", 
         "dressings": [
             {
                 "name": "headband"
@@ -615,11 +618,11 @@
         "z-index": 600, 
         "flip_x": false, 
         "ui-order": 1, 
-        "name": "hats"
+        "image_path": "hats"
     }, 
     {
         "allow_clear": false, 
-        "image_path": "body-fill", 
+        "name": "body-fill", 
         "dressings": [
             {
                 "name": "body_fill"
@@ -629,11 +632,12 @@
         "z-index": 0, 
         "flippable": false, 
         "flip_x": false, 
-        "name": "body-fill"
+        "ui-order": 0, 
+        "image_path": "body-fill"
     }, 
     {
         "allow_clear": true, 
-        "image_path": "bottoms", 
+        "name": "bottoms", 
         "dressings": [
             {
                 "name": "denim"
@@ -683,6 +687,6 @@
         "z-index": 200, 
         "flip_x": false, 
         "ui-order": 6, 
-        "name": "bottoms"
+        "image_path": "bottoms"
     }
 ]
