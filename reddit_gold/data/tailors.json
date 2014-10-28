@@ -1,7 +1,153 @@
 [
     {
         "allow_clear": false, 
-        "name": "head-stroke", 
+        "image_path": "body-stroke", 
+        "dressings": [
+            {
+                "name": "body_stroke"
+            }
+        ], 
+        "use_dynamic_color": true, 
+        "z-index": 50, 
+        "flippable": false, 
+        "flip_x": false, 
+        "name": "body-stroke"
+    }, 
+    {
+        "allow_clear": true, 
+        "image_path": "tops", 
+        "dressings": [
+            {
+                "name": "periwinkle_shirt"
+            }, 
+            {
+                "name": "8bit"
+            }, 
+            {
+                "name": "gi"
+            }, 
+            {
+                "name": "star_trek"
+            }, 
+            {
+                "name": "shirt_tie_blue"
+            }, 
+            {
+                "name": "suspenders"
+            }, 
+            {
+                "name": "planetside_armor"
+            }, 
+            {
+                "name": "halter"
+            }, 
+            {
+                "name": "orangered_shirt"
+            }, 
+            {
+                "name": "vest"
+            }, 
+            {
+                "name": "tube_top"
+            }, 
+            {
+                "name": "ski_jacket_red"
+            }, 
+            {
+                "name": "cylon"
+            }, 
+            {
+                "name": "toga"
+            }, 
+            {
+                "name": "collared_shirt_blue"
+            }, 
+            {
+                "name": "military"
+            }, 
+            {
+                "name": "dinner_with_andre"
+            }, 
+            {
+                "name": "longsleeve"
+            }, 
+            {
+                "name": "zip_up"
+            }, 
+            {
+                "name": "ww2"
+            }, 
+            {
+                "name": "plaid_shirt"
+            }, 
+            {
+                "name": "historical"
+            }, 
+            {
+                "name": "kendo_armor"
+            }, 
+            {
+                "name": "soccer_jersey"
+            }, 
+            {
+                "name": "bhikkhu"
+            }, 
+            {
+                "name": "bowtie"
+            }, 
+            {
+                "name": "tank"
+            }, 
+            {
+                "name": "croptop"
+            }, 
+            {
+                "name": "lab_coat"
+            }, 
+            {
+                "name": "tux"
+            }, 
+            {
+                "name": "indy"
+            }, 
+            {
+                "name": "cardigan"
+            }, 
+            {
+                "name": "bib"
+            }, 
+            {
+                "name": "deep_v"
+            }, 
+            {
+                "name": "football_jersey"
+            }, 
+            {
+                "name": "apron"
+            }, 
+            {
+                "name": "vote_dress"
+            }, 
+            {
+                "name": "vneck"
+            }, 
+            {
+                "name": "ninja"
+            }, 
+            {
+                "name": "imperium"
+            }
+        ], 
+        "use_dynamic_color": false, 
+        "flippable": false, 
+        "z-index": 300, 
+        "flip_x": false, 
+        "ui-order": 5, 
+        "name": "tops"
+    }, 
+    {
+        "allow_clear": false, 
+        "image_path": "head-stroke", 
         "dressings": [
             {
                 "name": "head_stroke"
@@ -9,185 +155,97 @@
         ], 
         "use_dynamic_color": true, 
         "z-index": 450, 
-        "spritesheet": "head-stroke"
+        "flippable": false, 
+        "flip_x": false, 
+        "name": "head-stroke"
     }, 
     {
         "allow_clear": true, 
-        "name": "hats", 
+        "image_path": "glasses", 
         "dressings": [
             {
-                "name": "cap-grey"
+                "name": "arrow_head"
             }, 
             {
-                "name": "baseball_blue"
+                "name": "disguise"
             }, 
             {
-                "name": "mortar_board"
+                "name": "hipster_glasses"
             }, 
             {
-                "name": "headphones"
+                "name": "sunglasses_black"
             }, 
             {
-                "name": "short_hat"
+                "name": "masquerade"
             }, 
             {
-                "name": "bizarrohat"
+                "name": "rectangle_glasses"
             }, 
             {
-                "name": "headband"
+                "name": "brown_glasses"
             }, 
             {
-                "name": "viking_helmet"
+                "name": "goggles_community_planetside"
             }, 
             {
-                "name": "admiral"
+                "name": "shades_rounded"
             }, 
             {
-                "name": "kerchief"
+                "name": "sunglasses_orange"
             }, 
             {
-                "name": "jester"
+                "name": "accent_glasses"
             }, 
             {
-                "name": "cowboy"
+                "name": "stylish_glasses"
             }, 
             {
-                "name": "cowl"
+                "name": "monocle"
             }, 
             {
-                "name": "sun_hat"
+                "name": "mask"
             }, 
             {
-                "name": "beanie_bobble"
+                "name": "eyepatch"
             }, 
             {
-                "name": "wolverine"
+                "name": "reading_glasses"
             }, 
             {
-                "name": "fox_hat"
+                "name": "scuba_mask"
             }, 
             {
-                "name": "pakol"
+                "name": "oval_glasses"
             }, 
             {
-                "name": "chef"
+                "name": "deal_with_it"
             }, 
             {
-                "name": "flight_helmet"
+                "name": "rounded_glasses"
             }, 
             {
-                "name": "bow"
-            }, 
-            {
-                "name": "explorer"
-            }, 
-            {
-                "name": "santa"
-            }, 
-            {
-                "name": "planetside_helmet"
-            }, 
-            {
-                "name": "military_officer"
-            }, 
-            {
-                "name": "rambo"
-            }, 
-            {
-                "name": "headscarf"
-            }, 
-            {
-                "name": "crown"
-            }, 
-            {
-                "name": "trojan_community"
-            }, 
-            {
-                "name": "beret"
-            }, 
-            {
-                "name": "ninja_mask"
-            }, 
-            {
-                "name": "ww2_helmet"
-            }, 
-            {
-                "name": "fez"
-            }, 
-            {
-                "name": "beanie"
-            }, 
-            {
-                "name": "top_hat"
+                "name": "saftey_goggles"
             }
         ], 
         "use_dynamic_color": false, 
-        "z-index": 600, 
-        "spritesheet": "hats"
-    }, 
-    {
-        "allow_clear": false, 
-        "name": "body-fill", 
-        "dressings": [
-            {
-                "name": "body_fill"
-            }
-        ], 
-        "use_dynamic_color": true, 
-        "z-index": 0, 
-        "spritesheet": "body-fill"
+        "flippable": false, 
+        "z-index": 500, 
+        "flip_x": false, 
+        "ui-order": 2, 
+        "name": "glasses"
     }, 
     {
         "allow_clear": true, 
-        "name": "grippables_left", 
+        "name": "flipped_grippables_left", 
         "dressings": [
             {
-                "name": "keyboard"
+                "name": "soccer"
             }, 
             {
-                "name": "camera"
+                "name": "wrench"
             }, 
             {
-                "name": "upvote"
-            }, 
-            {
-                "name": "baseball_bat"
-            }, 
-            {
-                "name": "book"
-            }, 
-            {
-                "name": "rubiks"
-            }, 
-            {
-                "name": "whisk"
-            }, 
-            {
-                "name": "erlenmeyer_flask"
-            }, 
-            {
-                "name": "phone"
-            }, 
-            {
-                "name": "sonic_screwdriver"
-            }, 
-            {
-                "name": "fish"
-            }, 
-            {
-                "name": "laptop_one_hand"
-            }, 
-            {
-                "name": "megaphone"
-            }, 
-            {
-                "name": "skateboard"
-            }, 
-            {
-                "name": "pot_plant"
-            }, 
-            {
-                "name": "ice_hockey_stick"
+                "name": "purple_flower"
             }, 
             {
                 "name": "mug"
@@ -196,49 +254,85 @@
                 "name": "flower"
             }, 
             {
-                "name": "cake"
+                "name": "ice_hockey_stick"
             }, 
             {
-                "name": "downvote"
+                "name": "field_hockey_stick"
             }, 
             {
-                "name": "ds"
+                "name": "laptop_one_hand"
             }, 
             {
-                "name": "wiimote"
+                "name": "basketball"
             }, 
             {
-                "name": "baseball"
-            }, 
-            {
-                "name": "soccer"
-            }, 
-            {
-                "name": "wrench"
-            }, 
-            {
-                "name": "pipe"
+                "name": "whisk"
             }, 
             {
                 "name": "can"
             }, 
             {
-                "name": "rugby_ball"
-            }, 
-            {
-                "name": "purple_flower"
-            }, 
-            {
                 "name": "champagne"
+            }, 
+            {
+                "name": "american_football"
+            }, 
+            {
+                "name": "sonic_screwdriver"
             }, 
             {
                 "name": "joystick"
             }, 
             {
-                "name": "bowl"
+                "name": "upvote"
+            }, 
+            {
+                "name": "downvote"
             }, 
             {
                 "name": "garden_fork"
+            }, 
+            {
+                "name": "ds"
+            }, 
+            {
+                "name": "pot_plant"
+            }, 
+            {
+                "name": "phone"
+            }, 
+            {
+                "name": "erlenmeyer_flask"
+            }, 
+            {
+                "name": "megaphone"
+            }, 
+            {
+                "name": "pipe"
+            }, 
+            {
+                "name": "rugby_ball"
+            }, 
+            {
+                "name": "camera"
+            }, 
+            {
+                "name": "baseball"
+            }, 
+            {
+                "name": "fish"
+            }, 
+            {
+                "name": "skateboard"
+            }, 
+            {
+                "name": "book"
+            }, 
+            {
+                "name": "keyboard"
+            }, 
+            {
+                "name": "bowl"
             }, 
             {
                 "name": "cupcake"
@@ -247,235 +341,154 @@
                 "name": "spoon"
             }, 
             {
+                "name": "baseball_bat"
+            }, 
+            {
+                "name": "wiimote"
+            }, 
+            {
+                "name": "rubiks"
+            }, 
+            {
+                "name": "cake"
+            }
+        ], 
+        "use_dynamic_color": true, 
+        "flippable": true, 
+        "z-index": 601, 
+        "flip_x": true, 
+        "ui-order": 4, 
+        "image_path": "grippables_left"
+    }, 
+    {
+        "allow_clear": true, 
+        "name": "grippables_left", 
+        "dressings": [
+            {
+                "name": "soccer"
+            }, 
+            {
+                "name": "wrench"
+            }, 
+            {
+                "name": "purple_flower"
+            }, 
+            {
+                "name": "mug"
+            }, 
+            {
+                "name": "flower"
+            }, 
+            {
+                "name": "ice_hockey_stick"
+            }, 
+            {
                 "name": "field_hockey_stick"
+            }, 
+            {
+                "name": "laptop_one_hand"
+            }, 
+            {
+                "name": "basketball"
+            }, 
+            {
+                "name": "whisk"
+            }, 
+            {
+                "name": "can"
+            }, 
+            {
+                "name": "champagne"
             }, 
             {
                 "name": "american_football"
             }, 
             {
-                "name": "basketball"
+                "name": "sonic_screwdriver"
+            }, 
+            {
+                "name": "joystick"
+            }, 
+            {
+                "name": "upvote"
+            }, 
+            {
+                "name": "downvote"
+            }, 
+            {
+                "name": "garden_fork"
+            }, 
+            {
+                "name": "ds"
+            }, 
+            {
+                "name": "pot_plant"
+            }, 
+            {
+                "name": "phone"
+            }, 
+            {
+                "name": "erlenmeyer_flask"
+            }, 
+            {
+                "name": "megaphone"
+            }, 
+            {
+                "name": "pipe"
+            }, 
+            {
+                "name": "rugby_ball"
+            }, 
+            {
+                "name": "camera"
+            }, 
+            {
+                "name": "baseball"
+            }, 
+            {
+                "name": "fish"
+            }, 
+            {
+                "name": "skateboard"
+            }, 
+            {
+                "name": "book"
+            }, 
+            {
+                "name": "keyboard"
+            }, 
+            {
+                "name": "bowl"
+            }, 
+            {
+                "name": "cupcake"
+            }, 
+            {
+                "name": "spoon"
+            }, 
+            {
+                "name": "baseball_bat"
+            }, 
+            {
+                "name": "wiimote"
+            }, 
+            {
+                "name": "rubiks"
+            }, 
+            {
+                "name": "cake"
             }
         ], 
         "use_dynamic_color": true, 
         "z-index": 600, 
-        "spritesheet": "grippables_left"
+        "flippable": true, 
+        "flip_x": false, 
+        "ui-order": 4, 
+        "image_path": "grippables_left"
     }, 
     {
         "allow_clear": false, 
-        "name": "body-stroke", 
-        "dressings": [
-            {
-                "name": "body_stroke"
-            }
-        ], 
-        "use_dynamic_color": true, 
-        "z-index": 50, 
-        "spritesheet": "body-stroke"
-    }, 
-    {
-        "allow_clear": true, 
-        "name": "glasses", 
-        "dressings": [
-            {
-                "name": "stylish_glasses"
-            }, 
-            {
-                "name": "sunglasses_orange"
-            }, 
-            {
-                "name": "rounded_glasses"
-            }, 
-            {
-                "name": "rectangle_glasses"
-            }, 
-            {
-                "name": "masquerade"
-            }, 
-            {
-                "name": "sunglasses_black"
-            }, 
-            {
-                "name": "goggles_community_planetside"
-            }, 
-            {
-                "name": "deal_with_it"
-            }, 
-            {
-                "name": "disguise"
-            }, 
-            {
-                "name": "eyepatch"
-            }, 
-            {
-                "name": "mask"
-            }, 
-            {
-                "name": "monocle"
-            }, 
-            {
-                "name": "saftey_goggles"
-            }, 
-            {
-                "name": "scuba_mask"
-            }, 
-            {
-                "name": "arrow_head"
-            }, 
-            {
-                "name": "hipster_glasses"
-            }, 
-            {
-                "name": "brown_glasses"
-            }, 
-            {
-                "name": "reading_glasses"
-            }, 
-            {
-                "name": "oval_glasses"
-            }, 
-            {
-                "name": "shades_rounded"
-            }, 
-            {
-                "name": "accent_glasses"
-            }
-        ], 
-        "use_dynamic_color": false, 
-        "z-index": 500, 
-        "spritesheet": "glasses"
-    }, 
-    {
-        "allow_clear": true, 
-        "name": "tops", 
-        "dressings": [
-            {
-                "name": "imperium"
-            }, 
-            {
-                "name": "halter"
-            }, 
-            {
-                "name": "soccer_jersey"
-            }, 
-            {
-                "name": "lab_coat"
-            }, 
-            {
-                "name": "zip_up"
-            }, 
-            {
-                "name": "kendo_armor"
-            }, 
-            {
-                "name": "orangered_shirt"
-            }, 
-            {
-                "name": "historical"
-            }, 
-            {
-                "name": "vote_dress"
-            }, 
-            {
-                "name": "periwinkle_shirt"
-            }, 
-            {
-                "name": "ninja"
-            }, 
-            {
-                "name": "football_jersey"
-            }, 
-            {
-                "name": "8bit"
-            }, 
-            {
-                "name": "star_trek"
-            }, 
-            {
-                "name": "croptop"
-            }, 
-            {
-                "name": "bowtie"
-            }, 
-            {
-                "name": "vest"
-            }, 
-            {
-                "name": "ski_jacket_red"
-            }, 
-            {
-                "name": "planetside_armor"
-            }, 
-            {
-                "name": "ww2"
-            }, 
-            {
-                "name": "suspenders"
-            }, 
-            {
-                "name": "tux"
-            }, 
-            {
-                "name": "collared_shirt_blue"
-            }, 
-            {
-                "name": "longsleeve"
-            }, 
-            {
-                "name": "indy"
-            }, 
-            {
-                "name": "apron"
-            }, 
-            {
-                "name": "dinner_with_andre"
-            }, 
-            {
-                "name": "tank"
-            }, 
-            {
-                "name": "cylon"
-            }, 
-            {
-                "name": "military"
-            }, 
-            {
-                "name": "toga"
-            }, 
-            {
-                "name": "vneck"
-            }, 
-            {
-                "name": "deep_v"
-            }, 
-            {
-                "name": "bib"
-            }, 
-            {
-                "name": "plaid_shirt"
-            }, 
-            {
-                "name": "tube_top"
-            }, 
-            {
-                "name": "shirt_tie_blue"
-            }, 
-            {
-                "name": "cardigan"
-            }, 
-            {
-                "name": "gi"
-            }, 
-            {
-                "name": "bhikkhu"
-            }
-        ], 
-        "use_dynamic_color": false, 
-        "z-index": 300, 
-        "spritesheet": "tops"
-    }, 
-    {
-        "allow_clear": false, 
-        "name": "head-fill", 
+        "image_path": "head-fill", 
         "dressings": [
             {
                 "name": "head_fill"
@@ -483,35 +496,174 @@
         ], 
         "use_dynamic_color": true, 
         "z-index": 400, 
-        "spritesheet": "head-fill"
+        "flippable": false, 
+        "flip_x": false, 
+        "name": "head-fill"
     }, 
     {
         "allow_clear": true, 
-        "name": "bottoms", 
+        "image_path": "hats", 
         "dressings": [
             {
-                "name": "yfronts"
+                "name": "headband"
             }, 
+            {
+                "name": "top_hat"
+            }, 
+            {
+                "name": "ww2_helmet"
+            }, 
+            {
+                "name": "baseball_blue"
+            }, 
+            {
+                "name": "short_hat"
+            }, 
+            {
+                "name": "explorer"
+            }, 
+            {
+                "name": "bizarrohat"
+            }, 
+            {
+                "name": "pakol"
+            }, 
+            {
+                "name": "beanie_bobble"
+            }, 
+            {
+                "name": "flight_helmet"
+            }, 
+            {
+                "name": "fox_hat"
+            }, 
+            {
+                "name": "planetside_helmet"
+            }, 
+            {
+                "name": "bow"
+            }, 
+            {
+                "name": "mortar_board"
+            }, 
+            {
+                "name": "viking_helmet"
+            }, 
+            {
+                "name": "crown"
+            }, 
+            {
+                "name": "santa"
+            }, 
+            {
+                "name": "rambo"
+            }, 
+            {
+                "name": "kerchief"
+            }, 
+            {
+                "name": "beanie"
+            }, 
+            {
+                "name": "wolverine"
+            }, 
+            {
+                "name": "headphones"
+            }, 
+            {
+                "name": "cowboy"
+            }, 
+            {
+                "name": "admiral"
+            }, 
+            {
+                "name": "chef"
+            }, 
+            {
+                "name": "ninja_mask"
+            }, 
+            {
+                "name": "cowl"
+            }, 
+            {
+                "name": "jester"
+            }, 
+            {
+                "name": "fez"
+            }, 
+            {
+                "name": "cap-grey"
+            }, 
+            {
+                "name": "sun_hat"
+            }, 
+            {
+                "name": "military_officer"
+            }, 
+            {
+                "name": "beret"
+            }, 
+            {
+                "name": "trojan_community"
+            }, 
+            {
+                "name": "headscarf"
+            }
+        ], 
+        "use_dynamic_color": false, 
+        "flippable": false, 
+        "z-index": 600, 
+        "flip_x": false, 
+        "ui-order": 1, 
+        "name": "hats"
+    }, 
+    {
+        "allow_clear": false, 
+        "image_path": "body-fill", 
+        "dressings": [
+            {
+                "name": "body_fill"
+            }
+        ], 
+        "use_dynamic_color": true, 
+        "z-index": 0, 
+        "flippable": false, 
+        "flip_x": false, 
+        "name": "body-fill"
+    }, 
+    {
+        "allow_clear": true, 
+        "image_path": "bottoms", 
+        "dressings": [
             {
                 "name": "denim"
             }, 
             {
-                "name": "waistband"
+                "name": "cords"
             }, 
             {
-                "name": "grey_bottoms"
+                "name": "jester_bottoms"
             }, 
             {
-                "name": "yellow_bottoms"
+                "name": "yfronts"
+            }, 
+            {
+                "name": "green_bottoms"
             }, 
             {
                 "name": "pinstripe"
             }, 
             {
+                "name": "yellow_bottoms"
+            }, 
+            {
                 "name": "solo"
             }, 
             {
-                "name": "green_bottoms"
+                "name": "blue_bottoms"
+            }, 
+            {
+                "name": "joker"
             }, 
             {
                 "name": "white_bottoms"
@@ -520,20 +672,17 @@
                 "name": "wavy_skirt"
             }, 
             {
-                "name": "jester_bottoms"
+                "name": "waistband"
             }, 
             {
-                "name": "cords"
-            }, 
-            {
-                "name": "joker"
-            }, 
-            {
-                "name": "blue_bottoms"
+                "name": "grey_bottoms"
             }
         ], 
         "use_dynamic_color": false, 
+        "flippable": false, 
         "z-index": 200, 
-        "spritesheet": "bottoms"
+        "flip_x": false, 
+        "ui-order": 6, 
+        "name": "bottoms"
     }
 ]

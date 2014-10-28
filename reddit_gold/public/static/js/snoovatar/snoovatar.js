@@ -168,8 +168,8 @@
     )
     .then(function($view, tailorData, snoovatarData) {
       var getImageSources;
-      var imageSrc = function(tailorName, dressingName) {
-        return imagePath + tailorName + '/' + dressingName + '.' + filetype;
+      var imageSrc = function(tailorPath, dressingName) {
+        return imagePath + tailorPath + '/' + dressingName + '.' + filetype;
       }
       if (!$view.editable) {
         var components = snoovatarData ? snoovatarData.components : {};
@@ -177,11 +177,11 @@
           // get the image set for each tailor in read-only view
           if (tailor.name in components) {
             if (components[tailor.name]) {
-              list.push(imageSrc(tailor.name, components[tailor.name]));
+              list.push(imageSrc(tailor.image_path, components[tailor.name]));
             }
           }
           else if (!tailor.allow_clear && tailor.dressings.length) {
-            list.push(imageSrc(tailor.name, tailor.dressings[0].name));
+            list.push(imageSrc(tailor.image_path, tailor.dressings[0].name));
           }
           return list;
         }
@@ -190,7 +190,7 @@
         getImageSources = function(list, tailor) {
           // get all images
           return list.concat(_.map(tailor.dressings, function(dressing) {
-            return imageSrc(tailor.name, dressing.name);
+            return imageSrc(tailor.image_path, dressing.name);
           }));
         };
       }
@@ -223,7 +223,7 @@
 
       var snooColor = snoovatarData && snoovatarData.snoo_color || '#FFFFFF';
       var tailors = _.map(tailorData, function(obj) {
-        return new Tailor(obj, imageMap[obj.name], snooColor);
+        return new Tailor(obj, imageMap[obj.image_path], snooColor);
       });
       var components = snoovatarData && snoovatarData.components || {};
       return new Haberdashery(tailors, components, snooColor);
@@ -400,6 +400,7 @@
     this.allowClear = data.allow_clear ? 1 : 0;
     this.useDynamicColor = data.use_dynamic_color ? 1 : 0;
     this.snooColor = snooColor || '#FFFFFF';
+    this.flipX = data.flip_x;
     this.data = data;
     this.imgLoaded = false;
     var elements = data.dressings;
@@ -486,6 +487,10 @@
       if (img.width) {
         var width = this.canvas.width;
         var height = this.canvas.height;
+        if (this.flipX) {
+          this.ctx.translate(width, 0);
+          this.ctx.scale(-1, 1);
+        }
         this.ctx.drawImage(img,
               0, 0, this.spriteSize, this.spriteSize,
               0, 0, width, height);
@@ -493,6 +498,10 @@
           this.ctx.globalCompositeOperation = 'source-atop';
           this.ctx.drawImage(this.maskBrush.canvas, 0, 0, width, height);
           this.ctx.globalCompositeOperation = 'source-over';
+        }
+        if (this.flipX) {
+          this.ctx.scale(-1, 1);
+          this.ctx.translate(-width, 0);
         }
       }
     }

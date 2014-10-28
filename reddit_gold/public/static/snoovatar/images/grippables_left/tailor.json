@@ -1,5 +1,6 @@
 {
   "use_dynamic_color": true,
   "z-index": 600,
-  "ui-order": 4
+  "ui-order": 4,
+  "flippable": true
 }
