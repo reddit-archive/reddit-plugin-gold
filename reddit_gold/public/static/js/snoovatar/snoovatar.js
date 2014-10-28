@@ -398,6 +398,7 @@
    * tailor allows it, none.
    * @param {Object} data an object from tailors.json
    * @param {Image} img  a spritesheet containing the dressing graphics
+   * @param {string} snooColor a hex-formatted color (e.g. '#fff' or "#ffffff")
    */
   function Tailor(data, imageMap, snooColor) {
     // A CanvasArray that draws a single image from its list at a time.
@@ -432,7 +433,7 @@
    * used to pad the elements array for tailors that allow no value
    * @type {Object}
    */
-  Tailor.blankDressing = {"name": "", "index": -1};
+  Tailor.blankDressing = {"name": ""};
 
   Tailor.prototype = Object.create(CanvasArray.prototype);
   Tailor.prototype.constructor = Tailor;
@@ -464,6 +465,7 @@
 
   /**
    * get the name of the currently selected dressing
+   * calls the `onRedraw` method if defined
    * @return {string}
    */
   Tailor.prototype.getActiveDressingName = function() {
@@ -517,6 +519,10 @@
     }
   };
 
+  /**
+   * sets a new color, updating the maskBrush
+   * @param  {string} newColor hex formatted color (e.g. '#fff' or '#ffffff')
+   */
   Tailor.prototype.updateColor = function(newColor) {
     if (!this.useDynamicColor) {
       return;
@@ -533,7 +539,11 @@
     this.drawCanvas(this.index);
   }
 
-  // redraw the canvas whenever the pointer changes
+  /**
+   * called whenever the dressing changes
+   * updates color and mask, then redraws
+   * @param  {Number} i index of new element
+   */
   Tailor.prototype.onChange = function(i) {
     if (this.useDynamicColor) {
       var img = this.getImage(i);
@@ -700,6 +710,7 @@
    * @param {Tailor[]} tailors
    * @param {Object{string}} components map of tailor names to dressing names
    *                                    used to set the initial state of tailors
+   * @param {string} snooColor hex formatted color (e.g. '#fff' or '#ffffff')
    */
   function Haberdashery(tailors, components, snooColor) {
     CanvasArray.call(this, tailors, 0);
@@ -728,6 +739,14 @@
     this.update();
   }
 
+  /**
+   * decorator for functions that prevents update propagation
+   * normally, changes to tailor objects trigger an update on the haberdashery
+   * for actions that change every tailor, we want to supress that and call 
+   * the update manually.
+   * @param  {function} fnc the method
+   * @return {function}     the decorated method
+   */
   Haberdashery.updatesManually = function(fnc) {
     return function() {
       this.updateOnRedraw = false;
