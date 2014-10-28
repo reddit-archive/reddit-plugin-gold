@@ -175,7 +175,9 @@
       var imageSrc = function(tailorPath, dressingName) {
         return imagePath + tailorPath + '/' + dressingName + '.' + filetype;
       }
-      var components = snoovatarData ? snoovatarData.components : {};
+
+      var components = snoovatarData.components || {};
+
       var preloadImages = _.reduce(tailorData, function(list, tailor) {
         // get the image set for each tailor in read-only view
         if (tailor.name in components) {
