@@ -737,7 +737,7 @@
       map[obj.name] = i;
       return map;
     }, {});
-    this.snooColor = snooColor || 'rgb(255,255,255)';
+    this.snooColor = snooColor || '#FFFFFF';
     this.serialization = null;
     if (components) {
       this.import(components);
