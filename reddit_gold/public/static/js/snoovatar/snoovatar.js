@@ -421,7 +421,7 @@
     // attach to img elements that are still loading so they will trigger a 
     // redraw
     this.forceRedraw = _.bind(this.forceRedraw, this);
-    this.drawCanvas(this.index);
+    this.onChange(this.index);
   }
 
   /**
@@ -721,7 +721,7 @@
       this.import(components);
     }
     this._initialSerialization = this._serialize();
-    this.drawCanvas();
+    this.update();
   }
 
   Haberdashery.updatesManually = function(fnc) {
