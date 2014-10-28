@@ -645,10 +645,18 @@
       for (x = 0; x < width; x += sample) {
         i = (y * width + x) * 4;
         if (isMatch(i)) {
-          if (x < minX) { minX = x };
-          if (x > maxX) { maxX = x };
-          if (y < minY) { minY = y };
-          if (y > maxY) { maxY = y };
+          if (x < minX) {
+            minX = x;
+          }
+          if (x > maxX) {
+            maxX = x;
+          }
+          if (y < minY) {
+            minY = y;
+          }
+          if (y > maxY) {
+            maxY = y;
+          }
         }
       }
     }
