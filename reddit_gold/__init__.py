@@ -41,6 +41,7 @@ class Gold(Plugin):
     }
 
     errors = {
+        "BAD_CSS_COLOR": N_("invalid color"),
         "INVALID_SNOOVATAR": N_("unknown or missing dressings"),
     }
 

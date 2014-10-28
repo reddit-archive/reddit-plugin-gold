@@ -29,6 +29,7 @@ from reddit_gold.pages import (
     Snoovatar,
     SnoovatarProfilePage,
 )
+from reddit_gold.validators import VSnooColor
 
 
 @add_controller
@@ -82,7 +83,7 @@ class GoldApiController(RedditController):
         VGold(),
         VModhash(),
         public=VBoolean("public"),
-        snoo_color=VCssColor("snoo_color"),
+        snoo_color=VSnooColor("snoo_color"),
         unvalidated_components=VJSON("components"),
     )
     def POST_snoovatar(self, form, jquery, public, snoo_color, unvalidated_components):
