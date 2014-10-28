@@ -813,11 +813,12 @@ section#postcard {
         }
     }
 
+    .snoo-color-label,
     .checkbox-label {
         font-size: 16px;
         line-height: 30px;
         cursor: pointer;
-        display: inline-block;
+        display: block;
         line-height: 50px;
         .user-select(none);
 
@@ -829,6 +830,10 @@ section#postcard {
 
         input[type=checkbox] {
             display: none;
+        }
+
+        input[type=color] {
+            margin-right: 10px;
         }
 
         .proxy-checkbox {
@@ -883,8 +888,9 @@ section#postcard {
         background-color: #fafafa;
         border-radius: 5px;
 
-        .buttons {
+        .inputs {
             text-align: left;
+            position: relative;
         }
         .message {
             font-size: 14px;
@@ -893,7 +899,9 @@ section#postcard {
         }
         .button {
             .button.big;
-            float: right;
+            position: absolute;
+            top: 0;
+            right: 0;
             height: 50px;
             line-height: 44px;
         }
