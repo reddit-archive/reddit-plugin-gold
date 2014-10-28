@@ -5,7 +5,7 @@ import pkg_resources
 from pylons.i18n import N_
 
 from r2.lib.configparse import ConfigValue
-from r2.lib.js import DataSource, Module
+from r2.lib.js import DataSource, LocalizedModule, Module
 from r2.lib.plugin import Plugin
 
 
@@ -27,7 +27,7 @@ class Gold(Plugin):
             prefix='gold/',
         ),
 
-        "snoovatar": Module("snoovatar.js",
+        "snoovatar": LocalizedModule("snoovatar.js",
             "snoovatar.js",
             DataSource(
                 wrap="r.snoovatar.initTailors({content})",
