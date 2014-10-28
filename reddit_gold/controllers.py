@@ -90,8 +90,9 @@ class GoldApiController(RedditController):
                            errors.NO_TEXT,
                            errors.TOO_LONG,
                            errors.BAD_STRING,
-                           errors.BAD_CSS_COLOR,
                           ):
+            return
+        if form.has_errors("snoo_color", errors.BAD_CSS_COLOR):
             return
 
         try:

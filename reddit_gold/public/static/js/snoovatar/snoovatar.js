@@ -197,7 +197,7 @@
         });
       } 
       else {
-        return $.preloadImages(imageSources);
+        return $.preloadImageArray(preloadImages);
       }
     });
 
