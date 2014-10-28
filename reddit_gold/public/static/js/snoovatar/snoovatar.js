@@ -244,8 +244,8 @@
                                       '<div class="icon"></div></li>');
       var tailors = haberdashery.elements;
       var buttonMakers = tailors.slice().sort(function(a, b) {
-        a = a['z-index'];
-        b = b['z-index'];
+        a = a['ui-order'];
+        b = b['ui-order'];
         return a - b;
       });
       var buttonMarkup = _.reduce(buttonMakers, function(memo, tailor) {
