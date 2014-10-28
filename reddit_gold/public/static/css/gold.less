@@ -1,3 +1,13 @@
+.linear-gradient(@color1, @color2) {
+    background: @color1;
+    background: -moz-linear-gradient(top,  @color1 0%, @color2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@color1), color-stop(100%, @color2));
+    background: -webkit-linear-gradient(top,  @color1 0%, @color2 100%);
+    background: -o-linear-gradient(top,  @color1 0%, @color2 100%);
+    background: -ms-linear-gradient(top,  @color1 0%, @color2 100%);
+    background: linear-gradient(to bottom,  @color1 0%, @color2 100%);
+}
+
 .transition (@property, @duration, @function: ease, @delay: 0s) {
     -webkit-transition: @arguments;
     -moz-transition: @arguments;
@@ -12,6 +22,20 @@
     -o-transform: @arguments;
     -ms-transform: @arguments;
     transform: @arguments;
+}
+
+.user-select(...) {
+    -webkit-user-select: @arguments;
+    -moz-user-select: @arguments;
+    -ms-user-select: @arguments;
+    -o-user-select: @arguments;
+    user-select: @arguments;
+}
+
+.box-sizing(@sizing) {
+    box-sizing: @sizing;
+    -webkit-box-sizing: @sizing;
+    -moz-box-sizing: @sizing;
 }
 
 .inset-white-with-shadow {
@@ -636,4 +660,250 @@ section#postcard {
     &:hover .sticker {
         background-position: 0 bottom;
     }
+}
+
+.snoovatar-page {
+    margin-right: 300px;
+    text-align: center;
+
+    .container {
+        overflow: hidden;
+        width: 600px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    #snoovatar {
+        height: 400px;
+        width: 400px;
+        margin: 10px auto;
+
+        canvas {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .arrow-container {
+        position: absolute;
+        top: 150px;
+
+        &.left {
+            left: 0;
+        }
+
+        &.right {
+            right: 0;
+        }
+    }
+
+    .arrow {
+      width: 100px;
+      height: 100px;
+      opacity: 0.5;
+
+      &.right {
+        .transform(scaleX(-1));
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &:active {
+        margin-top: 2px;
+      }
+    }
+
+    .selectors {
+        text-align: center;
+
+        ul {
+            display: block;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    .actions {
+        display: block;
+        text-align: center;
+    }
+
+    .uses-icon(@filename, @width:70px, @height:70px) {
+        .icon {
+            background: url(~'/static/snoovatar/icons/@{filename}.png') no-repeat center center;
+            width: @width;
+            height: @height;
+            background-size: @width @height;
+        }
+    }
+
+    #glasses {
+        .uses-icon('glasses');
+    }
+
+    #hats {
+        .uses-icon('hats');
+    }
+
+    #bottoms {
+        .uses-icon('bottoms');
+    }
+
+    #tops {
+        .uses-icon('tops');
+    }
+
+    #grippables {
+        .uses-icon('grippables_left');
+    }
+
+    #flipped_grippables {
+        .uses-icon('grippables_right');
+    }
+
+    #random {
+        .uses-icon('random', 140px);
+    }
+
+    #clear {
+        .uses-icon('clear', 140px);
+    }
+
+    .button{
+        width: 70px;
+        height: 70px;
+        display: inline-block;
+        margin: 2px;
+        padding: 0;
+        border: 3px solid;
+        border-color: #81b0df;
+        border-radius: 5px;
+        color: #FFFFFF;
+        font-weight: bold;
+        font-size: 16px;
+        vertical-align: middle;
+        .linear-gradient(#bed6ef, #a9c9ea);
+        .user-select(none);
+
+        &:hover {
+            .linear-gradient(#bed6ef, #bed6ef);
+        }
+
+        &.selected {
+            background: linear-gradient(#8EC2F6,#6D9ED1);
+        }
+    }
+
+    .button-big {
+        font-size: 26px;
+        line-height: 74px;
+        height: 70px;
+        border-color: #ff8415;
+        width: 140px;
+        .linear-gradient(#ff9e48, #ff8c24);
+        
+        &:hover {
+            .linear-gradient(#ff9e48, #ff9e48);
+        }
+
+        &:active {
+            .linear-gradient(#ff8415, #ff8415);
+        }
+    }
+
+    .snoo-color-label,
+    .checkbox-label {
+        font-size: 16px;
+        line-height: 30px;
+        cursor: pointer;
+        display: block;
+        line-height: 50px;
+        .user-select(none);
+
+        .label {
+            display: inline-block;
+            line-height: 32px;
+            vertical-align: middle;
+        }
+
+        input[type=checkbox] {
+            display: none;
+        }
+
+        input[type=color] {
+            margin-right: 10px;
+        }
+
+        .proxy-checkbox {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            margin-right: 10px;
+            border-radius: 15%;
+            border: 2px solid #666666;
+            vertical-align: middle;
+            box-shadow: 0 1px 1px #fff inset;
+
+            .linear-gradient(#fefefe, #d7d7d7);
+            
+            &:after {
+                display: inline-block;
+                content: ' ';
+                font-size: 50px;
+                position: relative;
+                top: -10px;
+            }
+        }
+
+        [type=checkbox]:checked + .proxy-checkbox {
+            .linear-gradient(#bed6ef, #a9c9ea);
+            &:after {
+                content: '\2713'; // ✓
+            }
+        }
+
+        &:active [type=checkbox] + .proxy-checkbox,
+        [type=checkbox] + .proxy-checkbox:active {
+            box-shadow: 0 1px 1px #4D7EB1 inset;
+            background: #6D9ED1;
+        }
+    }
+
+    .username {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    footer {
+        margin: 10px 0;
+        padding: 10px 15px;
+        border: 1px solid #cccccc;
+        background-color: #fafafa;
+        border-radius: 5px;
+
+        .inputs {
+            text-align: left;
+            position: relative;
+        }
+        .message {
+            font-size: 14px;
+            padding-left: 0;
+            margin: 0;
+        }
+        .button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 50px;
+            line-height: 44px;
+        }
+    }
+
 }
