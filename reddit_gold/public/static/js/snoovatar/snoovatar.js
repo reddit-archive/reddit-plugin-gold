@@ -818,7 +818,7 @@
     return _.map(this.elements, function(tailor) {
       return encodeURIComponent(tailor.name) + '=' +
              encodeURIComponent(tailor.getActiveDressingName());
-    }).concat('snooColor='+this.snooColor).join('&');
+    }).concat('snooColor=' + this.snooColor).join('&');
   };
 
   /**
