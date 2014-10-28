@@ -1,6 +1,7 @@
 from pylons import c, g
 from pylons.i18n import _
 
+from r2.config import feature
 from r2.controllers import add_controller
 from r2.controllers.reddit_base import RedditController
 from r2.lib.errors import errors
@@ -43,6 +44,9 @@ class GoldController(RedditController):
         vuser=VExistingUname("username"),
     )
     def GET_snoovatar(self, vuser):
+        if not feature.is_enabled('snoovatars'):
+            self.abort404()
+
         if not vuser or vuser._deleted or not vuser.gold:
             self.abort404()
 
@@ -86,6 +90,9 @@ class GoldApiController(RedditController):
         unvalidated_components=VJSON("components"),
     )
     def POST_snoovatar(self, form, jquery, public, snoo_color, unvalidated_components):
+        if not feature.is_enabled('snoovatars'):
+            return
+
         if form.has_errors("components",
                            errors.NO_TEXT,
                            errors.TOO_LONG,
