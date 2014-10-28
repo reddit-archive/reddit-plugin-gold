@@ -397,7 +397,7 @@
    * tailor allows it, none.
    * @param {Object} data an object from tailors.json
    * @param {Image} img  a spritesheet containing the dressing graphics
-   * @param {string} snooColor a hex-formatted color (e.g. '#fff' or "#ffffff")
+   * @param {string} snooColor a hex-formatted color (e.g. '#fff' or '#ffffff')
    */
   function Tailor(data, imageMap, snooColor) {
     // A CanvasArray that draws a single image from its list at a time.
