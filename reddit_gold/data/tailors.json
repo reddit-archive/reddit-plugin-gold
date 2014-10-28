@@ -355,7 +355,7 @@
         ], 
         "use_dynamic_color": true, 
         "flippable": true, 
-        "z-index": 601, 
+        "z-index": 701, 
         "flip_x": true, 
         "ui-order": 4, 
         "image_path": "grippables_left"
@@ -480,7 +480,7 @@
             }
         ], 
         "use_dynamic_color": true, 
-        "z-index": 600, 
+        "z-index": 700, 
         "flippable": true, 
         "flip_x": false, 
         "ui-order": 4, 
