@@ -3,7 +3,7 @@
   var exports = r.snoovatar;
 
   // config values
-  var imagePath = r.utils.staticURL('snoovatar/images/');
+  var imagePath = '/static/snoovatar/images/';
   var filetype = 'png';
   var canvasSize = 400;
   var pixelRatio = 2;
