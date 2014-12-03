@@ -12,14 +12,23 @@ class GoldInfoPage(BoringPage):
             "gold_month_price": g.gold_month_price,
             "gold_year_price": g.gold_year_price,
         }
+        self.top_features = []
+        self.other_features = []
+        self.top_partners = []
+
         all_features = GoldFeature.get_all()
         for feature in all_features:
             feature.extra_classes = 'new' if feature.is_new else ''
-        NUM_FEATURES_ABOVE_PARTNERS = 2
-        self.top_features = all_features[:NUM_FEATURES_ABOVE_PARTNERS]
-        self.other_features = all_features[NUM_FEATURES_ABOVE_PARTNERS:]
+            if feature.is_top:
+                self.top_features.append(feature)
+            else:
+                self.other_features.append(feature)
 
-        self.partners = GoldPartner.get_all()
+        all_partners = GoldPartner.get_all()
+        for partner in all_partners:
+            if partner.is_top:
+                self.top_partners.append(partner)
+
         BoringPage.__init__(self, *args, **kwargs)
 
 

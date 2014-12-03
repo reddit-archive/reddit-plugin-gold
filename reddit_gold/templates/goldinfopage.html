@@ -86,15 +86,17 @@
                      description_md='# {0}\n{1}'.format(feature.name, feature.description),
                      extra_class=feature.extra_classes)}
     % endfor
-                     
-    <section id="partner-benefits">
-        <h1>${_('Awesome stuff for gold members:')}</h1>
-        <ul>
-        % for partner in thing.partners:
-          <li>${partner_item(partner.id, partner.about_page_desc, partner.image_url)}</li>
-        % endfor
-        </ul>
-    </section>
+    % if len(thing.top_partners) > 0:
+      <section id="partner-benefits">
+          <h1>${_('Awesome stuff for gold members:')}</h1>
+          <ul>
+            % for partner in thing.top_partners:
+              <li>${partner_item(partner.id, partner.about_page_desc, partner.image_url)}</li>
+            % endfor
+          </ul>
+          <h1><br><a href="/gold/partners">${_('Check out the rest of our partners and deals!')}</a></h1>
+      </section>
+    % endif
 
     % for feature in thing.other_features:
       ${feature_item(name=feature.id,

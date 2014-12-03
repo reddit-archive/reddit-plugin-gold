@@ -32,13 +32,14 @@ class GoldFeature(WikiPageIniItem):
         return Frontpage, g.wiki_page_gold_features
 
     def __init__(self, id, name, description, image_url, is_enabled=True,
-                 is_new=False):
+                 is_new=False, is_top=False):
         self.id = id
         self.name = name
         self.description = description
         self.image_url = image_url
         self.is_enabled = is_enabled
         self.is_new = is_new
+        self.is_top = is_top
 
 
 class GoldPartnerCodesExhaustedError(Exception):
@@ -53,7 +54,7 @@ class GoldPartner(WikiPageIniItem):
         return Frontpage, g.wiki_page_gold_partners
 
     def __init__(self, id, name, about_page_desc, short_desc, url, image_url,
-                 is_enabled=True, is_new=False, instructions=None,
+                 is_enabled=True, is_new=False, is_top=False, instructions=None,
                  discussion_id36=None, button_label=None, button_dest=None,
                  claim_dest=None, giveaway_desc=None, css_classes=None,
                  category=None, **kwargs):
@@ -66,6 +67,7 @@ class GoldPartner(WikiPageIniItem):
         self.image_url = image_url
         self.is_enabled = is_enabled
         self.is_new = is_new
+        self.is_top = is_top
         self.instructions = instructions
         self.discussion_id36 = discussion_id36
         self.button_label = button_label
