@@ -155,3 +155,7 @@ class SnoovatarsByAccount(tdb_cassandra.View):
             "snoo_color": snoo_color,
             "components": components,
         })})
+
+        if user.pref_show_snoovatar != public:
+            user.pref_show_snoovatar = public
+            user._commit()
