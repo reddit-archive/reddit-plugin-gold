@@ -253,8 +253,8 @@
                                       '<div class="icon"></div></li>');
       var tailors = haberdashery.elements;
       var buttonMakers = tailors.slice().sort(function(a, b) {
-        a = a['ui-order'];
-        b = b['ui-order'];
+        a = a.data['ui-order'];
+        b = b.data['ui-order'];
         return a - b;
       });
       var buttonMarkup = _.reduce(buttonMakers, function(memo, tailor) {
