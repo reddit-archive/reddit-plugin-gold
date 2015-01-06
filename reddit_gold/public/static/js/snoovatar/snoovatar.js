@@ -534,6 +534,8 @@
     if (!this.useDynamicColor) {
       return;
     }
+    // fix a rendering bug in firefox on linux. yep.
+    var renderColor = (newColor == '#ffffff') ? '#feffff' : newColor;
     var width = this.canvas.width;
     var height = this.canvas.height;
     this.snooColor = newColor;
@@ -541,7 +543,7 @@
     this.maskBrush.clearRect(0, 0, width, height);
     this.maskBrush.drawImage(this.mask.canvas, 0, 0, width, height);
     this.maskBrush.globalCompositeOperation = 'source-in';
-    this.maskBrush.fillStyle = newColor;
+    this.maskBrush.fillStyle = renderColor;
     this.maskBrush.fillRect(0, 0, width, height);
     this.drawCanvas(this.index);
   }
