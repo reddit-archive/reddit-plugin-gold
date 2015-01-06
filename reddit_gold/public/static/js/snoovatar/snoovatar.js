@@ -13,6 +13,7 @@
     prevButton: '#prevButton',
     randomButton: '#random',
     saveButton: '#save',
+    downloadButton: '#download',
     clearButton: '#clear',
     canvasContainer: '#snoovatar',
     sampleContainer: '#samples',
@@ -339,6 +340,11 @@
         haberdashery.updateColor(color);
       }
       $view.color.on('change', updateColor);
+
+      $view.downloadButton.on('click', function(e) {
+        var dataURL = haberdashery.canvas.toDataURL('image/png')
+        this.href = dataURL;
+      });
     });
 
   /**
