@@ -9,12 +9,14 @@
 ${less_stylesheet('gold.less')}
 
 <div class="snoovatar-page">
+  <h1>${_('your snoovatar!')}</h1>
   <div class="container">
     %if thing.editable:
       <div class="arrow-container left">
         <div id="prevButton" class="arrow left">
           <img src="${static('snoovatar/icons/arrow.svg')}">
         </div>
+        <div id="random" class="button"><div class="icon"></div></div>
       </div>
     %endif
     <div id="snoovatar"
@@ -22,21 +24,18 @@ ${less_stylesheet('gold.less')}
         class="editable"
       %endif
     >
+      <div class="shadow"></div>
     </div>
     %if thing.editable:
       <div class="arrow-container right">
         <div id="nextButton" class="arrow right">
           <img src="${static('snoovatar/icons/arrow.svg')}">
         </div>
+        <div id="clear" class="button"><div class="icon"></div></div>
       </div>
-      <h1>${_('your snoovatar!')}</h1>
       <div class="selectors">
         <ul>
         </ul>
-      </div>
-      <div class="actions">
-        <div id="random" class="button button-big"><div class="icon"></div></div>
-        <div id="clear" class="button button-big"><div class="icon"></div></div>
       </div>
       <footer>
         <div class="inputs">
@@ -56,7 +55,9 @@ ${less_stylesheet('gold.less')}
             <input id="color" type="color" value="${snoo_color}">
             <span class="label">${_('my snoo color')}</span>
           </label>
-          <button id="save" class="button button-big">${_('save')}</button>
+        </div>
+        <div class="buttons">
+          <button id="save" class="button button-big">${_('save changes')}</button>
         </div>
         <div id="message" class="message" style="display: none;"></div>
       </footer>
