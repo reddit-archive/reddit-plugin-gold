@@ -535,7 +535,7 @@
       return;
     }
     // fix a rendering bug in firefox on linux. yep.
-    var renderColor = (newColor == '#ffffff') ? '#feffff' : newColor;
+    var renderColor = (newColor.toLowerCase() === '#ffffff') ? '#feffff' : newColor;
     var width = this.canvas.width;
     var height = this.canvas.height;
     this.snooColor = newColor;
