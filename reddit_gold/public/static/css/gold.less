@@ -641,16 +641,25 @@ section#postcard {
         height: 400px;
         width: 400px;
         margin: 10px auto;
+        position: relative;
 
         canvas {
             height: 100%;
             width: 100%;
         }
+
+        .shadow {
+            width: 400px;
+            height: 40px;
+            background: url('../snoovatar/snoovatar-shadow.png');
+            position: absolute;
+            bottom: -20px;
+        }
     }
 
     .arrow-container {
         position: absolute;
-        top: 150px;
+        top: 130px;
 
         &.left {
             left: 0;
@@ -663,7 +672,7 @@ section#postcard {
 
     .arrow {
       width: 100px;
-      height: 100px;
+      height: 200px;
       opacity: 0.5;
 
       &.right {
@@ -681,6 +690,7 @@ section#postcard {
 
     .selectors {
         text-align: center;
+        margin-top: 30px;
 
         ul {
             display: block;
@@ -728,18 +738,18 @@ section#postcard {
     }
 
     #random {
-        .uses-icon('random', 140px);
+        .uses-icon('random');
     }
 
     #clear {
-        .uses-icon('clear', 140px);
+        .uses-icon('clear');
     }
 
     .button{
         width: 70px;
         height: 70px;
         display: inline-block;
-        margin: 2px;
+        margin: 0;
         padding: 0;
         border: 3px solid;
         border-color: #81b0df;
@@ -748,6 +758,8 @@ section#postcard {
         font-weight: bold;
         font-size: 16px;
         vertical-align: middle;
+        box-sizing: border-box;
+
         .linear-gradient(#bed6ef, #a9c9ea);
         .user-select(none);
 
@@ -760,12 +772,31 @@ section#postcard {
         }
     }
 
+    .selectors .button {
+        border-radius: 0;
+        border-right-width: 0;
+
+        &:first-child {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        &:last-child {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-right-width: 3px;
+        }
+    }
+
     .button-big {
-        font-size: 26px;
-        line-height: 74px;
-        height: 70px;
+        font-size: 18px;
+        line-height: 34px;
+        height: 50px;
         border-color: #ff8415;
-        width: 140px;
+        padding: 5px 10px;
+        margin: 3px;
+        width: 150px;
+
         .linear-gradient(#ff9e48, #ff8c24);
         
         &:hover {
@@ -846,27 +877,30 @@ section#postcard {
     }
 
     footer {
-        margin: 10px 0;
-        padding: 10px 15px;
-        border: 1px solid #cccccc;
-        background-color: #fafafa;
-        border-radius: 5px;
+        padding: 0 15px;
 
         .inputs {
+            width: 400px;
+            margin: 20px auto 10px;
+            padding: 20px;
             text-align: left;
             position: relative;
+            border: 3px solid #cccccc;
+            background-color: #fafafa;
+            border-radius: 5px;
         }
+
         .message {
             font-size: 14px;
             padding-left: 0;
             margin: 0;
+            border: 1px solid #cccccc;
+            background-color: #fafafa;
+            border-radius: 5px;
         }
-        .button {
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: 50px;
-            line-height: 44px;
+
+        .buttons {
+            margin-bottom: 10px;
         }
     }
 
