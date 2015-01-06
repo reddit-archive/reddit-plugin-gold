@@ -144,7 +144,7 @@
   // test for difference blending support
   var testBlending = document.createElement('canvas').getContext('2d');
   testBlending.globalCompositeOperation = 'difference';
-  useDifferenceMask = testBlending.globalCompositeOperation === 'difference';
+  var useDifferenceMask = testBlending.globalCompositeOperation === 'difference';
 
   /**
    * promise that is resolved when the view is ready to use
