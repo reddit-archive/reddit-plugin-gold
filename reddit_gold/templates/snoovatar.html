@@ -9,7 +9,9 @@
 ${less_stylesheet('gold.less')}
 
 <div class="snoovatar-page">
-  <h1>${_('your snoovatar!')}</h1>
+  %if thing.editable:
+    <h1>${_('your snoovatar!')}</h1>
+  %endif
   <div class="container">
     %if thing.editable:
       <div class="arrow-container left">
@@ -65,7 +67,7 @@ ${less_stylesheet('gold.less')}
     %else:
       <div class="username">${thing.username}</div>
     %endif
-    ${_md('see more snooavatars and make suggestions in /r/snoovatars')}
+    ${_md('see more snoovatars and make suggestions in /r/snoovatars')}
     %if c.user.gold and c.user.name != thing.username:
       ${_mdf('create your own snoovatar [here](/user/%(username)s/snoo)', username=c.user.name)}
     %elif not c.user.gold:
