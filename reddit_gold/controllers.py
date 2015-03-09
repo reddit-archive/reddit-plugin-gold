@@ -35,10 +35,10 @@ from reddit_gold.validators import VSnooColor
 @add_controller
 class GoldController(RedditController):
     def GET_about(self):
-        return GoldInfoPage(_("gold"), show_sidebar=False).render()
+        return GoldInfoPage(_("gold"), show_sidebar=False, page_classes=["gold-page-ga-tracking"]).render()
 
     def GET_partners(self):
-        return GoldPartnersPage(_("gold partners"), show_sidebar=False).render()
+        return GoldPartnersPage(_("gold partners"), show_sidebar=False, page_classes=["gold-page-ga-tracking"]).render()
 
     @validate(
         vuser=VExistingUname("username"),
