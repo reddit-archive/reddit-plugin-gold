@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<path id="fill::sun-hat" fill="#DBCF35" d="M320.5,88.8c-27.5-7.3-62.6-15.3-70.1-23.3L240.8,26c-1.6-11.3-19.4-20.1-41-20.1
+	c-0.5,0-2.6,0-3.1,0c-21.7,0-39.4,8.9-41,20.1L146,65.5c-7.5,8-42.6,16-70.1,23.3s-20.3,15.1-9.2,19.4c5.6,2.2,68.5,10.2,131.4,10.2
+	c62.9,0,125.9-8,131.4-10.2C340.8,103.9,348,96.2,320.5,88.8z"/>
+<g>
+	<defs>
+		<path id="XMLID_32_" d="M320.5,88.8c-27.5-7.3-62.6-15.3-70.1-23.3L240.8,26c-1.6-11.3-19.4-20.1-41-20.1c-0.5,0-2.6,0-3.1,0
+			c-21.7,0-39.4,8.9-41,20.1L146,65.5c-7.5,8-42.6,16-70.1,23.3s-20.3,15.1-9.2,19.4c5.6,2.2,68.5,10.2,131.4,10.2
+			c62.9,0,125.9-8,131.4-10.2C340.8,103.9,348,96.2,320.5,88.8z"/>
+	</defs>
+	<clipPath id="XMLID_2_">
+		<use xlink:href="#XMLID_32_"  overflow="visible"/>
+	</clipPath>
+	
+		<ellipse id="fill::accent_x26__x26_sun-hat-f:darker::stroke::band-bottom" clip-path="url(#XMLID_2_)" fill="#8A93C9" stroke="#575502" stroke-width="9" stroke-linejoin="round" stroke-miterlimit="10" cx="198.2" cy="38.8" rx="92.8" ry="40.3"/>
+	
+		<ellipse id="fill::sun-hat:2_x26__x26_sun-hat-f:darker::stroke::band-top" clip-path="url(#XMLID_2_)" fill="#DBCF35" stroke="#575502" stroke-width="9" stroke-linejoin="round" stroke-miterlimit="10" cx="198.2" cy="17.3" rx="92.8" ry="40.3"/>
+</g>
+<path id="sun-hat-f:darker::stroke::hat-outline" fill="none" stroke="#3E3F14" stroke-width="9" stroke-linejoin="round" stroke-miterlimit="10" d="
+	M320.5,88.8c-27.5-7.3-62.6-15.3-70.1-23.3L240.8,26c-1.6-11.3-19.4-20.1-41-20.1c-0.5,0-2.6,0-3.1,0c-21.7,0-39.4,8.9-41,20.1
+	L146,65.5c-7.5,8-42.6,16-70.1,23.3s-20.3,15.1-9.2,19.4c5.6,2.2,68.5,10.2,131.4,10.2c62.9,0,125.9-8,131.4-10.2
+	C340.8,103.9,348,96.2,320.5,88.8z"/>
+</svg>

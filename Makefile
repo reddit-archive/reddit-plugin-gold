@@ -33,3 +33,5 @@ $(TAILOR_OUTPUT): $(shell find $(SNOOVATAR_SOURCE_DIR))
 
 clean:
 	rm -f $(TAILOR_OUTPUT)
+	find $(SNOOVATAR_SOURCE_DIR) -name 'svg_bundle.json' -delete
+

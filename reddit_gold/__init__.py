@@ -22,6 +22,11 @@ class Gold(Plugin):
     }
 
     js = {
+        'gold-lib': Module('gold-lib.js',
+            'paper-core.js',
+            prefix='lib/',
+        ),
+
         'gold': Module('gold.js',
             'gold.js',
             prefix='gold/',
@@ -65,3 +70,4 @@ class Gold(Plugin):
             __name__,
             "data/tailors.json",
         ))
+

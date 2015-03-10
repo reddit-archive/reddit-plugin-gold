@@ -7,11 +7,17 @@ def write_tailor_config(sprite_folder, output_path):
     output_path = os.path.abspath(output_path)
     sprite_directories = os.walk(sprite_folder).next()[1]
     tailors = []
+
+    # make sure output folder exists
+    output_folder = os.path.dirname(output_path)
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
     
     # each folder == a tailor
     for directory in sprite_directories:
         # each directory can contain a tailor.json file to override defaults
         tailor_config_path = os.path.join(sprite_folder, directory, 'tailor.json')
+        svgs = {}
         tailor = None
         try:
             with open(tailor_config_path) as config_file:
@@ -24,19 +30,25 @@ def write_tailor_config(sprite_folder, output_path):
         tailor.setdefault("flip_x", False)
         tailor.setdefault("flippable", False)
         tailor.setdefault("name", directory)
-        tailor.setdefault("image_path", directory)
+        tailor.setdefault("asset_path", directory)
         tailor.setdefault("ui-order", 0)
         tailor.setdefault("use_dynamic_color", False)
         tailor.setdefault("z-index", 100)
 
         tailor['dressings'] = []
-        sprite_paths = glob.glob(os.path.join(
-            sprite_folder, directory, '*.png'))
-        for sprite_path in sprite_paths:
-            name = os.path.splitext(os.path.basename(sprite_path))[0]
+        svg_paths = glob.glob(os.path.join(sprite_folder, directory, '*.svg'))
+        for svg_path in svg_paths:
+            name = os.path.splitext(os.path.basename(svg_path))[0]
+
+            # add dressing name
             tailor['dressings'].append({
-                "name": name,
+                "name": name
             })
+
+            # read svg source
+            with open(svg_path, 'r') as svg_file:
+                svgs[name] = svg_file.read().replace('\n', '').replace('\r', '').strip()
+
         if tailor["flippable"]:
             flipped_tailor = tailor.copy()
             flipped_tailor["name"] = 'flipped_' + tailor["name"]
@@ -45,6 +57,11 @@ def write_tailor_config(sprite_folder, output_path):
             flipped_tailor["z-index"] = tailor["z-index"] - 1;
             tailors.append(flipped_tailor)
         tailors.append(tailor)
+
+        # bundle individual SVGs together inside of each category
+        svg_bundle_output_path = os.path.join(sprite_folder, directory, 'svg_bundle.json')
+        with open(svg_bundle_output_path, 'w') as svg_bundle:
+            json.dump(svgs, svg_bundle, indent=4)
 
     with open(output_path, 'w') as output_file:
         json.dump(tailors, output_file, indent=4)

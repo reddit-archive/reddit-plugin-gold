@@ -35,10 +35,18 @@ from reddit_gold.validators import VSnooColor
 @add_controller
 class GoldController(RedditController):
     def GET_about(self):
-        return GoldInfoPage(_("gold"), show_sidebar=False).render()
+        return GoldInfoPage(
+            _("gold"),
+            show_sidebar=False,
+            page_classes=["gold-page-ga-tracking"]
+        ).render()
 
     def GET_partners(self):
-        return GoldPartnersPage(_("gold partners"), show_sidebar=False).render()
+        return GoldPartnersPage(
+            _("gold partners"),
+            show_sidebar=False,
+            page_classes=["gold-page-ga-tracking"]
+        ).render()
 
     @validate(
         vuser=VExistingUname("username"),
@@ -108,6 +116,7 @@ class GoldApiController(RedditController):
 
             for tailor in tailors:
                 tailor_name = tailor["name"]
+
                 component = unvalidated_components.get(tailor_name)
 
                 # if the tailor requires a selection, ensure there is one
@@ -115,9 +124,10 @@ class GoldApiController(RedditController):
                     require(component)
 
                 # ensure this dressing exists
-                if component:
-                    for dressing in tailor["dressings"]:
-                        if component == dressing["name"]:
+                dressing = component.get("dressingName")
+                if dressing:
+                    for d in tailor["dressings"]:
+                        if dressing == d["name"]:
                             break
                     else:
                         raise RequirementException

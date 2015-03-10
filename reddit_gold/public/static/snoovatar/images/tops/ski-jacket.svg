@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="ski-jacket" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g id="fill::ski-jacket">
+	<ellipse fill="#FFF56C" stroke="#000000" stroke-width="11" cx="245.5" cy="284.3" rx="44.1" ry="53.2"/>
+	<ellipse fill="#FFF56C" stroke="#000000" stroke-width="11" cx="155" cy="284.3" rx="44.1" ry="53.2"/>
+	<path fill="#FFF56C" stroke="#000000" stroke-width="11" d="M200.4,198.8c-18.8,0-36.8,2.6-52.8,7.2c-5.4,18.9-8.4,40.9-8.4,64.4
+		c0,29.1,4.8,55.8,12.8,77.2c14.8,3.8,31.3,6.2,48.4,6.2s33.3-2.4,48.1-6.2c8-21.3,12.8-48.1,12.8-77.2c0-23.5-3-45.5-8.4-64.4
+		C236.9,201.4,219.2,198.8,200.4,198.8z"/>
+	<path fill="#FFF56C" stroke="#000000" stroke-width="11" d="M141.2,225.9c1.4,7.6,3.9,13.6,7.1,20.1c15.8,2.8,33.3,4.4,52,4.4
+		c18.5,0,36-1.7,51.7-4.4c3.3-6.6,6-12.5,7.4-20.1c-17.5,3.7-37.7,5.7-59.1,5.7S158.6,229.6,141.2,225.9z"/>
+</g>
+<g>
+	<line fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" x1="222.4" y1="264.8" x2="222.4" y2="299"/>
+	<line fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" x1="178.1" y1="264.8" x2="178.1" y2="299"/>
+	<line fill="none" stroke="#000000" stroke-width="11" x1="200.3" y1="231.6" x2="200.3" y2="353.8"/>
+</g>
+</svg>

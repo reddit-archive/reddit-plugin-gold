@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<path fill="#E1CEA2" stroke="#9D8C64" stroke-width="5" stroke-linejoin="round" d="M207.8,251.1l2.3-1.2l1.4-0.1l2.2-1.7l3.4,0.3
+	l1.1-2l1.9-1.1c0,0,45.7-9.5,53.4-1.9v7.8l-68.4,3.7L207.8,251.1"/>
+<path fill="#E1CEA2" stroke="#9D8C64" stroke-width="5" stroke-linejoin="round" d="M327.8,224.5l-2.3-1l-2-0.1l-0.7-1l-2.7-1.1
+	h-1.2l-0.6-1.2l-0.6-1c0,0-36.7,18.1-44.3,25.8v7.8l57.1-24.4L327.8,224.5"/>
+<g id="fill::book_x26__x26_book-f:darker::stroke::outline">
+	<path fill="#961D2C" stroke="#470E18" stroke-width="9" stroke-linejoin="round" d="M204.3,252.4l-3.1,3.4
+		c-0.7,1,1.6,10.5,1.8,17.7l-0.1-0.1l4.5,52.4c8.4,1.6,24.7,0,38.3-1.5c9.7-1.1,18-2.2,21.1-2.2l-1.2-69.4l-2.9-2.6L204.3,252.4z"/>
+	<path fill="#961D2C" stroke="#470E18" stroke-width="9" stroke-linejoin="round" d="M332.2,223.9l2.6,2c0.7,1-1.3,12.3-1.5,19.5
+		l0.1-0.1l-2,50.4c-14.4,2.7-43.8,26.3-51.3,26.4l0.4-70.6l3.7-2.9L332.2,223.9z"/>
+	<path fill="#961D2C" stroke="#470E18" stroke-width="9" stroke-linejoin="round" d="M266.4,249.9h14c1.4,0,2.5,0.8,2.5,1.8l-1,70
+		c0,0.7-1,1-2.3,1h-12.5c-1.2,0-2.2-0.2-2.3-1l-1-70C263.8,250.7,265,249.9,266.4,249.9z"/>
+</g>
+<g>
+	<path opacity="0.2" fill="#030500" enable-background="new    " d="M260.2,316.8c-1.5,0.2-2.4,0.2-4.3,0.5l-1.8-62.3l5.2-0.2
+		L260.2,316.8z"/>
+	<path opacity="0.2" fill="#030500" enable-background="new    " d="M287.2,252l-0.7,62c1.4-0.7,3.4-1.6,4.9-2.6
+		c0.2-0.1,0.5-0.3,0.8-0.5l1.2-62L287.2,252z"/>
+</g>
+<path id="snoo-body-f::fill::hand" fill="#00FF00" stroke="#000000" stroke-width="11" d="M285,308.1c9.6,4.5,13.6,16,9.1,25.5
+	c-4.5,9.6-15.9,13.6-25.5,9.1s-13.6-15.9-9.1-25.5C264,307.7,275.4,303.6,285,308.1z"/>
+</svg>

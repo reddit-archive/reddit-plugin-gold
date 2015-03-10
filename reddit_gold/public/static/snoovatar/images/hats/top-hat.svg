@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g id="fill::top-hat">
+	<path fill="#393B3D" stroke="#231F20" stroke-width="11" d="M283.1,91.2c0,12.7-31.4,34-82.4,34s-82.4-20.3-82.4-33
+		s31.4-13,82.4-13S283.1,78.5,283.1,91.2z"/>
+	<path fill="#393B3D" stroke="#231F20" stroke-width="9" d="M148.4,15.8c0,0,1.8,54,1.8,65.5s97.5,10.8,97.5,10.8l4-8.8
+		c0,0,0.8-65.8,1.5-69S148.4,15.8,148.4,15.8z"/>
+	<ellipse fill="#393B3D" stroke="#231F20" stroke-width="9" cx="200.8" cy="14.3" rx="52.4" ry="9"/>
+</g>
+<path id="fill::band" fill="#221E2E" stroke="#231F20" stroke-width="9" d="M251.6,97.1c0,7.7-22.7,13.9-50.8,13.9
+	s-50.8-6.2-50.8-13.9v-24c0,7.7,22.7,13.9,50.8,13.9s50.8-6.2,50.8-13.9V97.1z"/>
+</svg>

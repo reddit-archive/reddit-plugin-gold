@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g>
+	<path fill="#7E7E7E" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-miterlimit="10" d="M216.4,275l-4.1,29
+		c-0.2,1.2-0.1,3.2,1.4,3.4l65.1,9.2c1.5,0.2,4-1.4,4.2-2.6l4.1-29c0.2-1.2-2-1.6-3.5-1.8l-23.3-3.3l-34.4-4.9l-7.4-1
+		C216.9,273.8,216.6,273.8,216.4,275"/>
+	<path fill="#3E3E3E" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-miterlimit="10" d="M215,285.6l-4.1,29
+		c-0.2,1.2-0.1,3.2,1.4,3.4l65.1,9.2c1.5,0.2,4-1.4,4.2-2.6l4.1-29c0.2-1.2-2-1.6-3.5-1.8l-23.3-3.3l1-7.4l-34.4-4.9l-1,7.4l-7.4-1
+		C215.5,284.3,215.1,284.3,215,285.6"/>
+	<path fill="#636363" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-miterlimit="10" d="M257.5,313.4
+		c1.2-8.3-6.1-16.1-16.3-17.6c-10.2-1.4-19.4,4.1-20.6,12.4c-0.6,4.1-2.7,7.6,1,10.9s10.2,5.9,15.3,6.6s12.1,0,16.6-2.1
+		C258,321.4,256.9,317.5,257.5,313.4"/>
+	<path fill="#0E0E0E" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-miterlimit="10" d="M255.9,323.4
+		c1.2-8.7-6-17-16.1-18.4s-19.3,4.5-20.5,13.2s6,17,16.1,18.4C245.5,338.1,254.7,332.1,255.9,323.4"/>
+	<path fill="#636363" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-miterlimit="10" d="M239.9,305
+		c-10.1-1.4-19.3,4.5-20.5,13.2s6,17,16.1,18.4s19.3-4.5,20.5-13.2C257.2,314.7,250,306.4,239.9,305 M239.2,309.8
+		c7,1,12,6.7,11.2,12.8c-0.9,6.1-7.3,10.2-14.3,9.2s-12-6.7-11.2-12.8C225.8,313,232.2,308.8,239.2,309.8"/>
+	
+		<rect x="272.5" y="283.1" transform="matrix(0.9902 0.1397 -0.1397 0.9902 42.7669 -36.1145)" fill="#696969" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-miterlimit="10" width="12.2" height="7"/>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="0" y1="400.0005" x2="1" y2="400.0005" gradientTransform="matrix(-4.4101 31.2485 -29.7718 -4.2017 12186.748 1977.3986)">
+		<stop  offset="0" style="stop-color:#434343"/>
+		<stop  offset="1" style="stop-color:#1A1A1A"/>
+	</linearGradient>
+	<path fill="url(#SVGID_1_)" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-miterlimit="10" d="M268.1,293.4
+		c0.3-2.4,2.4-4,4.7-3.7l12.2,1.7c2.2,0.3,3.8,2.5,3.5,4.8l-4.1,28.8c-0.3,2.4-2.4,4-4.7,3.7l-12.2-1.7c-2.2-0.3-3.8-2.5-3.5-4.8
+		L268.1,293.4z"/>
+	
+		<rect x="225.6" y="273.6" transform="matrix(-0.9902 -0.1397 0.1397 -0.9902 444.7549 587.5111)" fill="#949494" stroke="#000000" stroke-width="4" stroke-linejoin="round" stroke-miterlimit="10" width="34.8" height="9.1"/>
+</g>
+<path id="snoo-body-f::fill::hand" fill="#00FF00" stroke="#000000" stroke-width="11" stroke-miterlimit="10" d="M282.9,330.3
+	c-10.5-1.3-18-10.8-16.7-21.3s10.8-18,21.3-16.7s11.9,10,10.6,20.5C296.9,323.3,293.4,331.6,282.9,330.3z"/>
+</svg>
