@@ -242,6 +242,8 @@
   // build UI and bind event handlers
   $.when(haberdasheryReady, viewReady, exports.initSnoovatar.isReady)
     .then(function initView(haberdashery, $view, snoovatarData) {
+      // ...
+
       $view.canvasContainer.append(haberdashery.canvas);
 
       // bail before building UI if we're in read-only mode

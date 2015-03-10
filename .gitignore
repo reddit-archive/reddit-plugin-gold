@@ -1,2 +1,7 @@
 *.pyc
 reddit_gold.egg-info
+
+.DS_Store
+.idea
+/build
+
