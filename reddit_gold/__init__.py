@@ -28,7 +28,7 @@ class Gold(Plugin):
         ),
 
         "snoovatar": LocalizedModule("snoovatar.js",
-            "svg.min.js",
+            "paper-core.min.js",
             "snoovatar.js",
             DataSource(
                 wrap="r.snoovatar.initTailors({content})",
