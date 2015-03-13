@@ -18,6 +18,7 @@
     downloadButton: '#download',
     clearButton: '#clear',
     canvasContainer: '#snoovatar',
+    canvasSvgContainer: '#js-svg-canvas',
     sampleContainer: '#samples',
     sampleButton: '#generate-samples',
     publicCheckbox: '#public',
@@ -178,7 +179,10 @@
    * @type {$.Promise}
    * @resolve {Object{$}} map of cached jQuery objects
    */
-  var viewReady = $.when(uiSelectors, waitForDOM)
+  var viewReady = $.when(
+    uiSelectors,
+    waitForDOM
+  )
     .then(function buildView(uiSelectors) {
       var $view = _.reduce(uiSelectors, function (map, val, key) {
         map[key] = $(val);
@@ -275,6 +279,203 @@
       }
     });
 
+  // TODO:
+  var svgTailorsReady = $.when(
+    svgsAreReady,
+    exports.initTailors.isReady,
+    exports.initSnoovatar.isReady
+  )
+    .then(function buildSvgMap(svgs, tailorData, snoovatarData) {
+      var svgMap = _.reduce(svgs, function (aggr, svg) {
+        aggr[svg.tailor] = svg.data;
+        return aggr;
+      }, {});
+
+      var tailors = _.reduce(tailorData, function (memo, obj) {
+        memo[obj.name] = {
+          data: obj,
+          svg: svgMap[obj.asset_path]
+        };
+        return memo;
+      }, {});
+
+      return {
+        tailors: tailors,
+        components: (snoovatarData || {}).components || {},
+        snoo_color: (snoovatarData || {}).snoo_color
+      };
+    });
+
+  // build UI and bind event handlers
+  $.when(
+    svgTailorsReady,
+    viewReady
+  )
+    .then(function createSvgCanvas(svgTailors, $view) {
+      var $container = $view.canvasSvgContainer;
+
+      function convertLegacyComponents(components) {
+        return _.reduce(components, function (memo, value, key) {
+          value = value || {};
+          if (typeof value === 'string') {
+            memo[key] = { value: value };
+          } else {
+            memo[key] = value;
+          }
+          return memo;
+        }, {});
+      }
+
+      function getActiveTailors(components, tailors) {
+        return _.reduce(components, function (memo, value, key) {
+          memo[key] = {
+            src: tailors[key].svg[value.value],
+            zIndex: tailors[key].data['z-index']
+          };
+          return memo;
+        }, {});
+      }
+
+      console.log(svgTailors);
+
+      var obj = {
+        canvas: null,
+        project: null,
+        tailors: svgTailors.tailors,
+        components: convertLegacyComponents(svgTailors.components),
+        draw: function () {
+          // get keys in order
+          var keys = _.chain(obj.components)
+            .keys()
+            .sortBy(function (key) { return obj.components[key].zIndex;})
+            .value();
+
+          // import active components
+          _.each(keys, function (key) {
+            obj.components[key] = obj.project.importSVG(obj.components[key].src);
+          });
+
+          // actual draw
+          paper.view.draw();
+        },
+        init: function () {
+          if (!obj.canvas || !obj.project) {
+            // create canvas itself
+            obj.canvas = window.document.createElement('canvas');
+            $container.append(obj.canvas);
+
+            // configure size and project for paper.js
+            obj.project = new paper.Project(obj.canvas);
+            paper.setup(obj.canvas);
+            paper.view.viewSize = new paper.Size(canvasSize, canvasSize);
+
+            // get initial components and trigger draw
+            obj.components = getActiveTailors(obj.components, obj.tailors);
+            obj.draw();
+
+            // bail before building UI if we're in read-only mode
+            if (!$view.editable) {
+              return obj;
+            }
+
+            // create button html for tailors with > 1 dressings
+            //var buttonTemplate = _.template('<li id="<%-name%>" class="button"><div class="icon"></div></li>');
+            //var tailors = haberdashery.elements;
+            //var buttonMakers = tailors.slice().sort(function (a, b) {
+            //  a = a.data['ui-order'];
+            //  b = b.data['ui-order'];
+            //  return a - b;
+            //});
+            //var buttonMarkup = _.reduce(buttonMakers, function (memo, tailor) {
+            //  if (tailor.elements.length > 1) {
+            //    return memo + buttonTemplate(tailor);
+            //  }
+            //  else {
+            //    return memo;
+            //  }
+            //}, '');
+            //var $buttons = $($.parseHTML(buttonMarkup));
+            //var $activeButton = $buttons.eq(0);
+            //$activeButton.addClass('selected');
+            //$view.tailorButtons.append($buttons);
+
+            $view.tailorButtons.on('click', 'li', function () {
+              //$activeButton.removeClass('selected');
+              //$(this).addClass('selected');
+              //$activeButton = $(this);
+              //haberdashery.setTailor($activeButton.attr('id'));
+            });
+
+            $view.nextButton.on('click', function () {
+              //haberdashery.getActiveTailor().next();
+              //haberdashery.update();
+            });
+
+            $view.prevButton.on('click', function () {
+              //haberdashery.getActiveTailor().prev();
+              //haberdashery.update();
+            });
+
+            $view.randomButton.on('click', function () {
+              //haberdashery.randomize();
+            });
+
+            $view.clearButton.on('click', function () {
+              //haberdashery.clearAll();
+            });
+
+            $view.saveButton.on('click', function () {
+              //$view.saveButton.attr('disabled', true);
+              //var isPublic = $view.publicCheckbox.is(':checked');
+              //$.request('gold/snoovatar', {
+              //  'api_type': 'json',
+              //  'public': isPublic,
+              //  'snoo_color': haberdashery.snooColor,
+              //  'components': JSON.stringify(haberdashery.export())
+              //}, function (res) {
+              //  $view.saveButton.removeAttr('disabled');
+              //  $view.messageBox.stop();
+              //
+              //  var err = null;
+              //  if (!res || !res.json) {
+              //    err = 'unable to save snoovatar';
+              //  }
+              //  else if (res.json.errors.length) {
+              //    err = res.json.errors.join('\n ');
+              //  }
+              //  if (err) {
+              //    $view.messageBox.addClass('error');
+              //  }
+              //  else {
+              //    $view.messageBox.removeClass('error');
+              //  }
+              //
+              //  var messageText = err ? err : 'snoovatar updated!';
+              //  $view.messageBox
+              //    .text(messageText)
+              //    .slideDown()
+              //    .delay(2500)
+              //    .slideUp();
+              //});
+              //return false;
+            });
+
+            $view.color.on('change', function onColorChange() {
+              //haberdashery.updateColor($view.color.val());
+            });
+
+            $view.downloadButton.on('click', function (e) {
+              //this.href = haberdashery.canvas.toDataURL('image/png');
+            });
+          }
+          window.obj = obj;
+          return obj;
+        }
+      };
+
+      return obj.init();
+    });
+
   /**
    * promise that is resolved when the main controller object (Haberdashery) is
    * ready.
@@ -283,16 +484,10 @@
    */
   var haberdasheryReady = $.when(
     imagesAreReady,
-    svgsAreReady,
     exports.initTailors.isReady,
     exports.initSnoovatar.isReady
   )
-    .then(function buildImageMap(images, svgs, tailorData, snoovatarData) {
-      var svgMap = _.reduce(svgs, function (aggr, svg) {
-        aggr[svg.tailor] = svg.data;
-        return aggr;
-      }, {});
-
+    .then(function buildImageMap(images, tailorData, snoovatarData) {
       var imageMap = _.reduce(images, function (map, img) {
         var parts = img.src.split('/').slice(-2);
         var dressing = parts[1].slice(0, -(filetype_old.length + 1));
@@ -307,10 +502,8 @@
       var tailors = _.map(tailorData, function (obj) {
         return new Tailor(obj,
           imageMap[obj.asset_path],
-          svgMap[obj.asset_path],
           (snoovatarData || {}).snoo_color);
       });
-      console.log('tailors: ', tailors);
 
       return new Haberdashery(tailors,
         (snoovatarData || {}).components || {},
@@ -318,7 +511,11 @@
     });
 
   // build UI and bind event handlers
-  $.when(haberdasheryReady, viewReady, exports.initSnoovatar.isReady)
+  $.when(
+    haberdasheryReady,
+    viewReady,
+    exports.initSnoovatar.isReady
+  )
     .then(function initView(haberdashery, $view, snoovatarData) {
       $view.canvasContainer.append(haberdashery.canvas);
 
@@ -481,11 +678,10 @@
    * @param {Object} svgMap a subset of all the SVGs for the Tailor
    * @param {string} snooColor a hex-formatted color (e.g. '#fff' or '#ffffff')
    */
-  function Tailor(data, imageMap, svgMap, snooColor) {
+  function Tailor(data, imageMap, snooColor) {
     // A CanvasArray that draws a single image from its list at a time.
     this.name = data.name;
     this.imageMap = imageMap;
-    this.svgMap = svgMap;
     this.spriteSize = canvasSize * pixelRatio;
     this.allowClear = data.allow_clear ? 1 : 0;
     this.useDynamicColor = data.use_dynamic_color ? 1 : 0;
