@@ -294,10 +294,7 @@
       }, {});
 
       var tailors = _.reduce(tailorData, function (memo, obj) {
-        memo[obj.name] = {
-          data: obj,
-          svg: svgMap[obj.asset_path]
-        };
+        memo[obj.name] = _.extend({ svg: svgMap[obj.asset_path] }, obj);
         return memo;
       }, {});
 
@@ -314,46 +311,80 @@
     viewReady
   )
     .then(function createSvgCanvas(svgTailors, $view) {
-      function convertLegacyComponents(components) {
-        return _.reduce(components, function (memo, value, key) {
-          value = value || {};
-          if (typeof value === 'string') {
-            memo[key] = { value: value };
-          } else {
-            memo[key] = value;
+      function getRandomInt(min, max) {
+        return window.Math.floor(window.Math.random() * (max - min + 1)) + min;
+      }
+
+      function randomizeComponents(tailors) {
+        return _.reduce(tailors, function (memo, data) {
+          var svgKeys = _.keys(data.svg);
+          if (svgKeys && svgKeys.length) {
+            memo[data.name] = {
+              activeSvgName: (function (svgKeys) {
+                if (svgKeys.length === 1) {
+                  return svgKeys[0];
+                } else {
+                  return svgKeys[getRandomInt(0, svgKeys.length - 1)];
+                }
+              })(svgKeys)
+            };
           }
           return memo;
         }, {});
       }
 
-      function getActiveTailors(components, tailors) {
+      // make sure we convert legacy version of components
+      // the idea here is before we stored just a name of dressing,
+      // and now it's a complex object - name, color, etc.
+      svgTailors.components = (function convertLegacyComponents(components) {
         return _.reduce(components, function (memo, value, key) {
-          memo[key] = {
-            src: tailors[key].svg[value.value],
-            zIndex: tailors[key].data['z-index']
-          };
+          value = value || {};
+          if (typeof value === 'string') {
+            memo[key] = { activeSvgName: value };
+          } else {
+            memo[key] = value;
+          }
           return memo;
         }, {});
-      }
+      })(svgTailors.components);
 
       console.log('svgTailors: ', svgTailors);
 
       var obj = {
         canvas: null,
         project: null,
+        // all the tailors available to us
         tailors: svgTailors.tailors,
-        components: convertLegacyComponents(svgTailors.components),
+        // currently displayed tailors
+        components: svgTailors.components,
+        // draw map (useful info) of currently displayed tailors
+        drawMap: null,
         draw: function () {
-          // get keys in order
-          var keys = _.chain(obj.components)
-            .keys()
-            .sortBy(function (key) { return obj.components[key].zIndex; })
+          // extract all the required SVGs
+          obj.drawMap = _.chain(obj.components)
+            .map(function (data, key) {
+              var svg = obj.tailors[key].svg[data.activeSvgName];
+              if (svg) {
+                return _.extend({
+                  tailorName: key,
+                  activeSvgSrc: svg,
+                  'z-index': obj.tailors[key]['z-index']
+                }, data);
+              }
+              return null;
+            })
+            .filter(function (data) { return data; })
+            .sortBy(function (data) { return data['z-index']; })
+            // import SVGs and attach to draw info
+            .map(function (data) {
+              // TODO: consider future speed improvement --> check for rendered SVG and reuse it
+              data.activeSvg = obj.project.importSVG(data.activeSvgSrc);
+              return data;
+            })
             .value();
 
-          // import active components
-          _.each(keys, function (key) {
-            obj.components[key] = obj.project.importSVG(obj.components[key].src);
-          });
+          // detect colors and etc.
+          // TODO
 
           // actual draw
           paper.view.draw();
@@ -369,8 +400,7 @@
             paper.setup(obj.canvas);
             paper.view.viewSize = new paper.Size(canvasSize, canvasSize);
 
-            // get initial components and trigger draw
-            obj.components = getActiveTailors(obj.components, obj.tailors);
+            // trigger draw
             obj.draw();
           }
           return obj;
@@ -390,11 +420,11 @@
           }
 
           // create button html for tailors with > 1 dressings
+          // TODO: replace dressings to svg
           if (obj.tailors) {
             var buttonTemplate = _.template('<li id="<%-name%>" class="button <%-classNameMod%>"><div class="icon"></div></li>');
             var buttonsMarkup = _.chain(obj.tailors)
               .values()
-              .pluck('data')
               .filter(function (data) { return data.dressings.length > 1; })
               .sortBy(function (a, b) { return a['ui-order'] - b['ui-order']; })
               .map(function (data, idx) {
@@ -427,7 +457,9 @@
               return true;
             })
             .on('click.snoovatar', uiSelectors.randomButton, function (event) {
-              //haberdashery.randomize();
+              var randomComponents = randomizeComponents(obj.tailors);
+              console.log(randomComponents);
+              // TODO: pass new stuff to draw
               return true;
             })
             .on('click.snoovatar', uiSelectors.clearButton, function (event) {
@@ -533,9 +565,9 @@
         return;
       }
 
-      var $activeButton = $($view.tailorButtons).find('li:eq(0)');
+      var $activeButton = $($view.tailorButtonsContainer).find('li:eq(0)');
       haberdashery.setTailor($activeButton.attr('id'));
-      $view.tailorButtons.on('click', 'li', function () {
+      $view.tailorButtonsContainer.on('click', 'li', function () {
         $activeButton.removeClass('selected');
         $(this).addClass('selected');
         $activeButton = $(this);
@@ -849,17 +881,6 @@
   Tailor.prototype.getImage = function (i) {
     if (this.elements[i] && (this.elements[i] || {}).name) {
       return this.imageMap[this.elements[i].name];
-    }
-    return null;
-  };
-
-  /**
-   * get the svg as a string mapped to the current index
-   * @return {svg|null}
-   */
-  Tailor.prototype.getSvg = function (i) {
-    if (this.elements[i] && (this.elements[i] || {}).name) {
-      return this.svgMap[this.elements[i].name];
     }
     return null;
   };
