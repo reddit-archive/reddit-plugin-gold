@@ -10,7 +10,9 @@
   var pixelRatio = 2;
   var defaultColor = '#ffffff';
   var uiSelectors = {
-    tailorButtons: '.selectors ul',
+    container: '.js-snoovatar-page',
+    tailorButtonsContainer: '.selectors ul',
+    tailorButtons: '.selectors ul li',
     nextButton: '#nextButton',
     prevButton: '#prevButton',
     randomButton: '#random',
@@ -174,7 +176,7 @@
   testBlending.globalCompositeOperation = 'difference';
   var useDifferenceMask = testBlending.globalCompositeOperation === 'difference';
 
-  /**
+  /** TODO: drop the map, no need for it
    * promise that is resolved when the view is ready to use
    * @type {$.Promise}
    * @resolve {Object{$}} map of cached jQuery objects
@@ -312,8 +314,6 @@
     viewReady
   )
     .then(function createSvgCanvas(svgTailors, $view) {
-      var $container = $view.canvasSvgContainer;
-
       function convertLegacyComponents(components) {
         return _.reduce(components, function (memo, value, key) {
           value = value || {};
@@ -336,7 +336,7 @@
         }, {});
       }
 
-      console.log(svgTailors);
+      console.log('svgTailors: ', svgTailors);
 
       var obj = {
         canvas: null,
@@ -347,7 +347,7 @@
           // get keys in order
           var keys = _.chain(obj.components)
             .keys()
-            .sortBy(function (key) { return obj.components[key].zIndex;})
+            .sortBy(function (key) { return obj.components[key].zIndex; })
             .value();
 
           // import active components
@@ -362,7 +362,7 @@
           if (!obj.canvas || !obj.project) {
             // create canvas itself
             obj.canvas = window.document.createElement('canvas');
-            $container.append(obj.canvas);
+            $(uiSelectors.canvasSvgContainer).append(obj.canvas);
 
             // configure size and project for paper.js
             obj.project = new paper.Project(obj.canvas);
@@ -372,59 +372,69 @@
             // get initial components and trigger draw
             obj.components = getActiveTailors(obj.components, obj.tailors);
             obj.draw();
+          }
+          return obj;
+        },
+        wireup: function () {
+          // bail before building UI if we're in read-only mode
+          if (!$view.editable) {
+            return obj;
+          }
 
-            // bail before building UI if we're in read-only mode
-            if (!$view.editable) {
+          // if nothing is init yet, try to and bail if it doesn't help
+          if (!obj.canvas || !obj.project) {
+            obj.init();
+            if (!obj.canvas || !obj.project) {
               return obj;
             }
+          }
 
-            // create button html for tailors with > 1 dressings
-            //var buttonTemplate = _.template('<li id="<%-name%>" class="button"><div class="icon"></div></li>');
-            //var tailors = haberdashery.elements;
-            //var buttonMakers = tailors.slice().sort(function (a, b) {
-            //  a = a.data['ui-order'];
-            //  b = b.data['ui-order'];
-            //  return a - b;
-            //});
-            //var buttonMarkup = _.reduce(buttonMakers, function (memo, tailor) {
-            //  if (tailor.elements.length > 1) {
-            //    return memo + buttonTemplate(tailor);
-            //  }
-            //  else {
-            //    return memo;
-            //  }
-            //}, '');
-            //var $buttons = $($.parseHTML(buttonMarkup));
-            //var $activeButton = $buttons.eq(0);
-            //$activeButton.addClass('selected');
-            //$view.tailorButtons.append($buttons);
+          // create button html for tailors with > 1 dressings
+          if (obj.tailors) {
+            var buttonTemplate = _.template('<li id="<%-name%>" class="button <%-classNameMod%>"><div class="icon"></div></li>');
+            var buttonsMarkup = _.chain(obj.tailors)
+              .values()
+              .pluck('data')
+              .filter(function (data) { return data.dressings.length > 1; })
+              .sortBy(function (a, b) { return a['ui-order'] - b['ui-order']; })
+              .map(function (data, idx) {
+                return buttonTemplate(_.extend({
+                  classNameMod: idx === 0 ? 'selected' : ''
+                }, data));
+              })
+              .value()
+              .join('');
+            $($view.tailorButtonsContainer).html(buttonsMarkup);
+          }
 
-            $view.tailorButtons.on('click', 'li', function () {
+          $(uiSelectors.container)
+            .off('.snoovatar')
+            .on('click.snoovatar', uiSelectors.tailorButtons, function (event) {
               //$activeButton.removeClass('selected');
               //$(this).addClass('selected');
               //$activeButton = $(this);
               //haberdashery.setTailor($activeButton.attr('id'));
-            });
-
-            $view.nextButton.on('click', function () {
+              return true;
+            })
+            .on('click.snoovatar', uiSelectors.nextButton, function (event) {
               //haberdashery.getActiveTailor().next();
               //haberdashery.update();
-            });
-
-            $view.prevButton.on('click', function () {
+              return true;
+            })
+            .on('click.snoovatar', uiSelectors.prevButton, function (event) {
               //haberdashery.getActiveTailor().prev();
               //haberdashery.update();
-            });
-
-            $view.randomButton.on('click', function () {
+              return true;
+            })
+            .on('click.snoovatar', uiSelectors.randomButton, function (event) {
               //haberdashery.randomize();
-            });
-
-            $view.clearButton.on('click', function () {
+              return true;
+            })
+            .on('click.snoovatar', uiSelectors.clearButton, function (event) {
               //haberdashery.clearAll();
-            });
-
-            $view.saveButton.on('click', function () {
+              return true;
+            })
+            .on('click.snoovatar', uiSelectors.saveButton, function (event) {
               //$view.saveButton.attr('disabled', true);
               //var isPublic = $view.publicCheckbox.is(':checked');
               //$.request('gold/snoovatar', {
@@ -458,22 +468,21 @@
               //    .slideUp();
               //});
               //return false;
-            });
-
-            $view.color.on('change', function onColorChange() {
-              //haberdashery.updateColor($view.color.val());
-            });
-
-            $view.downloadButton.on('click', function (e) {
+              return true;
+            })
+            .on('click.snoovatar', uiSelectors.downloadButton, function (event) {
               //this.href = haberdashery.canvas.toDataURL('image/png');
+              return true;
+            })
+            .on('change.snoovatar', uiSelectors.color, function (event) {
+              //haberdashery.updateColor($view.color.val());
+              return true;
             });
-          }
-          window.obj = obj;
-          return obj;
         }
       };
 
-      return obj.init();
+      window.obj = obj;
+      return obj.init().wireup();
     });
 
   /**
@@ -524,28 +533,7 @@
         return;
       }
 
-      // create button html for tailors with > 1 dressings
-      var buttonTemplate = _.template('<li id="<%-name%>" class="button">' +
-      '<div class="icon"></div></li>');
-      var tailors = haberdashery.elements;
-      var buttonMakers = tailors.slice().sort(function (a, b) {
-        a = a.data['ui-order'];
-        b = b.data['ui-order'];
-        return a - b;
-      });
-      var buttonMarkup = _.reduce(buttonMakers, function (memo, tailor) {
-        if (tailor.elements.length > 1) {
-          return memo + buttonTemplate(tailor);
-        }
-        else {
-          return memo;
-        }
-      }, '');
-      var $buttons = $($.parseHTML(buttonMarkup));
-      var $activeButton = $buttons.eq(0);
-      $activeButton.addClass('selected');
-      $view.tailorButtons.append($buttons);
-
+      var $activeButton = $($view.tailorButtons).find('li:eq(0)');
       haberdashery.setTailor($activeButton.attr('id'));
       $view.tailorButtons.on('click', 'li', function () {
         $activeButton.removeClass('selected');
