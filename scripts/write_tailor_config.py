@@ -34,7 +34,7 @@ def write_tailor_config(sprite_folder, output_path):
         for sprite_path in sprite_paths:
             name = os.path.splitext(os.path.basename(sprite_path))[0]
             tailor['dressings'].append({
-                "name": name,
+                "name": name
             })
         if tailor["flippable"]:
             flipped_tailor = tailor.copy()

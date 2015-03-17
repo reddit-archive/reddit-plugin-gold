@@ -281,19 +281,28 @@
       }
     });
 
-  // TODO:
+  // TODO: get rid of .svg and use .dressings[0].svg instead
   var svgTailorsReady = $.when(
     svgsAreReady,
     exports.initTailors.isReady,
     exports.initSnoovatar.isReady
   )
     .then(function buildSvgMap(svgs, tailorData, snoovatarData) {
+      // transform map to object literal for easier lookup
       var svgMap = _.reduce(svgs, function (aggr, svg) {
         aggr[svg.tailor] = svg.data;
         return aggr;
       }, {});
 
       var tailors = _.reduce(tailorData, function (memo, obj) {
+        obj.dressings = _.reduce(obj.dressings || [], function (aggr, dressing) {
+          if (dressing.name) {
+            dressing.svg = svgMap[obj.asset_path][dressing.name];
+          }
+          aggr.push(dressing);
+          return aggr;
+        }, []);
+
         memo[obj.name] = _.extend({ svg: svgMap[obj.asset_path] }, obj);
         return memo;
       }, {});
@@ -320,7 +329,7 @@
           var svgKeys = _.keys(data.svg);
           if (svgKeys && svgKeys.length) {
             memo[data.name] = {
-              activeSvgName: (function (svgKeys) {
+              dressingName: (function (svgKeys) {
                 if (svgKeys.length === 1) {
                   return svgKeys[0];
                 } else {
@@ -333,6 +342,24 @@
         }, {});
       }
 
+      function getNextDressingsName(dressings, activeName) {
+        var dressingNames = _.pluck(dressings, 'name') || [];
+        var idx = dressingNames.indexOf(activeName) + 1;
+        if (idx >= dressingNames.length) {
+          idx = 0;
+        }
+        return dressingNames[idx];
+      }
+
+      function getPrevDressingsName(dressings, activeName) {
+        var dressingNames = _.pluck(dressings, 'name') || [];
+        var idx = dressingNames.indexOf(activeName) - 1;
+        if (idx < 0) {
+          idx = dressingNames.length - 1;
+        }
+        return dressingNames[idx];
+      }
+
       // make sure we convert legacy version of components
       // the idea here is before we stored just a name of dressing,
       // and now it's a complex object - name, color, etc.
@@ -340,7 +367,7 @@
         return _.reduce(components, function (memo, value, key) {
           value = value || {};
           if (typeof value === 'string') {
-            memo[key] = { activeSvgName: value };
+            memo[key] = { dressingName: value };
           } else {
             memo[key] = value;
           }
@@ -348,57 +375,87 @@
         }, {});
       })(svgTailors.components);
 
-      console.log('svgTailors: ', svgTailors);
-
       var obj = {
         canvas: null,
         project: null,
         // all the tailors available to us
-        tailors: svgTailors.tailors,
-        // currently displayed tailors
-        components: svgTailors.components,
-        // draw map (useful info) of currently displayed tailors
+        tailors: null,
+        // currently selected tailor to choose from in UI
+        activeTailor: null,
+        // currently displayed components
+        components: null,
+        // draw map (useful info) of currently displayed components
         drawMap: null,
-        draw: function () {
-          // extract all the required SVGs
-          obj.drawMap = _.chain(obj.components)
-            .map(function (data, key) {
-              var svg = obj.tailors[key].svg[data.activeSvgName];
-              if (svg) {
-                return _.extend({
-                  tailorName: key,
-                  activeSvgSrc: svg,
-                  'z-index': obj.tailors[key]['z-index']
-                }, data);
-              }
-              return null;
-            })
-            .filter(function (data) { return data; })
-            .sortBy(function (data) { return data['z-index']; })
-            // import SVGs and attach to draw info
-            .map(function (data) {
-              // TODO: consider future speed improvement --> check for rendered SVG and reuse it
-              data.activeSvg = obj.project.importSVG(data.activeSvgSrc);
-              return data;
-            })
-            .value();
-
-          // detect colors and etc.
-          // TODO
-
-          // actual draw
-          paper.view.draw();
+        clear: function () {
+          if ((obj.project.layers || []).length) {
+            obj.project.clear();
+            obj.project.view.draw();
+          }
         },
-        init: function () {
+        draw: function (newComponents) {
+          // add new set of components if provided
+          if (newComponents) {
+            obj.components = newComponents;
+          }
+
+          if (obj.tailors && obj.components) {
+            // clear the canvas
+            obj.clear();
+
+            // extract all the required SVGs
+            obj.drawMap = _.chain(obj.components)
+              .map(function (data, key) {
+                var svg = obj.tailors[key].svg[data.dressingName];
+                if (svg) {
+                  return _.extend({
+                    tailorName: key,
+                    activeSvgSrc: svg,
+                    isFlipX: obj.tailors[key]['flip_x'],
+                    zIndex: obj.tailors[key]['z-index']
+                  }, data);
+                }
+                return null;
+              })
+              .filter(function (data) { return data; })
+              .sortBy(function (data) { return data.zIndex; })
+              // import SVGs and attach to draw info
+              .map(function (data) {
+                // TODO: consider future speed improvement --> check for rendered SVG and reuse it
+                data.activeSvg = obj.project.importSVG(data.activeSvgSrc);
+                data.parsed = svgChildrenParser.parse(data.activeSvg);
+
+                // flip object if needed
+                if (data.isFlipX) {
+                  var handleBounds = data.activeSvg.handleBounds;
+                  var padding = (canvasSize - handleBounds.width - handleBounds.x);
+                  data.activeSvg
+                    .translate((handleBounds.x - padding) * -1, 0)
+                    .scale(-1, 1);
+                }
+
+                return data;
+              })
+              .value();
+
+            // detect colors and etc.
+            // TODO
+
+            // actual draw
+            obj.project.view.draw();
+          }
+        },
+        init: function (components, tailors) {
           if (!obj.canvas || !obj.project) {
+            obj.tailors = tailors || {};
+            obj.components = components || {};
+
             // create canvas itself
             obj.canvas = window.document.createElement('canvas');
             $(uiSelectors.canvasSvgContainer).append(obj.canvas);
 
             // configure size and project for paper.js
             obj.project = new paper.Project(obj.canvas);
-            paper.setup(obj.canvas);
-            paper.view.viewSize = new paper.Size(canvasSize, canvasSize);
+            obj.project.view.viewSize = new paper.Size(canvasSize, canvasSize);
 
             // trigger draw
             obj.draw();
@@ -407,20 +464,12 @@
         },
         wireup: function () {
           // bail before building UI if we're in read-only mode
-          if (!$view.editable) {
+          if (!$view.editable || !obj.canvas || !obj.project) {
             return obj;
           }
 
-          // if nothing is init yet, try to and bail if it doesn't help
-          if (!obj.canvas || !obj.project) {
-            obj.init();
-            if (!obj.canvas || !obj.project) {
-              return obj;
-            }
-          }
-
           // create button html for tailors with > 1 dressings
-          // TODO: replace dressings to svg
+          // TODO: replace dressings to svg => _.keys(data.svg)
           if (obj.tailors) {
             var buttonTemplate = _.template('<li id="<%-name%>" class="button <%-classNameMod%>"><div class="icon"></div></li>');
             var buttonsMarkup = _.chain(obj.tailors)
@@ -428,6 +477,9 @@
               .filter(function (data) { return data.dressings.length > 1; })
               .sortBy(function (a, b) { return a['ui-order'] - b['ui-order']; })
               .map(function (data, idx) {
+                if (idx === 0) {
+                  obj.activeTailor = data.name;
+                }
                 return buttonTemplate(_.extend({
                   classNameMod: idx === 0 ? 'selected' : ''
                 }, data));
@@ -437,33 +489,61 @@
             $($view.tailorButtonsContainer).html(buttonsMarkup);
           }
 
-          $(uiSelectors.container)
+          var $container = $(uiSelectors.container)
             .off('.snoovatar')
             .on('click.snoovatar', uiSelectors.tailorButtons, function (event) {
-              //$activeButton.removeClass('selected');
-              //$(this).addClass('selected');
-              //$activeButton = $(this);
-              //haberdashery.setTailor($activeButton.attr('id'));
+              $container.find(uiSelectors.tailorButtons).removeClass('selected');
+
+              var $el = $(event.currentTarget);
+              $el.addClass('selected');
+              obj.activeTailor = $el.attr('id');
+              $el = null;
+
               return true;
             })
             .on('click.snoovatar', uiSelectors.nextButton, function (event) {
-              //haberdashery.getActiveTailor().next();
-              //haberdashery.update();
+              if (obj.activeTailor) {
+                var dressings = obj.tailors[obj.activeTailor].dressings;
+                var components = _.extend({}, obj.components);
+                components[obj.activeTailor].dressingName =
+                  getNextDressingsName(dressings, obj.components[obj.activeTailor].dressingName);
+                obj.draw(components);
+              }
               return true;
             })
             .on('click.snoovatar', uiSelectors.prevButton, function (event) {
-              //haberdashery.getActiveTailor().prev();
-              //haberdashery.update();
+              if (obj.activeTailor) {
+                var dressings = obj.tailors[obj.activeTailor].dressings;
+                var components = _.extend({}, obj.components);
+                components[obj.activeTailor].dressingName =
+                  getPrevDressingsName(dressings, obj.components[obj.activeTailor].dressingName);
+                obj.draw(components);
+              }
               return true;
             })
             .on('click.snoovatar', uiSelectors.randomButton, function (event) {
-              var randomComponents = randomizeComponents(obj.tailors);
-              console.log(randomComponents);
-              // TODO: pass new stuff to draw
+              obj.draw(randomizeComponents(obj.tailors));
               return true;
             })
             .on('click.snoovatar', uiSelectors.clearButton, function (event) {
-              //haberdashery.clearAll();
+              // cannot-be-cleared components
+              var componentsToStay = _.chain(obj.tailors)
+                .values()
+                .where({ allow_clear: false })
+                .reduce(function (aggr, tailor) {
+                  aggr[tailor.name] = tailor.dressings[0].name;
+                  return aggr;
+                }, {})
+                .value();
+
+              // create a "clear" set of components
+              var components = _.reduce(obj.components, function (memo, component, name) {
+                memo[name] = componentsToStay[name] ? { dressingName: componentsToStay[name] } : {};
+                return memo;
+              }, {});
+
+              obj.draw(components);
+
               return true;
             })
             .on('click.snoovatar', uiSelectors.saveButton, function (event) {
@@ -503,7 +583,7 @@
               return true;
             })
             .on('click.snoovatar', uiSelectors.downloadButton, function (event) {
-              //this.href = haberdashery.canvas.toDataURL('image/png');
+              this.href = obj.canvas.toDataURL('image/png');
               return true;
             })
             .on('change.snoovatar', uiSelectors.color, function (event) {
@@ -514,8 +594,172 @@
       };
 
       window.obj = obj;
-      return obj.init().wireup();
+      return obj.init(svgTailors.components, svgTailors.tailors).wireup();
     });
+
+  var svgChildrenParser = {
+    parse: function (svgObj) {
+      var result = [];
+      if (svgObj) {
+        // parse current svg name
+        if (svgObj.name) {
+          var parsedName = svgRuleParser.parse(svgObj.name);
+          if (parsedName) {
+            result.push(_.extend({
+              name: svgObj.name,
+              svgRef: svgObj
+            }, parsedName));
+          }
+        }
+
+        // check if there are children to process
+        if (svgObj.children) {
+          svgObj.children.forEach(function (child) {
+            result = result.concat(svgChildrenParser.parse(child));
+          });
+        }
+      }
+      return result;
+    }
+  };
+
+  var svgRuleParser = {
+    _separators: {
+      groups: '_x26__x26_',
+      clause: '::',
+      modifier: ':',
+      prop: '-'
+    },
+    _splitGroups: function (name) {
+      return name.split(svgRuleParser._separators.groups) || [];
+    },
+    _splitClauses: function (name) {
+      return name.split(svgRuleParser._separators.clause) || [];
+    },
+    _splitModifiers: function (name) {
+      return name.split(svgRuleParser._separators.modifier) || [];
+    },
+    _splitProps: function (name) {
+      return name.split(svgRuleParser._separators.prop) || [];
+    },
+    _parseProps: function (name) {
+      // parses props: body-f
+      //  => { depOnName: 'body', depOnProp: 'fill' }
+
+      var props = svgRuleParser._splitProps(name);
+      if (props.length === 2) {
+        // [name][prop]
+        return {
+          depOnName: props[0],
+          depOnProp: props[1] === 'f' ? 'fill' : 'stroke'
+        };
+      } else if (props.length === 1) {
+        // [name]
+        return {
+          depOnName: props[0]
+        };
+      }
+      return null;
+    },
+    _parseModifiers: function (name) {
+      // parses modifiers: body-f:darker
+      //  => { depOnName: 'body', depOnProp: 'fill', depOnModifier: 'darker' }
+
+      var modifiers = svgRuleParser._splitModifiers(name);
+      var result = {};
+      if (modifiers.length === 2) {
+        // [props][modifier]
+        return _.extend({
+          depOnModifier: modifiers[1]
+        }, svgRuleParser._parseProps(modifiers[0]));
+      } else if (modifiers.length === 1) {
+        // [props]
+        return svgRuleParser._parseProps(modifiers[0]);
+      }
+      return result;
+    },
+    _parseRule: function (name) {
+      // parses one rule
+
+      var clauses = svgRuleParser._splitClauses(name);
+      if (clauses.length === 3) {
+        // deps [parent][prop][name]
+        return _.extend({
+          prop: clauses[1],
+          name: clauses[2]
+        }, svgRuleParser._parseModifiers(clauses[0]));
+      } else if (clauses.length === 2) {
+        // local [prop][name]
+        return {
+          prop: clauses[0],
+          name: clauses[1] // TODO: adjust once we introduce groups (groups are local only)
+        };
+      }
+      return null;
+    },
+    parse: function (name) {
+      // SVG naming rules:
+      //
+      //  1) simple
+      //  rule: { type[fill|stroke] }::{ name of path/group }
+      //  descr: apply color to the {type} of path/group with a {name}
+      //  example: fill::hand
+      //           ==> apply color to {fill} of {hand}
+      //
+      //  2) groups (extends 1)
+      //  rule: { type }::{ {name}-{group} }
+      //  descr: TBD
+      //
+      //  3) "depends on" (extends 1)
+      //  rule: { depends on name of path/group with [-f|-s] }::{ type }::{ name }
+      //  descr: apply color of the path/group that current rule {depends on}
+      //         to the {type} of path/group with a {name}.
+      //         {depends on} rule ends with [-f|-s] that indicates what property of parent to use.
+      //         NOTE: colors of rules with a {depends on} cannot be exposed to the user
+      //  example: body-f::stroke::hat
+      //           ==> apply fill color of {body} to {stroke} of {hat}
+      //
+      //  4) "depends on" with filter (extends 3)
+      //  rule: { {depends on}:{filter} }::{ type }::{ name }
+      //  descr: apply color with a {filter} of the path/group that current rule {depends on}
+      //         to the {type} of path/group with a {name}.
+      //         {filter} is list of filter presets to choose from.
+      //  example: hat-s:darker::fill::tie
+      //           ==> apply {darker} stroke color of {hat} to {fill} of {tie}
+      //
+      //  5) combined rules
+      //  rule: { rule1 }&&{ rule2 }&&{ ruleN }
+      //  descr: rules can be combined together by using && operator.
+      //         Adobe Illustrator interprets && as _x26__x26_
+      //  example: fill::lildoo_x26__x26_fill:darker::stroke::lildoo
+      //           ==> ['fill::lildoo', 'fill:darker::stroke::lildoo']
+      //           ==> apply color to {fill} of {lildoo} (user facing property)
+      //           ==> apply {darker} fill color of {lildoo} to {stroke} of {lildoo} (hidden property)
+
+      var isValidName = false;
+
+      var result = {
+        local: {},
+        deps: {}
+      };
+
+      if (name) {
+        var groups = svgRuleParser._splitGroups(name);
+        groups.forEach(function (group) {
+          var parsedGroup = svgRuleParser._parseRule(group) || {};
+          if (parsedGroup.depOnName) {
+            isValidName = true;
+            result.deps[parsedGroup.depOnName] = parsedGroup;
+          } else if (parsedGroup.name) {
+            isValidName = true;
+            result.local[parsedGroup.name] = parsedGroup;
+          }
+        });
+      }
+
+      return isValidName ? result : null;
+    }
+  };
 
   /**
    * promise that is resolved when the main controller object (Haberdashery) is
@@ -568,8 +812,6 @@
       var $activeButton = $($view.tailorButtonsContainer).find('li:eq(0)');
       haberdashery.setTailor($activeButton.attr('id'));
       $view.tailorButtonsContainer.on('click', 'li', function () {
-        $activeButton.removeClass('selected');
-        $(this).addClass('selected');
         $activeButton = $(this);
         haberdashery.setTailor($activeButton.attr('id'));
       });
@@ -630,10 +872,6 @@
 
       $view.color.on('change', function onColorChange() {
         haberdashery.updateColor($view.color.val());
-      });
-
-      $view.downloadButton.on('click', function (e) {
-        this.href = haberdashery.canvas.toDataURL('image/png');
       });
     });
 
@@ -721,7 +959,7 @@
       this.maskBrush = document.createElement('canvas').getContext('2d');
       this.maskBrush.canvas.width = this.maskBrush.canvas.height = this.spriteSize;
     }
-    // attach to img elements that are still loading so they will trigger a 
+    // attach to img elements that are still loading so they will trigger a
     // redraw
     this.forceRedraw = _.bind(this.forceRedraw, this);
     this.onChange(this.index);
@@ -913,7 +1151,7 @@
     var isMatch, partial;
     var ii;
     if (smart) {
-      // if non-ie, mask is generated with difference blending.  The areas we 
+      // if non-ie, mask is generated with difference blending.  The areas we
       // want to fill are 100% black, or partially black areas on the borders
       // to deal with aliasing.
       isMatch = function (i) {
@@ -924,7 +1162,7 @@
       }
     }
     else {
-      // if ie, we have to just compare against the color directly. 
+      // if ie, we have to just compare against the color directly.
       isMatch = function (i) {
         return c[i] === rgb[0] && c[i + 1] === rgb[1] && c[i + 2] === rgb[2];
       }
