@@ -386,63 +386,106 @@
         components: null,
         // draw map (useful info) of currently displayed components
         drawMap: null,
+        changeColor: function (color, tailorName) {
+          if (obj.canvas && obj.project) {
+            if (color && tailorName) {
+              var allowedTailors = svgRulesTree.getUIAdjustableTailors();
+              _.each(allowedTailors[tailorName] || [], function (ruleName) {
+                // go through each individual rule and apply color change to it
+                _.each(svgRulesTree.local[ruleName] || [], function (rule) {
+                  var svgToColor = _.chain(obj.drawMap)
+                    .pluck('parsed')
+                    .flatten()
+                    .find(function (i) { return i.name === rule.svgName; })
+                    .value();
+                  if (svgToColor && svgToColor.svgRef) {
+                    var prop = rule.prop === 'fill' ? 'fillColor' : 'strokeColor';
+                    svgToColor.svgRef[prop] = color;
+                  }
+                });
+              });
+            }
+          }
+          return obj;
+        },
         clear: function () {
-          if ((obj.project.layers || []).length) {
-            obj.project.clear();
+          if (obj.canvas && obj.project) {
+            if ((obj.project.layers || []).length) {
+              obj.project.clear();
+              obj.update();
+            }
+          }
+          return obj;
+        },
+        update: function () {
+          if (obj.canvas && obj.project) {
             obj.project.view.draw();
           }
+          return obj;
         },
         draw: function (newComponents) {
-          // add new set of components if provided
-          if (newComponents) {
-            obj.components = newComponents;
+          if (obj.canvas && obj.project) {
+            // add new set of components if provided
+            if (newComponents) {
+              obj.components = newComponents;
+            }
+
+            if (obj.tailors && obj.components) {
+              // clear the canvas
+              obj.clear();
+
+              // clear the svg rules
+              svgRulesTree.clear();
+
+              // extract all the required SVGs
+              obj.drawMap = _.chain(obj.components)
+                .map(function (data, key) {
+                  var svg = obj.tailors[key].svg[data.dressingName];
+                  if (svg) {
+                    return _.extend({
+                      tailorName: key,
+                      activeSvgSrc: svg,
+                      isFlipX: obj.tailors[key]['flip_x'],
+                      zIndex: obj.tailors[key]['z-index']
+                    }, data);
+                  }
+                  return null;
+                })
+                .filter(function (data) { return data; })
+                .sortBy(function (data) { return data.zIndex; })
+                // import SVGs and attach to draw info
+                .map(function (data) {
+                  data.activeSvg = obj.project.importSVG(data.activeSvgSrc);
+                  data.parsed = svgChildrenParser.parse(data.activeSvg);
+
+                  _.each(data.parsed, function (item) {
+                    svgRulesTree.addLocal(_.filter(item.rules, function (r) { return !r.depOnName; }),
+                      item.name, data.tailorName);
+                    svgRulesTree.addDepsOn(_.filter(item.rules, function (r) { return r.depOnName; }),
+                      item.name, data.tailorName);
+                  });
+
+                  // flip object if needed
+                  if (data.isFlipX) {
+                    var handleBounds = data.activeSvg.handleBounds;
+                    var padding = (canvasSize - handleBounds.width - handleBounds.x);
+                    data.activeSvg
+                      .translate((handleBounds.x - padding) * -1, 0)
+                      .scale(-1, 1);
+                  }
+
+                  return data;
+                })
+                .value();
+
+              // detect colors and etc.
+              // TODO
+
+              // actual draw
+              obj.update();
+            }
           }
-
-          if (obj.tailors && obj.components) {
-            // clear the canvas
-            obj.clear();
-
-            // extract all the required SVGs
-            obj.drawMap = _.chain(obj.components)
-              .map(function (data, key) {
-                var svg = obj.tailors[key].svg[data.dressingName];
-                if (svg) {
-                  return _.extend({
-                    tailorName: key,
-                    activeSvgSrc: svg,
-                    isFlipX: obj.tailors[key]['flip_x'],
-                    zIndex: obj.tailors[key]['z-index']
-                  }, data);
-                }
-                return null;
-              })
-              .filter(function (data) { return data; })
-              .sortBy(function (data) { return data.zIndex; })
-              // import SVGs and attach to draw info
-              .map(function (data) {
-                // TODO: consider future speed improvement --> check for rendered SVG and reuse it
-                data.activeSvg = obj.project.importSVG(data.activeSvgSrc);
-                data.parsed = svgChildrenParser.parse(data.activeSvg);
-
-                // flip object if needed
-                if (data.isFlipX) {
-                  var handleBounds = data.activeSvg.handleBounds;
-                  var padding = (canvasSize - handleBounds.width - handleBounds.x);
-                  data.activeSvg
-                    .translate((handleBounds.x - padding) * -1, 0)
-                    .scale(-1, 1);
-                }
-
-                return data;
-              })
-              .value();
-
-            // detect colors and etc.
-            // TODO
-
-            // actual draw
-            obj.project.view.draw();
-          }
+          return obj;
         },
         init: function (components, tailors) {
           if (!obj.canvas || !obj.project) {
@@ -583,11 +626,11 @@
               return true;
             })
             .on('click.snoovatar', uiSelectors.downloadButton, function (event) {
-              this.href = obj.canvas.toDataURL('image/png');
+              event.currentTarget.href = obj.canvas.toDataURL('image/png');
               return true;
             })
             .on('change.snoovatar', uiSelectors.color, function (event) {
-              //haberdashery.updateColor($view.color.val());
+              obj.changeColor(event.currentTarget.value, obj.activeTailor).update();
               return true;
             });
         }
@@ -597,18 +640,65 @@
       return obj.init(svgTailors.components, svgTailors.tailors).wireup();
     });
 
+  window.svgRulesTree = {
+    local: {},
+    depsOn: {},
+    clear: function () {
+      svgRulesTree.local = {};
+      svgRulesTree.depsOn = {};
+    },
+    addLocal: function (rules, svgName, tailorName) {
+      svgRulesTree.local = _.reduce(rules, function (memo, rule) {
+        var key = rule.name + '::' + rule.prop;
+        memo[key] = memo[key] || [];
+        memo[key].push({
+          tailorName: tailorName,
+          svgName: svgName,
+          prop: rule.prop
+        });
+        return memo;
+      }, svgRulesTree.local);
+    },
+    addDepsOn: function (rules, svgName, tailorName) {
+      svgRulesTree.depsOn = _.reduce(rules, function (memo, rule) {
+        var parentKey = rule.depOnName + '::' + rule.depOnProp;
+        memo[parentKey] = memo[parentKey] || [];
+        memo[parentKey].push({
+          tailorName: tailorName,
+          svgName: svgName,
+          prop: rule.prop,
+          modified: rule.depOnModifier
+        });
+        return memo;
+      }, svgRulesTree.depsOn);
+    },
+    getUIAdjustableTailors: function () {
+      return _.reduce(svgRulesTree.local, function (memo, items, name) {
+        _.each(items, function (item) {
+          memo[item.tailorName] = memo[item.tailorName] || [];
+          // avoid duplication rules
+          if (memo[item.tailorName].indexOf(name) < 0) {
+            memo[item.tailorName].push(name);
+          }
+        });
+        return memo;
+      }, {});
+    }
+  };
+
   var svgChildrenParser = {
     parse: function (svgObj) {
       var result = [];
       if (svgObj) {
         // parse current svg name
         if (svgObj.name) {
-          var parsedName = svgRuleParser.parse(svgObj.name);
-          if (parsedName) {
-            result.push(_.extend({
+          var rules = svgRuleParser.parse(svgObj.name) || [];
+          if (rules.length) {
+            result.push({
               name: svgObj.name,
-              svgRef: svgObj
-            }, parsedName));
+              svgRef: svgObj,
+              rules: rules
+            });
           }
         }
 
@@ -625,13 +715,13 @@
 
   var svgRuleParser = {
     _separators: {
-      groups: '_x26__x26_',
+      group: '_x26__x26_',
       clause: '::',
       modifier: ':',
       prop: '-'
     },
     _splitGroups: function (name) {
-      return name.split(svgRuleParser._separators.groups) || [];
+      return name.split(svgRuleParser._separators.group) || [];
     },
     _splitClauses: function (name) {
       return name.split(svgRuleParser._separators.clause) || [];
@@ -666,7 +756,6 @@
       //  => { depOnName: 'body', depOnProp: 'fill', depOnModifier: 'darker' }
 
       var modifiers = svgRuleParser._splitModifiers(name);
-      var result = {};
       if (modifiers.length === 2) {
         // [props][modifier]
         return _.extend({
@@ -676,7 +765,26 @@
         // [props]
         return svgRuleParser._parseProps(modifiers[0]);
       }
-      return result;
+      return null;
+    },
+    _parseName: function (name) {
+      // parses grouped names: military:1
+      //  => { name: 'military', group: 1 }
+
+      var pieces = svgRuleParser._splitModifiers(name);
+      if (pieces.length === 2) {
+        // [name][group]
+        return {
+          name: pieces[0],
+          group: pieces[1]
+        };
+      } else if (pieces.length === 1) {
+        // [name]
+        return {
+          name: pieces[0]
+        }
+      }
+      return null;
     },
     _parseRule: function (name) {
       // parses one rule
@@ -690,10 +798,9 @@
         }, svgRuleParser._parseModifiers(clauses[0]));
       } else if (clauses.length === 2) {
         // local [prop][name]
-        return {
-          prop: clauses[0],
-          name: clauses[1] // TODO: adjust once we introduce groups (groups are local only)
-        };
+        return _.extend({
+          prop: clauses[0]
+        }, svgRuleParser._parseName(clauses[1]));
       }
       return null;
     },
@@ -707,8 +814,11 @@
       //           ==> apply color to {fill} of {hand}
       //
       //  2) groups (extends 1)
-      //  rule: { type }::{ {name}-{group} }
-      //  descr: TBD
+      //  rule: { type }::{ {name}:{group} }
+      //  descr: group all the rules by {type}::{name} into a singular rule
+      //  example: fill::military:1 and fill::military:2 and stroke::military:3
+      //           ==> ['fill::military', 'stroke::military']
+      //           ==> apply usual parsing as it's defined by 1
       //
       //  3) "depends on" (extends 1)
       //  rule: { depends on name of path/group with [-f|-s] }::{ type }::{ name }
@@ -736,28 +846,20 @@
       //           ==> apply color to {fill} of {lildoo} (user facing property)
       //           ==> apply {darker} fill color of {lildoo} to {stroke} of {lildoo} (hidden property)
 
-      var isValidName = false;
-
-      var result = {
-        local: {},
-        deps: {}
-      };
+      var result = [];
 
       if (name) {
         var groups = svgRuleParser._splitGroups(name);
-        groups.forEach(function (group) {
-          var parsedGroup = svgRuleParser._parseRule(group) || {};
-          if (parsedGroup.depOnName) {
-            isValidName = true;
-            result.deps[parsedGroup.depOnName] = parsedGroup;
-          } else if (parsedGroup.name) {
-            isValidName = true;
-            result.local[parsedGroup.name] = parsedGroup;
+        result = _.reduce(groups, function (memo, group) {
+          var parsedGroup = svgRuleParser._parseRule(group);
+          if (parsedGroup) {
+            memo.push(parsedGroup);
           }
-        });
+          return memo;
+        }, result);
       }
 
-      return isValidName ? result : null;
+      return result;
     }
   };
 
