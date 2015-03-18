@@ -376,30 +376,36 @@
       })(svgTailors.components);
 
       var obj = {
+        _svgNameSeparator: '::::',
         // builds out a Color-SVG map that can be used to color the canvas
         _buildColorSvgMap: function (color, tailorName) {
           if (color && tailorName) {
             var allowedTailors = obj.svgRulesTree.getUIAdjustableTailors();
 
             // direct color change
-            // NOTE: the structure is { ruleName: { color, prop, [svgNames] } },
-            //       where [svgNames] is an array of SVGs that should be colored;
+            // NOTE: the structure is { ruleName: { color, prop, [svgRefNames] } },
+            //       where [svgRefNames] is an array of SVG refs that should be colored;
             //       color and prop values are the same across all SVGs inside of rule
             var svgColorSet = _.reduce(allowedTailors[tailorName] || [], function (memo, ruleName) {
               memo[ruleName] = memo[ruleName] || {};
               memo[ruleName] = _.reduce(obj.svgRulesTree.local[ruleName] || [], function (aggr, rule) {
-                aggr.color = aggr.color || color;
-                aggr.prop = aggr.prop || (rule.prop === 'fill' ? 'fillColor' : 'strokeColor');
-                aggr.svgNames = aggr.svgNames || [];
-                aggr.svgNames.push(rule.svgName);
+                // for local rules we have to verify tailor; otherwise,
+                // we could end up changing color of several components
+                // with similar name for both SVG and path/group
+                if (rule.tailorName === tailorName) {
+                  aggr.color = aggr.color || color;
+                  aggr.prop = aggr.prop || (rule.prop === 'fill' ? 'fillColor' : 'strokeColor');
+                  aggr.svgRefNames = aggr.svgRefNames || [];
+                  aggr.svgRefNames.push(rule.svgRefName);
+                }
                 return aggr;
               }, memo[ruleName]);
               return memo;
             }, {});
 
             // "depends on" color change
-            // NOTE: the structure is { _ruleName: [ {color, prop, svgName}, ... } ],
-            //       where { color, prop, svgName } represents individual instances
+            // NOTE: the structure is { _ruleName: [ {color, prop, svgRefName}, ... } ],
+            //       where { color, prop, svgRefName } represents individual instances
             //       rather than group them together like in direct color change;
             //       the reason for that is `modifier` property that changes color for
             //       each individual SVG instance
@@ -412,12 +418,13 @@
                   var item = {
                     color: svgColorSet[key].color,
                     prop: rule.prop === 'fill' ? 'fillColor' : 'strokeColor',
-                    svgName: rule.svgName
+                    svgRefName: rule.svgRefName
                   };
 
                   // apply color modified if needed
                   if (rule.modifier) {
                     console.log(rule.modifier);
+                    // TODO: depsOn colors
                   }
 
                   aggr.push(item);
@@ -428,29 +435,24 @@
             }, svgColorSet);
 
             return svgColorSet;
-
-            //
-            //  // go through each individual rule and apply color change to it
-            //  //_.each(obj.svgRulesTree.local[ruleName] || [], function (rule) {
-            //  //var svgToColor = _.chain(obj.drawMap)
-            //  //  .pluck('parsed')
-            //  //  .flatten()
-            //  //  .find(function (i) { return i.name === rule.svgName; })
-            //  //  .value();
-            //  //if (svgToColor && svgToColor.svgRef) {
-            //  //  var prop = rule.prop === 'fill' ? 'fillColor' : 'strokeColor';
-            //  //  svgToColor.svgRef[prop] = color;
-            //  //}
-            //  //});
-            //});
           }
           return null;
         },
         // colors the canvas
         _applyColorSvgMap: function (map) {
-          if (map) {
-            console.log(map);
-          }
+          _.each(map || {}, function (data, key) {
+            var isDepsOnRule = key.indexOf('_') === 0;
+            if (isDepsOnRule) {
+              debugger;
+              // TODO: depsOn colors
+            } else {
+              data.svgRefNames.forEach(function (svgRefName) {
+                if (obj.svgMap[svgRefName]) {
+                  obj.svgMap[svgRefName][data.prop] = data.color;
+                }
+              });
+            }
+          });
           return obj;
         },
         // canvas itself
@@ -463,8 +465,8 @@
         activeTailor: null,
         // currently displayed components
         components: null,
-        // draw map (useful info) of currently displayed components
-        drawMap: null,
+        // mostly SVG references of currently displayed components
+        svgMap: null,
         // changes color of a component in current tailor
         changeColor: function (color, tailorName) {
           if (obj.canvas && obj.project) {
@@ -508,44 +510,48 @@
               obj.svgRulesTree.clear();
 
               // extract all the required SVGs
-              obj.drawMap = _.chain(obj.components)
+              obj.svgMap = _.chain(obj.components)
                 .map(function (data, key) {
-                  var svg = obj.tailors[key].svg[data.dressingName];
-                  if (svg) {
-                    return _.extend({
-                      tailorName: key,
-                      activeSvgSrc: svg,
-                      isFlipX: obj.tailors[key]['flip_x'],
-                      zIndex: obj.tailors[key]['z-index']
-                    }, data);
-                  }
-                  return null;
+                  return {
+                    tailorName: key,
+                    svgSrc: obj.tailors[key].svg[data.dressingName],
+                    isFlipX: obj.tailors[key]['flip_x'],
+                    zIndex: obj.tailors[key]['z-index']
+                  };
                 })
-                .filter(function (data) { return data; })
+                .filter(function (data) { return data.svgSrc; })
                 .sortBy(function (data) { return data.zIndex; })
-                // import SVGs and attach to draw info
-                .map(function (data) {
-                  data.activeSvg = obj.project.importSVG(data.activeSvgSrc);
-                  data.parsed = svgChildrenParser.parse(data.activeSvg);
-
-                  _.each(data.parsed, function (item) {
-                    obj.svgRulesTree.addLocal(_.filter(item.rules, function (r) { return !r.depOnName; }),
-                      item.name, data.tailorName);
-                    obj.svgRulesTree.addDepsOn(_.filter(item.rules, function (r) { return r.depOnName; }),
-                      item.name, data.tailorName);
-                  });
+                .reduce(function (memo, data) {
+                  var svgRef = obj.project.importSVG(data.svgSrc);
+                  var parsed = svgChildrenParser.parse(svgRef);
 
                   // flip object if needed
                   if (data.isFlipX) {
-                    var handleBounds = data.activeSvg.handleBounds;
+                    var handleBounds = svgRef.handleBounds;
                     var padding = (canvasSize - handleBounds.width - handleBounds.x);
-                    data.activeSvg
+                    svgRef
                       .translate((handleBounds.x - padding) * -1, 0)
                       .scale(-1, 1);
                   }
 
-                  return data;
-                })
+                  // add SVGs to rules tree
+                  parsed.forEach(function (item) {
+                    // we have to prepend tailor name to avoid rules overwrite
+                    var itemName = data.tailorName +
+                        //obj._svgNameSeparator + svgRef.name +
+                      obj._svgNameSeparator + item.name;
+
+                    obj.svgRulesTree.addLocal(_.filter(item.rules, function (r) { return !r.depOnName; }),
+                      itemName, data.tailorName);
+                    obj.svgRulesTree.addDepsOn(_.filter(item.rules, function (r) { return r.depOnName; }),
+                      itemName, data.tailorName);
+
+                    // add ref to svg map
+                    memo[itemName] = item.svgRef;
+                  });
+
+                  return memo;
+                }, {})
                 .value();
 
               // detect colors and etc.
@@ -718,26 +724,26 @@
             obj.svgRulesTree.depsOn = {};
           },
           // adds a new local rule
-          addLocal: function (rules, svgName, tailorName) {
+          addLocal: function (rules, svgRefName, tailorName) {
             obj.svgRulesTree.local = _.reduce(rules, function (memo, rule) {
               var key = rule.name + '::' + rule.prop;
               memo[key] = memo[key] || [];
               memo[key].push({
                 tailorName: tailorName,
-                svgName: svgName,
+                svgRefName: svgRefName,
                 prop: rule.prop
               });
               return memo;
             }, obj.svgRulesTree.local);
           },
           // adds a new "depends on" rule
-          addDepsOn: function (rules, svgName, tailorName) {
+          addDepsOn: function (rules, svgRefName, tailorName) {
             obj.svgRulesTree.depsOn = _.reduce(rules, function (memo, rule) {
               var parentKey = rule.depOnName + '::' + rule.depOnProp;
               memo[parentKey] = memo[parentKey] || [];
               memo[parentKey].push({
                 tailorName: tailorName,
-                svgName: svgName,
+                svgRefName: svgRefName,
                 prop: rule.prop,
                 modifier: rule.depOnModifier
               });
