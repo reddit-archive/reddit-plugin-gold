@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g>
+	<g id="fill::gi">
+		<path fill="#FFFFFF" stroke="#000000" stroke-width="11" stroke-miterlimit="10" d="M236.3,232.7c23.8-5,52.7,13.3,58.8,42.1
+			c2.3,10.7,9.7,31.6,9.7,31.6s-32.5,7.5-47.4,10.6C233.5,322,212.5,237.8,236.3,232.7z"/>
+		<path fill="#FFFFFF" stroke="#000000" stroke-width="11" stroke-miterlimit="10" d="M163.6,232.7c-23.8-5-52.7,13.3-58.8,42.1
+			c-2.3,10.7-9.7,31.6-9.7,31.6s32.5,7.5,47.4,10.6C166.4,322,187.5,237.8,163.6,232.7z"/>
+		<path fill="#FFFFFF" stroke="#000000" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" d="M228.5,233.3
+			c0,0-42,71.7-42.5,84.2s0,43.5,0,43.5s38.2,6.2,59.9-7.2c0,0,25.6-50.3,11.4-127.7C238.5,232.5,231.6,227.9,228.5,233.3"/>
+		<path fill="#FFFFFF" stroke="#000000" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" d="M171.5,233.3
+			c0,0,42,71.7,42.5,84.2s0,43.5,0,43.5s-38.2,6.2-59.9-7.2c0,0-25.6-50.3-11.4-127.7C161.4,232.5,168.3,227.9,171.5,233.3"/>
+	</g>
+	<path fill="#FFFFFF" stroke="#000000" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" d="M247.5,228.8
+		c0,0-27.1,46.4-39.3,72.7"/>
+	<path fill="none" stroke="#000000" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" d="M152.4,228.8
+		c0,0,46.5,77.7,47,90.2s-1,42-1,42"/>
+	<g id="fill::belt">
+		<path fill="#ED1C24" stroke="#000000" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" d="M200.3,349.8
+			c-16.5,0-34-2.4-50.6-7.4l-4.2-15.1c15.6,4.8,39.2,9.5,54.8,9.5c15.4,0,39.4-3.8,55.1-8.5l-4.2,12.7
+			C234.6,346.1,216.6,349.8,200.3,349.8z"/>
+		
+			<rect x="187.4" y="339.3" transform="matrix(0.872 -0.4895 0.4895 0.872 -149.0932 140.9035)" fill="#ED1C24" stroke="#000000" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" width="15" height="32.5"/>
+		
+			<rect x="171.5" y="335.1" transform="matrix(0.9475 0.3199 -0.3199 0.9475 122.2294 -38.7385)" fill="#ED1C24" stroke="#000000" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" width="15" height="35.3"/>
+		
+			<circle fill="#ED1C24" stroke="#000000" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" cx="184.8" cy="339.8" r="10"/>
+	</g>
+</g>
+</svg>

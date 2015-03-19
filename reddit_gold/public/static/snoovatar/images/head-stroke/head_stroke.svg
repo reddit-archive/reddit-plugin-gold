@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="head" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" id="snoo-head" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
 <g id="snoo-body-f::fill::snoo-head">
-    <circle fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="310.513" cy="118.453" r="27.016"/>
-    <circle fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="89.49" cy="118.453" r="27.016"/>
-    <ellipse fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="200" cy="155.613" rx="122.383" ry="79.871"/>
+	<circle fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="310.5" cy="118.5" r="27"/>
+	<circle fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="89.5" cy="118.5" r="27"/>
+	<ellipse fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="200" cy="155.6" rx="122.4" ry="79.9"/>
+	<circle fill="none" stroke="#000000" stroke-width="11" cx="297" cy="28" r="21.3"/>
 </g>
 <g id="eyes">
-	<circle fill="#FF4500" cx="156.88" cy="140.022" r="19.8"/>
-	<circle fill="#FF4500" cx="243.108" cy="140.022" r="19.8"/>
+	<circle fill="#FF4500" cx="156.9" cy="140" r="19.8"/>
+	<circle fill="#FF4500" cx="243.1" cy="140" r="19.8"/>
 </g>
 <g id="mouth">
-	<path fill="none" stroke="#000000" stroke-width="11" stroke-linecap="round" d="M158.017,192.383
-		c9.285,10.117,29.516,12.955,42.134,12.71"/>
-	<path fill="none" stroke="#000000" stroke-width="11" stroke-linecap="round" d="M242.285,192.383
-		c-9.285,10.117-29.516,12.955-42.134,12.71"/>
+	<path fill="none" stroke="#000000" stroke-width="11" stroke-linecap="round" d="M158,192.4c9.3,10.1,29.5,13,42.1,12.7"/>
+	<path fill="none" stroke="#000000" stroke-width="11" stroke-linecap="round" d="M242.3,192.4c-9.3,10.1-29.5,13-42.1,12.7"/>
 </g>
-<g id="antennae">
-	<polyline fill="none" stroke="#000000" stroke-width="11" stroke-linejoin="round" points="201.011,73.672 220.869,10.894 
-		274.912,23.614 	"/>
-	<circle fill="none" stroke="#000000" stroke-width="11" cx="296.963" cy="27.984" r="21.299"/>
-</g>
+<polyline fill="none" stroke="#000000" stroke-width="11" stroke-linejoin="round" points="201,73.7 220.9,10.9 274.9,23.6 "/>
 </svg>

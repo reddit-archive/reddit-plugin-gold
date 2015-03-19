@@ -9,6 +9,7 @@
   var canvasSize = 400;
   var pixelRatio = 2;
   var defaultColor = '#ffffff';
+  var snooBaseTailor = 'body-stroke';
   var uiSelectors = {
     container: '.js-snoovatar-page',
     tailorButtonsContainer: '.selectors ul',
@@ -368,14 +369,13 @@
       svgTailors.components = (function convertLegacyComponents(components, snooColor) {
         var deprecatedComponents = ['body-fill', 'head-fill'];
         var renamedComponents = [{ from: 'body-stroke', to: 'body' }, { from: 'head-stroke', to: 'head' }];
-        var snooColorBaseElement = 'body-stroke';
 
         return _.reduce(components, function (memo, value, key) {
           if (deprecatedComponents.indexOf(key) < 0) {
             value = value || {};
             if (typeof value === 'string') {
               memo[key] = { dressingName: value };
-              if (key === snooColorBaseElement) {
+              if (key === snooBaseTailor) {
                 memo[key].color = snooColor;
               }
             } else {
@@ -533,21 +533,31 @@
               });
             });
 
-            obj._applyColorSvgMap(maps);
+            // if no maps are generated let's at least give base element some color
+            if (!maps.length) {
+              obj.changeColor(defaultColor, obj.colorTypes.color, snooBaseTailor);
+            } else {
+              obj._applyColorSvgMap(maps);
+            }
           }
           return obj;
         },
         // clears the provided tailor's colors
-        clearTailorColors: function (tailorName) {
-          if (tailorName && obj.components[tailorName]) {
-            obj.components[tailorName] = _.omit(obj.components[tailorName], _.keys(obj.colorTypes));
+        // NOTE: if components isn't provided obj.components gets used instead
+        clearTailorColors: function (tailorName, components) {
+          var local = components || obj.components;
+          if (local && tailorName && local[tailorName]) {
+            local[tailorName] = _.omit(local[tailorName], _.keys(obj.colorTypes));
           }
           return obj;
         },
-        clearAllTailorsColors: function () {
-          if (obj.components) {
-            _.keys(obj.components).forEach(function (tailorName) {
-              obj.clearTailorColors(tailorName);
+        // clears all the tailors
+        // NOTE: if components isn't provided obj.components gets used instead
+        clearAllTailorsColors: function (components) {
+          var local = components || obj.components;
+          if (local) {
+            _.keys(local).forEach(function (tailorName) {
+              obj.clearTailorColors(tailorName, local);
             });
           }
           return obj;
@@ -669,7 +679,7 @@
           var colors = obj.svgRulesTree.getUIAdjustableTailors()[obj.activeTailor] || [];
           if (colors.length === 1) {
             $container.find(uiSelectors.colorLabels + ':eq(1)').addClass('is-hidden');
-          } else {
+          } else if (!colors.length) {
             $container.find(uiSelectors.colorLabels).addClass('is-hidden');
           }
 
@@ -713,9 +723,7 @@
               obj.activeTailor = $el.attr('id');
               $el = null;
 
-              obj
-                .clearTailorColors(obj.activeTailor)
-                .updateUI($container);
+              obj.updateUI($container);
 
               return true;
             })
@@ -729,7 +737,7 @@
 
                 // clear the previously set color, draw and update the UI
                 obj
-                  .clearTailorColors(obj.activeTailor)
+                  .clearTailorColors(obj.activeTailor, components)
                   .draw(components)
                   .updateUI($container);
               }
@@ -745,7 +753,7 @@
 
                 // clear the previously set color, draw and update the UI
                 obj
-                  .clearTailorColors(obj.activeTailor)
+                  .clearTailorColors(obj.activeTailor, components)
                   .draw(components)
                   .updateUI($container);
               }

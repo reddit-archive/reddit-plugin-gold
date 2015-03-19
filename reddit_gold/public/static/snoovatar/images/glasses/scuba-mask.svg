@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<path d="M280.3,115.4c0,0,16.6-0.3,21.5-6.9c12,14,18.7,25.8,18.7,25.8s-18.6,9.8-39.8,9.8C280.8,134.5,280.3,115.4,280.3,115.4z"/>
+<path d="M118.5,115.4c0,0-16.6-0.3-21.5-6.9c-12,14-18.7,25.8-18.7,25.8s18.6,9.8,39.8,9.8C118.1,134.5,118.5,115.4,118.5,115.4z"/>
+<polyline fill="#9BB2C4" stroke="#000000" points="189.2,102.6 192,116.6 183.8,155.6 214.4,158.2 206.1,119.7 208.2,102.6 "/>
+<polyline fill="#303A43" stroke="#000000" points="189.2,102.6 191.5,130.4 199.1,133.9 206.5,129.3 208.2,102.6 "/>
+<path fill="#5DBDC7" fill-opacity="0.6" stroke="#000000" stroke-width="8" d="M157,177.4h-26c-8.3,0-15-6.7-15-15v-44.8
+	c0-8.3,6.7-15,15-15h46c8.3,0,15.2,6.2,15,15C195.2,148.1,165.3,177.4,157,177.4z"/>
+<path fill="#5DBDC7" fill-opacity="0.6" stroke="#000000" stroke-width="8" d="M241.2,177.4h26c8.3,0,15-6.7,15-15v-44.8
+	c0-8.3-6.7-15-15-15h-46c-8.3,0-15.2,6.2-15,15C203,148.1,232.9,177.4,241.2,177.4z"/>
+<rect x="109.9" y="127.2" display="none" fill="#6D686D" stroke="#000000" stroke-width="8" stroke-linejoin="round" width="9" height="25.8"/>
+<rect x="277.7" y="127.2" display="none" fill="#6D686D" stroke="#000000" stroke-width="8" stroke-linejoin="round" width="9" height="25.8"/>
+<g display="none">
+	<path display="inline" fill="#74B1BD" d="M241.2,177.4h26c8.3,0,15-6.7,15-15v-44.8c0-8.3-6.7-15-15-15h-46c-8.3,0-15.2,5.5-15,15
+		C203,148.1,232.9,177.4,241.2,177.4z"/>
+	<path display="inline" fill="none" stroke="#000000" stroke-width="8" d="M241.2,177.4h26c8.3,0,15-6.7,15-15v-44.8
+		c0-8.3-6.7-15-15-15h-46c-8.3,0-15.2,5.5-15,15C203,148.1,232.9,177.4,241.2,177.4z"/>
+	<path display="inline" fill="none" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M242.6,165.4
+		c-6.7-3.5-26.7-25.1-24.5-46.5l0.1-0.8l0-0.8c0-0.5,0-1.5,0.5-1.9c0.4-0.4,1.2-0.8,2.5-0.8h46c1.7,0,3,1.3,3,3v44.8
+		c0,1.7-1.3,3-3,3H242.6z"/>
+</g>
+<line fill="none" stroke="#000000" stroke-width="8" x1="191.5" y1="131.6" x2="207.3" y2="131.6"/>
+<line fill="none" stroke="#000000" stroke-width="8" x1="171.5" y1="102.6" x2="229" y2="102.6"/>
+<path fill="none" stroke="#000000" stroke-width="8" stroke-linejoin="round" d="M176.7,161.7c0,0,17.5-15.7,44.8,0"/>
+</svg>
