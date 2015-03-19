@@ -25,7 +25,9 @@
     sampleButton: '#generate-samples',
     publicCheckbox: '#public',
     messageBox: '#message',
-    color: '#color'
+    color: '#color',
+    altColor: '#alt_color',
+    colorLabels: '.js-snoo-color-label'
   };
   var colorReplacement = [0, 255, 0];
 
@@ -363,97 +365,123 @@
       // make sure we convert legacy version of components
       // the idea here is before we stored just a name of dressing,
       // and now it's a complex object - name, color, etc.
-      svgTailors.components = (function convertLegacyComponents(components) {
+      svgTailors.components = (function convertLegacyComponents(components, snooColor) {
+        var deprecatedComponents = ['body-fill', 'head-fill'];
+        var renamedComponents = [{ from: 'body-stroke', to: 'body' }, { from: 'head-stroke', to: 'head' }];
+        var snooColorBaseElement = 'body-stroke';
+
         return _.reduce(components, function (memo, value, key) {
-          value = value || {};
-          if (typeof value === 'string') {
-            memo[key] = { dressingName: value };
-          } else {
-            memo[key] = value;
+          if (deprecatedComponents.indexOf(key) < 0) {
+            value = value || {};
+            if (typeof value === 'string') {
+              memo[key] = { dressingName: value };
+              if (key === snooColorBaseElement) {
+                memo[key].color = snooColor;
+              }
+            } else {
+              memo[key] = value;
+            }
           }
           return memo;
         }, {});
-      })(svgTailors.components);
+      })(svgTailors.components, svgTailors.snoo_color);
 
       var obj = {
         _svgNameSeparator: '::::',
         // builds out a Color-SVG map that can be used to color the canvas
-        _buildColorSvgMap: function (color, tailorName) {
-          if (color && tailorName) {
-            var allowedTailors = obj.svgRulesTree.getUIAdjustableTailors();
-
-            // direct color change
-            // NOTE: the structure is { ruleName: { color, prop, [svgRefNames] } },
-            //       where [svgRefNames] is an array of SVG refs that should be colored;
-            //       color and prop values are the same across all SVGs inside of rule
-            var svgColorSet = _.reduce(allowedTailors[tailorName] || [], function (memo, ruleName) {
-              memo[ruleName] = memo[ruleName] || {};
-              memo[ruleName] = _.reduce(obj.svgRulesTree.local[ruleName] || [], function (aggr, rule) {
+        _buildColorSvgMap: function (componentColorProp, tailorName) {
+          if (componentColorProp && tailorName) {
+            var color = obj.components[tailorName][componentColorProp] || defaultColor;
+            var allowedTailors = obj.svgRulesTree.getUIAdjustableTailors()[tailorName] || [];
+            var ruleName = allowedTailors[obj.colorTypes[componentColorProp]];
+            if (ruleName) {
+              // direct color change
+              // NOTE: the structure is { ruleName: { color, prop, [svgRefNames] } },
+              //       where [svgRefNames] is an array of SVG refs that should be colored;
+              //       color and prop values are the same across all SVGs inside of rule
+              var svgColorSet = {};
+              svgColorSet[ruleName] = _.reduce(obj.svgRulesTree.local[ruleName] || [], function (memo, rule) {
                 // for local rules we have to verify tailor; otherwise,
                 // we could end up changing color of several components
                 // with similar name for both SVG and path/group
                 if (rule.tailorName === tailorName) {
-                  aggr.color = aggr.color || color;
-                  aggr.prop = aggr.prop || (rule.prop === 'fill' ? 'fillColor' : 'strokeColor');
-                  aggr.svgRefNames = aggr.svgRefNames || [];
-                  aggr.svgRefNames.push(rule.svgRefName);
+                  memo.color = memo.color || color;
+                  memo.prop = memo.prop || (rule.prop === 'fill' ? 'fillColor' : 'strokeColor');
+                  memo.svgRefNames = memo.svgRefNames || [];
+                  memo.svgRefNames.push(rule.svgRefName);
                 }
-                return aggr;
-              }, memo[ruleName]);
-              return memo;
-            }, {});
+                return memo;
+              }, {});
 
-            // "depends on" color change
-            // NOTE: the structure is { _ruleName: [ {color, prop, svgRefName}, ... } ],
-            //       where { color, prop, svgRefName } represents individual instances
-            //       rather than group them together like in direct color change;
-            //       the reason for that is `modifier` property that changes color for
-            //       each individual SVG instance
-            svgColorSet = _.reduce(_.keys(svgColorSet) || [], function (memo, key) {
-              var depsOnRules = obj.svgRulesTree.depsOn[key] || [];
+              // "depends on" color change
+              // NOTE: the structure is { _ruleName: [ {color, prop, svgRefName}, ... } ],
+              //       where { color, prop, svgRefName } represents individual instances
+              //       rather than group them together like in direct color change;
+              //       the reason for that is `modifier` property that changes color for
+              //       each individual SVG instance
+              var depsOnRules = obj.svgRulesTree.depsOn[ruleName] || [];
               if (depsOnRules.length) {
-                var depsOnKey = '_' + key;
-                memo[depsOnKey] = memo[depsOnKey] || [];
-                memo[depsOnKey] = _.reduce(depsOnRules, function (aggr, rule) {
+                svgColorSet['_' + ruleName] = _.reduce(depsOnRules, function (memo, rule) {
                   var item = {
-                    color: svgColorSet[key].color,
+                    color: svgColorSet[ruleName].color,
                     prop: rule.prop === 'fill' ? 'fillColor' : 'strokeColor',
                     svgRefName: rule.svgRefName
                   };
 
                   // apply color modified if needed
                   if (rule.modifier) {
+                    // TODO: color modifiers
                     console.log(rule.modifier);
-                    // TODO: depsOn colors
                   }
 
-                  aggr.push(item);
-                  return aggr;
-                }, memo[depsOnKey]);
+                  memo.push(item);
+                  return memo;
+                }, []);
               }
-              return memo;
-            }, svgColorSet);
 
-            return svgColorSet;
+              return svgColorSet;
+            }
           }
           return null;
         },
         // colors the canvas
-        _applyColorSvgMap: function (map) {
-          _.each(map || {}, function (data, key) {
-            var isDepsOnRule = key.indexOf('_') === 0;
-            if (isDepsOnRule) {
-              debugger;
-              // TODO: depsOn colors
-            } else {
-              data.svgRefNames.forEach(function (svgRefName) {
-                if (obj.svgMap[svgRefName]) {
-                  obj.svgMap[svgRefName][data.prop] = data.color;
+        _applyColorSvgMap: function (maps) {
+          // make sure we deal with array of maps,
+          // because in a single color change the incoming
+          // maps property is a singular map object
+          maps = _.isArray(maps) ? maps : [maps];
+
+          _.chain(maps)
+            .compact()
+            .each(function (map) {
+              _.each(map, function (data, key) {
+                var isDepsOnRule = key.indexOf('_') === 0;
+                if (isDepsOnRule) {
+                  // "depends on" rules are represented as an array,
+                  // so iterate through each individual rule
+                  data.forEach(function (dataItem) {
+                    if (obj.svgMap[dataItem.svgRefName]) {
+                      obj.svgMap[dataItem.svgRefName][dataItem.prop] = dataItem.color;
+                    }
+                  });
+                } else {
+                  // local rules have prop and color defined on top
+                  // and svgRefNames as an array to iterate through individual SVG refs
+                  data.svgRefNames.forEach(function (svgRefName) {
+                    if (obj.svgMap[svgRefName]) {
+                      obj.svgMap[svgRefName][data.prop] = data.color;
+                    }
+                  });
                 }
               });
-            }
-          });
+            });
+
           return obj;
+        },
+        //
+        colorTypes: {
+          color: 0,
+          altColor: 1
         },
         // canvas itself
         canvas: null,
@@ -467,13 +495,60 @@
         components: null,
         // mostly SVG references of currently displayed components
         svgMap: null,
-        // changes color of a component in current tailor
-        changeColor: function (color, tailorName) {
+        // changes color of a component's color type in current tailor
+        // NOTE: for colorType use obj.colorTypes dict
+        changeColor: function (color, colorType, tailorName) {
           if (obj.canvas && obj.project) {
-            var map = obj._buildColorSvgMap(color, tailorName);
+            // detect color property
+            var colorProp = _.keys(obj.colorTypes)[colorType || 0];
+
+            // set color for component, so next time we know what it's
+            obj.components[tailorName][colorProp] = color;
+
+            // apply color to the actual canvas
+            var map = obj._buildColorSvgMap(colorProp, tailorName);
             if (map) {
               obj._applyColorSvgMap(map).update();
             }
+          }
+          return obj;
+        },
+        // updates the canvas to reflect all the components colors
+        updateColors: function () {
+          if (obj.canvas && obj.project) {
+            var colorProps = _.keys(obj.colorTypes);
+            var maps = [];
+
+            // iterate through each component and...
+            _.each(obj.components, function (data, tailorName) {
+              // ...check if there are any color properties presented
+              _.each(colorProps, function (colorProp) {
+                // if so, then calculate color SVG map
+                if (data[colorProp]) {
+                  maps.push(obj._buildColorSvgMap(colorProp, tailorName));
+                  //if (map) {
+                  //  obj._applyColorSvgMap(map).update();
+                  //}
+                }
+              });
+            });
+
+            obj._applyColorSvgMap(maps);
+          }
+          return obj;
+        },
+        // clears the provided tailor's colors
+        clearTailorColors: function (tailorName) {
+          if (tailorName && obj.components[tailorName]) {
+            obj.components[tailorName] = _.omit(obj.components[tailorName], _.keys(obj.colorTypes));
+          }
+          return obj;
+        },
+        clearAllTailorsColors: function () {
+          if (obj.components) {
+            _.keys(obj.components).forEach(function (tailorName) {
+              obj.clearTailorColors(tailorName);
+            });
           }
           return obj;
         },
@@ -537,9 +612,7 @@
                   // add SVGs to rules tree
                   parsed.forEach(function (item) {
                     // we have to prepend tailor name to avoid rules overwrite
-                    var itemName = data.tailorName +
-                        //obj._svgNameSeparator + svgRef.name +
-                      obj._svgNameSeparator + item.name;
+                    var itemName = data.tailorName + obj._svgNameSeparator + item.name;
 
                     obj.svgRulesTree.addLocal(_.filter(item.rules, function (r) { return !r.depOnName; }),
                       itemName, data.tailorName);
@@ -554,8 +627,10 @@
                 }, {})
                 .value();
 
+              console.info('depsOn: ', _.keys(obj.svgRulesTree.depsOn));
+
               // detect colors and etc.
-              // TODO
+              obj.updateColors();
 
               // actual draw
               obj.update();
@@ -580,6 +655,24 @@
             // trigger draw
             obj.draw();
           }
+          return obj;
+        },
+        // updates UI for the components change
+        updateUI: function ($container) {
+          // adjust the UI
+          var componentData = obj.components[obj.activeTailor];
+          $container
+            .find(uiSelectors.colorLabels).removeClass('is-hidden').end()
+            .find(uiSelectors.color).val(componentData.color || defaultColor).end()
+            .find(uiSelectors.altColor).val(componentData.altColor || defaultColor);
+
+          var colors = obj.svgRulesTree.getUIAdjustableTailors()[obj.activeTailor] || [];
+          if (colors.length === 1) {
+            $container.find(uiSelectors.colorLabels + ':eq(1)').addClass('is-hidden');
+          } else {
+            $container.find(uiSelectors.colorLabels).addClass('is-hidden');
+          }
+
           return obj;
         },
         // wires up user interactions
@@ -620,30 +713,51 @@
               obj.activeTailor = $el.attr('id');
               $el = null;
 
+              obj
+                .clearTailorColors(obj.activeTailor)
+                .updateUI($container);
+
               return true;
             })
             .on('click.snoovatar', uiSelectors.nextButton, function (event) {
               if (obj.activeTailor) {
+                // move to the next component
                 var dressings = obj.tailors[obj.activeTailor].dressings;
                 var components = _.extend({}, obj.components);
                 components[obj.activeTailor].dressingName =
                   getNextDressingsName(dressings, obj.components[obj.activeTailor].dressingName);
-                obj.draw(components);
+
+                // clear the previously set color, draw and update the UI
+                obj
+                  .clearTailorColors(obj.activeTailor)
+                  .draw(components)
+                  .updateUI($container);
               }
               return true;
             })
             .on('click.snoovatar', uiSelectors.prevButton, function (event) {
               if (obj.activeTailor) {
+                // move to the prev component
                 var dressings = obj.tailors[obj.activeTailor].dressings;
                 var components = _.extend({}, obj.components);
                 components[obj.activeTailor].dressingName =
                   getPrevDressingsName(dressings, obj.components[obj.activeTailor].dressingName);
-                obj.draw(components);
+
+                // clear the previously set color, draw and update the UI
+                obj
+                  .clearTailorColors(obj.activeTailor)
+                  .draw(components)
+                  .updateUI($container);
               }
               return true;
             })
             .on('click.snoovatar', uiSelectors.randomButton, function (event) {
-              obj.draw(randomizeComponents(obj.tailors));
+              // clear all the previously colors, draw and update the UI
+              obj
+                .clearAllTailorsColors()
+                .draw(randomizeComponents(obj.tailors))
+                .updateUI($container);
+
               return true;
             })
             .on('click.snoovatar', uiSelectors.clearButton, function (event) {
@@ -663,7 +777,11 @@
                 return memo;
               }, {});
 
-              obj.draw(components);
+              // clear all the previously colors, draw and update the UI
+              obj
+                .clearAllTailorsColors()
+                .draw(components)
+                .updateUI($container);
 
               return true;
             })
@@ -708,7 +826,11 @@
               return true;
             })
             .on('change.snoovatar', uiSelectors.color, function (event) {
-              obj.changeColor(event.currentTarget.value, obj.activeTailor);
+              obj.changeColor(event.currentTarget.value, obj.colorTypes.color, obj.activeTailor);
+              return true;
+            })
+            .on('change.snoovatar', uiSelectors.altColor, function (event) {
+              obj.changeColor(event.currentTarget.value, obj.colorTypes.altColor, obj.activeTailor);
               return true;
             });
         },
@@ -726,7 +848,7 @@
           // adds a new local rule
           addLocal: function (rules, svgRefName, tailorName) {
             obj.svgRulesTree.local = _.reduce(rules, function (memo, rule) {
-              var key = rule.name + '::' + rule.prop;
+              var key = rule.prop + '::' + rule.name;
               memo[key] = memo[key] || [];
               memo[key].push({
                 tailorName: tailorName,
@@ -739,7 +861,7 @@
           // adds a new "depends on" rule
           addDepsOn: function (rules, svgRefName, tailorName) {
             obj.svgRulesTree.depsOn = _.reduce(rules, function (memo, rule) {
-              var parentKey = rule.depOnName + '::' + rule.depOnProp;
+              var parentKey = rule.depOnProp + '::' + rule.depOnName;
               memo[parentKey] = memo[parentKey] || [];
               memo[parentKey].push({
                 tailorName: tailorName,
@@ -752,7 +874,8 @@
           },
           // returns all the UI facing changeable colors
           // NOTE: returns an array for each tailor because there could be
-          //       more than one color per component (alt colors and etc.)
+          //       more than one color per component (alt colors and etc.);
+          //       we also assume that [0] is main color, [1] is alt color
           getUIAdjustableTailors: function () {
             return _.reduce(obj.svgRulesTree.local, function (memo, items, name) {
               (items || []).forEach(function (item) {
@@ -797,7 +920,7 @@
     }
   };
 
-  var svgRuleParser = {
+  window.svgRuleParser = {
     _separators: {
       group: '_x26__x26_',
       clause: '::',
@@ -817,17 +940,19 @@
       return name.split(svgRuleParser._separators.prop) || [];
     },
     _parseProps: function (name) {
-      // parses props: body-f
-      //  => { depOnName: 'body', depOnProp: 'fill' }
+      // parses props: snoo-body-f
+      //  => { depOnName: 'snoo-body', depOnProp: 'fill' }
 
       var props = svgRuleParser._splitProps(name);
-      if (props.length === 2) {
+      var length = props.length;
+      if (length > 1) {
         // [name][prop]
+        var depOnProp = props.pop();
         return {
-          depOnName: props[0],
-          depOnProp: props[1] === 'f' ? 'fill' : 'stroke'
+          depOnName: props.join(svgRuleParser._separators.prop),
+          depOnProp: depOnProp === 'f' ? 'fill' : 'stroke'
         };
-      } else if (props.length === 1) {
+      } else if (length === 1) {
         // [name]
         return {
           depOnName: props[0]
@@ -836,8 +961,8 @@
       return null;
     },
     _parseModifiers: function (name) {
-      // parses modifiers: body-f:darker
-      //  => { depOnName: 'body', depOnProp: 'fill', depOnModifier: 'darker' }
+      // parses modifiers: snoo-body-f:darker
+      //  => { depOnName: 'snoo-body', depOnProp: 'fill', depOnModifier: 'darker' }
 
       var modifiers = svgRuleParser._splitModifiers(name);
       if (modifiers.length === 2) {

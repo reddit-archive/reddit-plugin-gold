@@ -50,12 +50,19 @@ ${less_stylesheet('gold.less')}
             <span class="proxy-checkbox"></span>
             <span class="label">${_('make my snoovatar public')}</span>
           </label>
-          <label class="snoo-color-label">
+          <label class="snoo-color-label js-snoo-color-label">
             <%
               snoo_color = thing.snoovatar['snoo_color'] if thing.snoovatar else '#FFFFFF'
             %>
             <input id="color" type="color" value="${snoo_color}">
-            <span class="label">${_('my snoo color')}</span>
+            <span class="label">${_('main color')}</span>
+          </label>
+          <label class="snoo-color-label js-snoo-color-label is-hidden">
+            <%
+              snoo_color_alt = thing.snoovatar['snoo_color'] if thing.snoovatar else '#FFFFFF'
+            %>
+            <input id="alt_color" type="color" value="${snoo_color_alt}">
+            <span class="label">${_('alt color')}</span>
           </label>
         </div>
         <div class="buttons">

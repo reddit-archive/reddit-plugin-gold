@@ -3,9 +3,11 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="head" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
-<circle fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="310.513" cy="118.453" r="27.016"/>
-<circle fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="89.49" cy="118.453" r="27.016"/>
-<ellipse fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="200" cy="155.613" rx="122.383" ry="79.871"/>
+<g id="snoo-body-f::fill::snoo-head">
+    <circle fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="310.513" cy="118.453" r="27.016"/>
+    <circle fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="89.49" cy="118.453" r="27.016"/>
+    <ellipse fill="#FFFFFF" stroke="#000000" stroke-width="11" cx="200" cy="155.613" rx="122.383" ry="79.871"/>
+</g>
 <g id="eyes">
 	<circle fill="#FF4500" cx="156.88" cy="140.022" r="19.8"/>
 	<circle fill="#FF4500" cx="243.108" cy="140.022" r="19.8"/>
