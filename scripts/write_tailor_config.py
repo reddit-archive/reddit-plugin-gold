@@ -12,6 +12,7 @@ def write_tailor_config(sprite_folder, output_path):
     for directory in sprite_directories:
         # each directory can contain a tailor.json file to override defaults
         tailor_config_path = os.path.join(sprite_folder, directory, 'tailor.json')
+        svgs = {}
         tailor = None
         try:
             with open(tailor_config_path) as config_file:
@@ -30,12 +31,19 @@ def write_tailor_config(sprite_folder, output_path):
         tailor.setdefault("z-index", 100)
 
         tailor['dressings'] = []
-        sprite_paths = glob.glob(os.path.join(sprite_folder, directory, '*.png'))
-        for sprite_path in sprite_paths:
-            name = os.path.splitext(os.path.basename(sprite_path))[0]
+        svg_paths = glob.glob(os.path.join(sprite_folder, directory, '*.svg'))
+        for svg_path in svg_paths:
+            name = os.path.splitext(os.path.basename(svg_path))[0]
+
+            # add dressing name
             tailor['dressings'].append({
                 "name": name
             })
+
+            # read svg source
+            with open(svg_path, 'r') as svg_file:
+                svgs[name] = svg_file.read().replace('\n', '').replace('\r', '').strip()
+
         if tailor["flippable"]:
             flipped_tailor = tailor.copy()
             flipped_tailor["name"] = 'flipped_' + tailor["name"]
@@ -46,14 +54,6 @@ def write_tailor_config(sprite_folder, output_path):
         tailors.append(tailor)
 
         # bundle individual SVGs together inside of each category
-        svgs = {}
-
-        svg_paths = glob.glob(os.path.join(sprite_folder, directory, '*.svg'))
-        for svg_path in svg_paths:
-            name = os.path.splitext(os.path.basename(svg_path))[0]
-            with open(svg_path, 'r') as svg_file:
-                svgs[name] = svg_file.read().replace('\n', '').strip()
-
         svg_bundle_output_path = os.path.join(sprite_folder, directory, 'svg_bundle.json')
         with open(svg_bundle_output_path, 'w') as svg_bundle:
             json.dump(svgs, svg_bundle, indent=4)

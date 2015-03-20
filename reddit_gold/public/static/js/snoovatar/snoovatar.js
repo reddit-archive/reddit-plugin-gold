@@ -4,12 +4,11 @@
 
   // config values
   var imagePath = '/static/snoovatar/images/';
-  var filetype_old = 'png';
-  var filetype = 'svg';
   var canvasSize = 400;
   var pixelRatio = 2;
+  var snooBaseTailor = 'snoo-body';
   var defaultColor = '#ffffff';
-  var snooBaseTailor = 'body-stroke';
+  var colorModifierValue = .3; // 30%
   var uiSelectors = {
     container: '.js-snoovatar-page',
     tailorButtonsContainer: '.selectors ul',
@@ -21,7 +20,6 @@
     downloadButton: '#download',
     clearButton: '#clear',
     canvasContainer: '#snoovatar',
-    canvasSvgContainer: '#js-svg-canvas',
     sampleContainer: '#samples',
     sampleButton: '#generate-samples',
     publicCheckbox: '#public',
@@ -30,7 +28,6 @@
     altColor: '#alt_color',
     colorLabels: '.js-snoo-color-label'
   };
-  var colorReplacement = [0, 255, 0];
 
   /**
    * create a function with a promise property attached to it
@@ -63,7 +60,12 @@
     return def.promise();
   }
 
-  // TODO: comment
+  /**
+   * returns a promise that resolves when an array of image sources are preloaded
+   * @param  {string[]} sources list of svg bundles to load}
+   * @return {$.Promise}
+   * @resolve {JSON with SVG}
+   */
   $.preloadSVGs = function (sources) {
     return $.when.apply(window, $.map(sources, function (src) {
       var isJson = _.isObject(src);
@@ -94,50 +96,6 @@
       return def.promise();
     }));
   };
-
-  /**
-   * returns a promise that resolves when an array of image sources are preloaded
-   * @param  {string[]} srcs list of image sources to preload
-   * @return {$.Promise}
-   * @resolve {Image[]}
-   */
-  $.preloadImageArray = function (srcs) {
-    return $.when.apply(window, $.map(srcs, function (src) {
-      return $.preloadImage(src);
-    }));
-  };
-
-  /**
-   * returns a promise that resolves when an image is preloaded
-   * @param  {string} src source of image to load
-   * @return {$.Promise}
-   * @resolve {Image}
-   */
-  $.preloadImage = function (src) {
-    var def = $.Deferred();
-    var img = new Image();
-    img.onload = function () {
-      def.resolve(img);
-    };
-    img.onerror = function () {
-      def.reject(img);
-    };
-    img.src = src;
-    return def.promise();
-  };
-
-  /**
-   * returns an array of images that may not be loaded yet
-   * @param  {string[]} srcs
-   * @return {Image[]}
-   */
-  function loadImages(srcs) {
-    return _.map(srcs, function (src) {
-      var img = new Image();
-      img.src = src;
-      return img;
-    });
-  }
 
   /**
    * exposes a public function for the mako template to pass in tailor json data
@@ -179,112 +137,48 @@
   testBlending.globalCompositeOperation = 'difference';
   var useDifferenceMask = testBlending.globalCompositeOperation === 'difference';
 
-  /** TODO: drop the map, no need for it
+  /**
    * promise that is resolved when the view is ready to use
    * @type {$.Promise}
-   * @resolve {Object{$}} map of cached jQuery objects
+   * @resolve {Object} view related properties like isEditable, etc.
    */
   var viewReady = $.when(
-    uiSelectors,
     waitForDOM
   )
-    .then(function buildView(uiSelectors) {
-      var $view = _.reduce(uiSelectors, function (map, val, key) {
-        map[key] = $(val);
-        return map;
-      }, {});
-      $view.editable = $view.canvasContainer.hasClass('editable');
-      return $view;
+    .then(function buildView() {
+      return {
+        isEditable: $(uiSelectors.canvasContainer).hasClass('editable')
+      };
     });
 
   /**
-   * promise that is resolved when images derived from tailors.json are preloaded
+   * promise that is resolved when SVGs derived from tailors.json are loaded
    * @type {$.Promise}
-   * @resolve {Image[]}
+   * @resolve {SVGs[]}
    */
-  var imagesAreReady = $.when(
-    viewReady,
-    exports.initTailors.isReady,
-    exports.initSnoovatar.isReady
-  )
-    .then(function ($view, tailorData, snoovatarData) {
-      var imageSrc = function (tailorPath, dressingName) {
-        return imagePath + tailorPath + '/' + dressingName + '.' + filetype_old;
-      };
-
-      var components = snoovatarData.components || {};
-
-      var preloadImages = _.reduce(tailorData, function (list, tailor) {
-        // get the image set for each tailor in read-only view
-        if (tailor.name in components) {
-          if (components[tailor.name]) {
-            list.push(imageSrc(tailor.asset_path, components[tailor.name]));
-          }
-        }
-        else if (!tailor.allow_clear && tailor.dressings.length) {
-          list.push(imageSrc(tailor.asset_path, tailor.dressings[0].name));
-        }
-        return list;
-      }, []);
-      var allImages = _.reduce(tailorData, function (list, tailor) {
-        // get all images
-        return list.concat(_.map(tailor.dressings, function (dressing) {
-          return imageSrc(tailor.asset_path, dressing.name);
-        }));
-      }, []);
-
-      if ($view.editable) {
-        return $.preloadImageArray(preloadImages).then(function () {
-          return loadImages(allImages);
-        });
-      }
-      else {
-        return $.preloadImageArray(preloadImages);
-      }
-    });
-
-  // TODO:
   var svgsAreReady = $.when(
-    viewReady,
     exports.initTailors.isReady,
     exports.initSnoovatar.isReady
   )
-    .then(function ($view, tailorData, snoovatarData) {
-      if ($view.editable) {
-        // get all SVGs
-        var svgBundlesToLoad = _.chain(tailorData)
-          .pluck('asset_path')
-          .map(function (tailor) {
-            return {
-              tailor: tailor,
-              url: imagePath + tailor + '/svg_bundle.json'
-            }
-          })
-          .value();
-
-        return $.preloadSVGs(svgBundlesToLoad);
-      } else {
-        // TODO: individual SVGs?
-        return;
-        var components = snoovatarData.components || {};
-
-        // get the SVG set for each tailor in read-only view
-        var svgsToLoad = _.reduce(tailorData, function (list, tailor) {
-          if (tailor.name in components) {
-            if (components[tailor.name]) {
-              list.push(svgSrc(tailor.asset_path, components[tailor.name]));
-            }
-          } else if (!tailor.allow_clear && tailor.dressings.length) {
-            list.push(svgSrc(tailor.asset_path, tailor.dressings[0].name));
+    .then(function (tailorData, snoovatarData) {
+      var svgBundlesToLoad = _.chain(tailorData)
+        .pluck('asset_path')
+        .map(function (tailor) {
+          return {
+            tailor: tailor,
+            url: imagePath + tailor + '/svg_bundle.json'
           }
-          return list;
-        }, []);
+        })
+        .value();
 
-        return $.preloadSVGs(svgsToLoad);
-      }
+      return $.preloadSVGs(svgBundlesToLoad);
     });
 
-  // TODO: get rid of .svg and use .dressings[0].svg instead
+  /**
+   * promise that is resolved when SVGs and Tailors are loaded and bundled together
+   * @type {$.Promise}
+   * @resolve {[]}
+   */
   var svgTailorsReady = $.when(
     svgsAreReady,
     exports.initTailors.isReady,
@@ -306,7 +200,8 @@
           return aggr;
         }, []);
 
-        memo[obj.name] = _.extend({ svg: svgMap[obj.asset_path] }, obj);
+        memo[obj.name] = obj;
+
         return memo;
       }, {});
 
@@ -322,23 +217,46 @@
     svgTailorsReady,
     viewReady
   )
-    .then(function createSvgCanvas(svgTailors, $view) {
+    .then(function createSvgCanvas(svgTailors, viewData) {
+      function colorLuminance(hex, lum) {
+        // validate hex string
+        hex = window.String(hex).replace(/[^0-9a-f]/gi, '');
+        if (hex.length < 6) {
+          hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        lum = lum || 0;
+
+        // convert to decimal and change luminosity
+        var rgb = "#", c, i;
+        for (i = 0; i < 3; i++) {
+          c = window.parseInt(hex.substr(i * 2, 2), 16);
+          c = window.Math.round(window.Math.min(window.Math.max(0, c + (c * lum)), 255)).toString(16);
+          rgb += ("00" + c).substr(c.length);
+        }
+
+        return rgb;
+      }
+
+      function getRandomColor() {
+        return '#' + window.Math.floor(window.Math.random() * 16777215).toString(16);
+      }
+
       function getRandomInt(min, max) {
         return window.Math.floor(window.Math.random() * (max - min + 1)) + min;
       }
 
       function randomizeComponents(tailors) {
         return _.reduce(tailors, function (memo, data) {
-          var svgKeys = _.keys(data.svg);
-          if (svgKeys && svgKeys.length) {
+          var keys = _.pluck(data.dressings, 'name');
+          if (keys && keys.length) {
             memo[data.name] = {
-              dressingName: (function (svgKeys) {
-                if (svgKeys.length === 1) {
-                  return svgKeys[0];
+              dressingName: (function (keys) {
+                if (keys.length === 1) {
+                  return keys[0];
                 } else {
-                  return svgKeys[getRandomInt(0, svgKeys.length - 1)];
+                  return keys[getRandomInt(0, keys.length - 1)];
                 }
-              })(svgKeys)
+              })(keys)
             };
           }
           return memo;
@@ -368,13 +286,25 @@
       // and now it's a complex object - name, color, etc.
       svgTailors.components = (function convertLegacyComponents(components, snooColor) {
         var deprecatedComponents = ['body-fill', 'head-fill'];
-        var renamedComponents = [{ from: 'body-stroke', to: 'body' }, { from: 'head-stroke', to: 'head' }];
+        var renamedTailors = {
+          'body-stroke': 'snoo-body',
+          'head-stroke': 'snoo-head'
+        };
+        var renamedComponents = {
+          'body_stroke': 'body',
+          'head_stroke': 'head'
+        };
 
         return _.reduce(components, function (memo, value, key) {
           if (deprecatedComponents.indexOf(key) < 0) {
             value = value || {};
+
+            if (renamedTailors[key]) {
+              key = renamedTailors[key];
+            }
+
             if (typeof value === 'string') {
-              memo[key] = { dressingName: value };
+              memo[key] = { dressingName: renamedComponents[value] ? renamedComponents[value] : value };
               if (key === snooBaseTailor) {
                 memo[key].color = snooColor;
               }
@@ -430,8 +360,11 @@
 
                   // apply color modified if needed
                   if (rule.modifier) {
-                    // TODO: color modifiers
-                    console.log(rule.modifier);
+                    if (rule.modifier === 'darker') {
+                      item.color = colorLuminance(item.color, -1 * colorModifierValue);
+                    } else if (rule.modifier === 'lighter') {
+                      item.color = colorLuminance(item.color, colorModifierValue);
+                    }
                   }
 
                   memo.push(item);
@@ -526,9 +459,6 @@
                 // if so, then calculate color SVG map
                 if (data[colorProp]) {
                   maps.push(obj._buildColorSvgMap(colorProp, tailorName));
-                  //if (map) {
-                  //  obj._applyColorSvgMap(map).update();
-                  //}
                 }
               });
             });
@@ -580,11 +510,16 @@
           return obj;
         },
         // draws new components
-        draw: function (newComponents) {
+        draw: function (newComponents, newBaseColor) {
           if (obj.canvas && obj.project) {
             // add new set of components if provided
             if (newComponents) {
               obj.components = newComponents;
+            }
+
+            // set a new base color if specified
+            if (newBaseColor) {
+              obj.components[snooBaseTailor].color = newBaseColor;
             }
 
             if (obj.tailors && obj.components) {
@@ -597,11 +532,12 @@
               // extract all the required SVGs
               obj.svgMap = _.chain(obj.components)
                 .map(function (data, key) {
+                  var tailor = obj.tailors[key];
                   return {
                     tailorName: key,
-                    svgSrc: obj.tailors[key].svg[data.dressingName],
-                    isFlipX: obj.tailors[key]['flip_x'],
-                    zIndex: obj.tailors[key]['z-index']
+                    svgSrc: (_.where(tailor.dressings, { name: data.dressingName })[0] || {}).svg,
+                    isFlipX: tailor['flip_x'],
+                    zIndex: tailor['z-index']
                   };
                 })
                 .filter(function (data) { return data.svgSrc; })
@@ -609,6 +545,8 @@
                 .reduce(function (memo, data) {
                   var svgRef = obj.project.importSVG(data.svgSrc);
                   var parsed = svgChildrenParser.parse(svgRef);
+                  console.log(data);
+                  console.log(parsed);
 
                   // flip object if needed
                   if (data.isFlipX) {
@@ -656,7 +594,7 @@
 
             // create canvas itself
             obj.canvas = window.document.createElement('canvas');
-            $(uiSelectors.canvasSvgContainer).append(obj.canvas);
+            $(uiSelectors.canvasContainer).append(obj.canvas);
 
             // configure size and project for paper.js
             obj.project = new paper.Project(obj.canvas);
@@ -688,12 +626,13 @@
         // wires up user interactions
         wireup: function () {
           // bail before building UI if we're in read-only mode
-          if (!$view.editable || !obj.canvas || !obj.project) {
+          if (!viewData.isEditable || !obj.canvas || !obj.project) {
             return obj;
           }
 
+          var $container = $(uiSelectors.container);
+
           // create button html for tailors with > 1 dressings
-          // TODO: replace dressings to svg => _.keys(data.svg)
           if (obj.tailors) {
             var buttonTemplate = _.template('<li id="<%-name%>" class="button <%-classNameMod%>"><div class="icon"></div></li>');
             var buttonsMarkup = _.chain(obj.tailors)
@@ -710,10 +649,10 @@
               })
               .value()
               .join('');
-            $($view.tailorButtonsContainer).html(buttonsMarkup);
+            $container.find(uiSelectors.tailorButtonsContainer).html(buttonsMarkup);
           }
 
-          var $container = $(uiSelectors.container)
+          $container
             .off('.snoovatar')
             .on('click.snoovatar', uiSelectors.tailorButtons, function (event) {
               $container.find(uiSelectors.tailorButtons).removeClass('selected');
@@ -727,8 +666,10 @@
 
               return true;
             })
-            .on('click.snoovatar', uiSelectors.nextButton, function (event) {
+            .on('click.snoovatar', uiSelectors.nextButton + ':not([disabled])', function (event) {
               if (obj.activeTailor) {
+                var $el = $(event.currentTarget).attr('disabled', 'disabled');
+
                 // move to the next component
                 var dressings = obj.tailors[obj.activeTailor].dressings;
                 var components = _.extend({}, obj.components);
@@ -740,11 +681,16 @@
                   .clearTailorColors(obj.activeTailor, components)
                   .draw(components)
                   .updateUI($container);
+
+                $el.removeAttr('disabled');
+                $el = null;
               }
               return true;
             })
-            .on('click.snoovatar', uiSelectors.prevButton, function (event) {
+            .on('click.snoovatar', uiSelectors.prevButton + ':not([disabled])', function (event) {
               if (obj.activeTailor) {
+                var $el = $(event.currentTarget).attr('disabled', 'disabled');
+
                 // move to the prev component
                 var dressings = obj.tailors[obj.activeTailor].dressings;
                 var components = _.extend({}, obj.components);
@@ -756,19 +702,29 @@
                   .clearTailorColors(obj.activeTailor, components)
                   .draw(components)
                   .updateUI($container);
+
+                $el.removeAttr('disabled');
+                $el = null;
               }
               return true;
             })
-            .on('click.snoovatar', uiSelectors.randomButton, function (event) {
+            .on('click.snoovatar', uiSelectors.randomButton + ':not([disabled])', function (event) {
+              var $el = $(event.currentTarget).attr('disabled', 'disabled');
+
               // clear all the previously colors, draw and update the UI
               obj
                 .clearAllTailorsColors()
-                .draw(randomizeComponents(obj.tailors))
+                .draw(randomizeComponents(obj.tailors), getRandomColor())
                 .updateUI($container);
+
+              $el.removeAttr('disabled');
+              $el = null;
 
               return true;
             })
-            .on('click.snoovatar', uiSelectors.clearButton, function (event) {
+            .on('click.snoovatar', uiSelectors.clearButton + ':not([disabled])', function (event) {
+              var $el = $(event.currentTarget).attr('disabled', 'disabled');
+
               // cannot-be-cleared components
               var componentsToStay = _.chain(obj.tailors)
                 .values()
@@ -788,49 +744,53 @@
               // clear all the previously colors, draw and update the UI
               obj
                 .clearAllTailorsColors()
-                .draw(components)
+                .draw(components, defaultColor)
                 .updateUI($container);
+
+              $el.removeAttr('disabled');
+              $el = null;
 
               return true;
             })
-            .on('click.snoovatar', uiSelectors.saveButton, function (event) {
-              //$view.saveButton.attr('disabled', true);
-              //var isPublic = $view.publicCheckbox.is(':checked');
-              //$.request('gold/snoovatar', {
-              //  'api_type': 'json',
-              //  'public': isPublic,
-              //  'snoo_color': haberdashery.snooColor,
-              //  'components': JSON.stringify(haberdashery.export())
-              //}, function (res) {
-              //  $view.saveButton.removeAttr('disabled');
-              //  $view.messageBox.stop();
-              //
-              //  var err = null;
-              //  if (!res || !res.json) {
-              //    err = 'unable to save snoovatar';
-              //  }
-              //  else if (res.json.errors.length) {
-              //    err = res.json.errors.join('\n ');
-              //  }
-              //  if (err) {
-              //    $view.messageBox.addClass('error');
-              //  }
-              //  else {
-              //    $view.messageBox.removeClass('error');
-              //  }
-              //
-              //  var messageText = err ? err : 'snoovatar updated!';
-              //  $view.messageBox
-              //    .text(messageText)
-              //    .slideDown()
-              //    .delay(2500)
-              //    .slideUp();
-              //});
-              //return false;
+            .on('click.snoovatar', uiSelectors.saveButton + ':not([disabled])', function (event) {
+              var $el = $(event.currentTarget).attr('disabled', 'disabled');
+
+              $.request('gold/snoovatar', {
+                'api_type': 'json',
+                'public': $container.find(uiSelectors.publicCheckbox).is(':checked'),
+                'snoo_color': obj.components[snooBaseTailor].color || defaultColor,
+                'components': window.JSON.stringify(obj.components)
+              }, function (res) {
+                $el.removeAttr('disabled');
+                $el = null;
+
+                var err = null;
+                if (!res || !res.json) {
+                  err = 'unable to save snoovatar';
+                } else if ((res.json.errors || []).length) {
+                  err = res.json.errors.join('\n ');
+                }
+
+                $container.find(uiSelectors.messageBox)
+                  .stop()
+                  .removeClass('error')
+                  .addClass(err ? 'error' : '')
+                  .text(err || 'snoovatar updated!')
+                  .slideDown()
+                  .delay(2500)
+                  .slideUp();
+              });
+
               return true;
             })
-            .on('click.snoovatar', uiSelectors.downloadButton, function (event) {
-              event.currentTarget.href = obj.canvas.toDataURL('image/png');
+            .on('click.snoovatar', uiSelectors.downloadButton + ':not([disabled])', function (event) {
+              var $el = $(event.currentTarget).attr('disabled', 'disabled');
+
+              $el[0].href = obj.canvas.toDataURL('image/png');
+
+              $el.removeAttr('disabled');
+              $el = null;
+
               return true;
             })
             .on('change.snoovatar', uiSelectors.color, function (event) {
@@ -1077,751 +1037,6 @@
       }
 
       return result;
-    }
-  };
-
-  /**
-   * promise that is resolved when the main controller object (Haberdashery) is
-   * ready.
-   * @type {$.Promise}
-   * @resolve {Haberdashery}
-   */
-  var haberdasheryReady = $.when(
-    imagesAreReady,
-    exports.initTailors.isReady,
-    exports.initSnoovatar.isReady
-  )
-    .then(function buildImageMap(images, tailorData, snoovatarData) {
-      var imageMap = _.reduce(images, function (map, img) {
-        var parts = img.src.split('/').slice(-2);
-        var dressing = parts[1].slice(0, -(filetype_old.length + 1));
-        var tailor = parts[0];
-        if (typeof map[tailor] === 'undefined') {
-          map[tailor] = {};
-        }
-        map[tailor][dressing] = img;
-        return map;
-      }, {});
-
-      var tailors = _.map(tailorData, function (obj) {
-        return new Tailor(obj,
-          imageMap[obj.asset_path],
-          (snoovatarData || {}).snoo_color);
-      });
-
-      return new Haberdashery(tailors,
-        (snoovatarData || {}).components || {},
-        (snoovatarData || {}).snoo_color);
-    });
-
-  // build UI and bind event handlers
-  $.when(
-    haberdasheryReady,
-    viewReady,
-    exports.initSnoovatar.isReady
-  )
-    .then(function initView(haberdashery, $view, snoovatarData) {
-      $view.canvasContainer.append(haberdashery.canvas);
-
-      // bail before building UI if we're in read-only mode
-      if (!$view.editable) {
-        return;
-      }
-
-      var $activeButton = $($view.tailorButtonsContainer).find('li:eq(0)');
-      haberdashery.setTailor($activeButton.attr('id'));
-      $view.tailorButtonsContainer.on('click', 'li', function () {
-        $activeButton = $(this);
-        haberdashery.setTailor($activeButton.attr('id'));
-      });
-
-      $view.nextButton.on('click', function () {
-        haberdashery.getActiveTailor().next();
-        haberdashery.update();
-      });
-
-      $view.prevButton.on('click', function () {
-        haberdashery.getActiveTailor().prev();
-        haberdashery.update();
-      });
-
-      $view.randomButton.on('click', function () {
-        haberdashery.randomize();
-      });
-
-      $view.clearButton.on('click', function () {
-        haberdashery.clearAll();
-      });
-
-      $view.saveButton.on('click', function () {
-        $view.saveButton.attr('disabled', true);
-        var isPublic = $view.publicCheckbox.is(':checked');
-        $.request('gold/snoovatar', {
-          'api_type': 'json',
-          'public': isPublic,
-          'snoo_color': haberdashery.snooColor,
-          'components': JSON.stringify(haberdashery.export())
-        }, function (res) {
-          $view.saveButton.removeAttr('disabled');
-          $view.messageBox.stop();
-
-          var err = null;
-          if (!res || !res.json) {
-            err = 'unable to save snoovatar';
-          }
-          else if (res.json.errors.length) {
-            err = res.json.errors.join('\n ');
-          }
-          if (err) {
-            $view.messageBox.addClass('error');
-          }
-          else {
-            $view.messageBox.removeClass('error');
-          }
-
-          var messageText = err ? err : 'snoovatar updated!';
-          $view.messageBox
-            .text(messageText)
-            .slideDown()
-            .delay(2500)
-            .slideUp();
-        });
-        return false;
-      });
-
-      $view.color.on('change', function onColorChange() {
-        haberdashery.updateColor($view.color.val());
-      });
-    });
-
-  /**
-   * holds common features of the Tailor and Haberdashery types, namely
-   * 1) keeping track of the current element in a list of things and
-   * 2) holding a reference to a Canvas element.
-   * @param {*[]} elements
-   * @param {int} index    starting index
-   */
-  function CanvasArray(elements, index) {
-    this.canvas = document.createElement('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.elements = elements;
-    this.index = index;
-  }
-
-  /**
-   * increment the pointer, looping if necessary
-   */
-  CanvasArray.prototype.next = function () {
-    var n = this.elements.length;
-    this.setIndex((this.index + 1) % n);
-  };
-
-  /**
-   * decrement the pointer, looping if necessary
-   */
-  CanvasArray.prototype.prev = function () {
-    var n = this.elements.length;
-    this.setIndex((n + this.index - 1) % n);
-  };
-
-  /**
-   * set the pointer to a specific value.
-   * calls the `onChange` method for the instance if it exists
-   * @param {int} i
-   */
-  CanvasArray.prototype.setIndex = function (i) {
-    var o = this.index;
-    if (i !== o) {
-      this.index = i;
-      if (this.onChange instanceof Function) {
-        this.onChange(i, o);
-      }
-    }
-  };
-
-  /**
-   * erase the Canvas element
-   */
-  CanvasArray.prototype.clearCanvas = function () {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  };
-
-  /**
-   * a category of user-selectable dressings.
-   * the snoovatar may only have one dressing from a given tailor, or if the
-   * tailor allows it, none.
-   * @param {Object} data an object from tailors.json
-   * @param {Object} imageMap a subset of all the images for the Tailor
-   * @param {Object} svgMap a subset of all the SVGs for the Tailor
-   * @param {string} snooColor a hex-formatted color (e.g. '#fff' or '#ffffff')
-   */
-  function Tailor(data, imageMap, snooColor) {
-    // A CanvasArray that draws a single image from its list at a time.
-    this.name = data.name;
-    this.imageMap = imageMap;
-    this.spriteSize = canvasSize * pixelRatio;
-    this.allowClear = data.allow_clear ? 1 : 0;
-    this.useDynamicColor = data.use_dynamic_color ? 1 : 0;
-    this.snooColor = snooColor || defaultColor;
-    this.flipX = data.flip_x;
-    this.data = data;
-    this.imgLoaded = false;
-    var elements = data.dressings;
-    if (this.allowClear) {
-      elements.unshift(Tailor.blankDressing);
-    }
-    CanvasArray.call(this, elements, 0);
-    this.canvas.width = this.canvas.height = this.spriteSize;
-    if (this.useDynamicColor) {
-      this.mask = document.createElement('canvas').getContext('2d');
-      this.mask.canvas.width = this.mask.canvas.height = this.spriteSize;
-      this.maskBrush = document.createElement('canvas').getContext('2d');
-      this.maskBrush.canvas.width = this.maskBrush.canvas.height = this.spriteSize;
-    }
-    // attach to img elements that are still loading so they will trigger a
-    // redraw
-    this.forceRedraw = _.bind(this.forceRedraw, this);
-    this.onChange(this.index);
-  }
-
-  /**
-   * used to pad the elements array for tailors that allow no value
-   * @type {Object}
-   */
-  Tailor.blankDressing = { "name": "" };
-
-  Tailor.prototype = Object.create(CanvasArray.prototype);
-  Tailor.prototype.constructor = Tailor;
-
-  /**
-   * sets the selected dressing to the first element.  for tailors that
-   * have `allow_clear = true`, this will be the `blankDressing` object which
-   * will render a blank canvas
-   */
-  Tailor.prototype.clear = function () {
-    this.setIndex(0);
-  };
-
-  /**
-   * find the index of a dressing by name.
-   * defaults to first element if not found (usually `blankDressing`)
-   * @param  {string} name
-   * @return {int}
-   */
-  Tailor.prototype.getIndexOfDressing = function (name) {
-    var dressings = this.data.dressings;
-    for (var i = 0, l = dressings.length; i < l; i++) {
-      if (name === dressings[i].name) {
-        return i;
-      }
-    }
-    return 0;
-  };
-
-  /**
-   * get the name of the currently selected dressing
-   * calls the `onRedraw` method if defined
-   * @return {string}
-   */
-  Tailor.prototype.getActiveDressingName = function () {
-    var element = this.elements[this.index];
-    if (element) {
-      return element.name;
-    }
-    else {
-      return '';
-    }
-  };
-
-  /**
-   * draws the element at the given index to the attached canvas
-   * @param  {int} i index of element to draw
-   */
-  Tailor.prototype.drawCanvas = function (i) {
-    this.clearCanvas();
-    var img = this.getImage(i);
-    if (img) {
-      if (!img.complete) {
-        img.onload = this.forceRedraw;
-        this.imgLoaded = false;
-      }
-      else {
-        this.imgLoaded = true;
-      }
-      if (img.width) {
-        var width = this.canvas.width;
-        var height = this.canvas.height;
-        if (this.flipX) {
-          this.ctx.translate(width, 0);
-          this.ctx.scale(-1, 1);
-        }
-        this.ctx.drawImage(img,
-          0, 0, this.spriteSize, this.spriteSize,
-          0, 0, width, height);
-        if (this.useDynamicColor) {
-          this.ctx.globalCompositeOperation = 'source-atop';
-          this.ctx.drawImage(this.maskBrush.canvas, 0, 0, width, height);
-          this.ctx.globalCompositeOperation = 'source-over';
-        }
-        if (this.flipX) {
-          this.ctx.scale(-1, 1);
-          this.ctx.translate(-width, 0);
-        }
-      }
-    }
-    if (this.onRedraw instanceof Function) {
-      this.onRedraw();
-    }
-  };
-
-  /**
-   * sets a new color, updating the maskBrush
-   * @param  {string} newColor hex formatted color (e.g. '#fff' or '#ffffff')
-   */
-  Tailor.prototype.updateColor = function (newColor) {
-    if (!this.useDynamicColor) {
-      return;
-    }
-    // fix a rendering bug in firefox on linux. yep.
-    var renderColor = (newColor.toLowerCase() === '#ffffff') ? '#feffff' : newColor;
-    var width = this.canvas.width;
-    var height = this.canvas.height;
-    this.snooColor = newColor;
-    this.maskBrush.globalCompositeOperation = 'source-over';
-    this.maskBrush.clearRect(0, 0, width, height);
-    this.maskBrush.drawImage(this.mask.canvas, 0, 0, width, height);
-    this.maskBrush.globalCompositeOperation = 'source-in';
-    this.maskBrush.fillStyle = renderColor;
-    this.maskBrush.fillRect(0, 0, width, height);
-    this.drawCanvas(this.index);
-  };
-
-  /**
-   * called whenever the dressing changes
-   * updates color and mask, then redraws
-   * @param  {Number} i index of new element
-   */
-  Tailor.prototype.onChange = function (i) {
-    if (this.useDynamicColor) {
-      var img = this.getImage(i);
-      if (img) {
-        this.updateMask(img, useDifferenceMask, colorReplacement);
-        this.updateColor(this.snooColor);
-      }
-    }
-    this.drawCanvas(i);
-  };
-
-  // callback when drawCanvas is finished
-  Tailor.prototype.onRedraw = function noop() {};
-
-  /**
-   * forces the canvas to redraw current state
-   */
-  Tailor.prototype.forceRedraw = function () {
-    this.onChange(this.index);
-  };
-
-  /**
-   * set the pointer to a new random index
-   */
-  Tailor.prototype.random = function () {
-    var n = this.elements.length;
-    var r = Math.random() * (n - 1) | 0;
-    this.setIndex((this.index + 1 + r) % n);
-  };
-
-  /**
-   * get the image mapped to the current index
-   * @return {Image|null}
-   */
-  Tailor.prototype.getImage = function (i) {
-    if (this.elements[i] && (this.elements[i] || {}).name) {
-      return this.imageMap[this.elements[i].name];
-    }
-    return null;
-  };
-
-  /**
-   * recalculates the mask used in applying user-defined color to layers
-   * @param  {Image} img   image to base mask off of
-   * @param  {boolean} smart whether to use difference blending (no IE support)
-   * @param  {Int[]} rgb   [r,g,b] each in [0...255]
-   * @return {}
-   */
-  Tailor.prototype.updateMask = function (img, smart, rgb) {
-    var mctx = this.mask;
-    var width = mctx.canvas.width;
-    var height = mctx.canvas.height;
-
-    mctx.globalCompositeOperation = 'source-over'
-    mctx.clearRect(0, 0, width, height);
-    mctx.drawImage(img, 0, 0, width, height);
-    if (smart) {
-      // difference filter the target color
-      mctx.globalCompositeOperation = 'difference'
-      mctx.fillStyle = 'rgb(' + rgb.join(',') + ')';
-      mctx.fillRect(0, 0, width, height);
-    }
-    var maskData = mctx.getImageData(0, 0, width, height);
-    var c = maskData.data;
-
-    var t = 1;
-    var isMatch, partial;
-    var ii;
-    if (smart) {
-      // if non-ie, mask is generated with difference blending.  The areas we
-      // want to fill are 100% black, or partially black areas on the borders
-      // to deal with aliasing.
-      isMatch = function (i) {
-        return !(c[i] >= t || c[i + 1] >= t || c[i + 2] >= t);
-      }
-      partial = function (i) {
-        return 255 - Math.max(c[i], c[i + 1], c[i + 2]);
-      }
-    }
-    else {
-      // if ie, we have to just compare against the color directly.
-      isMatch = function (i) {
-        return c[i] === rgb[0] && c[i + 1] === rgb[1] && c[i + 2] === rgb[2];
-      }
-      partial = function (i) {
-        return 191;
-      }
-    }
-
-    // find smaller rectangle containing area that needs color replacement
-    // greatly improves speed for layers with small targets (e.g. hands)
-    var minX = width;
-    var minY = height;
-    var maxX = 0;
-    var maxY = 0;
-    var sample = 4;
-    for (y = 0; y < height; y += sample) {
-      for (x = 0; x < width; x += sample) {
-        i = (y * width + x) * 4;
-        if (isMatch(i)) {
-          if (x < minX) {
-            minX = x;
-          }
-          if (x > maxX) {
-            maxX = x;
-          }
-          if (y < minY) {
-            minY = y;
-          }
-          if (y > maxY) {
-            maxY = y;
-          }
-        }
-      }
-    }
-    if (minX >= maxX || minY >= maxY) {
-      mctx.clearRect(0, 0, width, height);
-      return;
-    }
-    var pad = sample * 2;
-    minX = Math.max(0, minX - pad);
-    minY = Math.max(0, minY - pad);
-    maxX = Math.min(width, maxX + pad);
-    maxY = Math.min(height, maxY + pad);
-
-    // do color replacement
-    width = maxX - minX;
-    height = maxY - minY;
-    maskData = mctx.getImageData(minX, minY, width, height);
-    c = maskData.data;
-    var i, x, y;
-    // makingMask: for (var i = 0, l = c.length; i < l; i += 4) {
-    for (y = 0; y < height; y++) {
-      makingMask: for (x = 0; x < width; x++) {
-        i = (y * width + x) * 4;
-        if (c[i + 3] < 255) {
-          c[i + 3] = 0;
-        }
-        else if (isMatch(i)) {
-          c[i + 3] = 255;
-        }
-        else {
-          var nx, ny;
-          var range = 1;
-          checkingNeighbors: for (nx = -range; nx <= range; nx++) {
-            for (ny = -range; ny <= range; ny++) {
-              if (!nx && !ny) {
-                continue checkingNeighbors;
-              }
-              ii = i + ((nx + width * ny) * 4);
-              if (isMatch(ii)) {
-                c[i + 3] = partial(i);
-                continue makingMask;
-              }
-            }
-          }
-          c[i + 3] = 0;
-        }
-
-      }
-    }
-    mctx.clearRect(0, 0, mctx.canvas.width, mctx.canvas.height);
-    mctx.putImageData(maskData, minX, minY);
-  };
-
-  /**
-   * manages a list of tailors and does composite rendering of them
-   * keeps track of which tailor the user is configuring, and allows loading
-   * and exporting state
-   * @param {Tailor[]} tailors
-   * @param {Object{string}} components map of tailor names to dressing names
-   *                                    used to set the initial state of tailors
-   * @param {string} snooColor hex formatted color (e.g. '#fff' or '#ffffff')
-   */
-  function Haberdashery(tailors, components, snooColor) {
-    CanvasArray.call(this, tailors, 0);
-    this.hasUnloadedImages = true;
-    this.updateOnRedraw = true;
-    var onRedraw = _.bind(function (i) {
-      if (this.updateOnRedraw) {
-        this.update();
-      }
-    }, this);
-    _.each(tailors, function (tailor) {
-      tailor.onRedraw = onRedraw;
-    });
-
-    this.canvas.width = this.canvas.height = 800;
-    this.tailorMap = _.reduce(this.elements, function (map, obj, i) {
-      map[obj.name] = i;
-      return map;
-    }, {});
-    this.snooColor = snooColor || defaultColor;
-    this.serialization = null;
-    if (components) {
-      this.import(components);
-    }
-    this._initialSerialization = this._serialize();
-    this.update();
-  }
-
-  /**
-   * decorator for functions that prevents update propagation
-   * normally, changes to tailor objects trigger an update on the haberdashery
-   * for actions that change every tailor, we want to supress that and call
-   * the update manually.
-   * @param  {function} fnc the method
-   * @return {function}     the decorated method
-   */
-  Haberdashery.updatesManually = function (fnc) {
-    return function () {
-      this.updateOnRedraw = false;
-      var res = fnc.apply(this, arguments);
-      this.updateOnRedraw = true;
-      return res;
-    };
-  };
-
-  Haberdashery.prototype = Object.create(CanvasArray.prototype);
-  Haberdashery.prototype.constructor = Haberdashery;
-
-  /**
-   * render composite of tailors to given canvas context
-   * @param  {CanvasRenderingContext2D} ctx
-   */
-  Haberdashery.prototype.drawTo = function (ctx) {
-    _.each(this.elements, function (tailor) {
-      ctx.drawImage(tailor.canvas, 0, 0, ctx.canvas.width, ctx.canvas.height);
-    });
-  };
-
-  /**
-   * update rendering of attached canvas
-   */
-  Haberdashery.prototype.drawCanvas = function () {
-    this.clearCanvas();
-    this.drawTo(this.ctx);
-  };
-
-  /**
-   * get the Tailor that the user is currently configuring
-   * @return {Tailor}
-   */
-  Haberdashery.prototype.getActiveTailor = function () {
-    return this.elements[this.index];
-  };
-
-  /**
-   * redraws the composite if necessary.
-   * checks if the canvas needs to be redrawn by comparing current serialized
-   * state against last state.
-   */
-  Haberdashery.prototype.update = function () {
-    var hasUnloadedImages = this.hasUnloadedImages && _.some(this.elements, function (tailor) {
-        return !tailor.imgLoaded;
-      });
-    var serialization = this._serialize();
-    if (this.hasUnloadedImages || hasUnloadedImages ||
-      this.serialization !== serialization) {
-      this.hasUnloadedImages = hasUnloadedImages;
-      this.serialization = serialization;
-      this.drawCanvas();
-    }
-  };
-
-  /**
-   * serialize current state.
-   * @return {string}
-   */
-  Haberdashery.prototype._serialize = function () {
-    return _.map(this.elements, function (tailor) {
-      return encodeURIComponent(tailor.name) + '=' +
-        encodeURIComponent(tailor.getActiveDressingName());
-    }).concat('snooColor=' + this.snooColor).join('&');
-  };
-
-  /**
-   * convert a serialized state into an object suitable for importing
-   * @param  {string} serialization
-   * @return {Object{string}} mapping of tailor names to dressing names
-   */
-  Haberdashery.prototype._deserialize = function (serialization) {
-    var props = serialization.split('&');
-    return _.reduce(props, function (map, property) {
-      var keyVal = property.split('=');
-      map[keyVal[0]] = keyVal[1];
-      return map;
-    }, {});
-  };
-
-  /**
-   * export current state
-   * @param  {bool} asString return URI encoded string instead of objcet
-   * @return {Object{string}|string} mapping of tailor names to dressing names
-   */
-  Haberdashery.prototype.export = function (asString) {
-    if (asString) {
-      return this._serialize();
-    }
-    else {
-      return _.reduce(this.elements, function (props, tailor) {
-        props[tailor.name] = tailor.getActiveDressingName();
-        return props;
-      }, {});
-    }
-  };
-
-  /**
-   * import state and redraw composite
-   * @param  {Object{string}|string} components mapping of tailor names to
-   *                                            dressing names
-   */
-  Haberdashery.prototype.import = Haberdashery.updatesManually(function (components) {
-    if (typeof components === 'string') {
-      components = this._deserialize(components);
-    }
-    _.each(this.elements, function (tailor) {
-      var name = tailor.name;
-      var dressing = _.has(components, name) ? components[name] : '';
-      var i = tailor.getIndexOfDressing(dressing);
-      tailor.setIndex(i);
-    });
-    if (typeof components.snooColor !== 'undefined') {
-      this.snooColor = components.snooColor;
-    }
-    this.update();
-  });
-
-  /**
-   * get a tailor object by name
-   * @param  {string} name
-   * @return {Tailor|null}
-   */
-  Haberdashery.prototype.getTailor = function (name) {
-    if (typeof this.tailorMap[name] !== 'undefined') {
-      return this.elements[this.tailorMap[name]];
-    }
-    else {
-      return null;
-    }
-  };
-
-  /**
-   * set active tailor by name
-   * @param {string} name
-   */
-  Haberdashery.prototype.setTailor = function (name) {
-    if (typeof this.tailorMap[name] !== 'undefined') {
-      this.setIndex(this.tailorMap[name]);
-    }
-  };
-
-  /**
-   * randomize all tailors' active dressings and update
-   */
-  Haberdashery.prototype.randomize = Haberdashery.updatesManually(function () {
-    _.each(this.elements, function (tailor) {
-      tailor.random();
-    });
-    this.update();
-  });
-
-  /**
-   * set all tailors' to their default dressings (usually `blankDressing`)
-   * and update
-   */
-  Haberdashery.prototype.clearAll = Haberdashery.updatesManually(function () {
-    _.each(this.elements, function (tailor) {
-      tailor.clear();
-    });
-    this.update();
-  });
-
-  /**
-   * passes new color setting to tailors for dynamic color layers
-   * @param  {string} color any valid css color
-   */
-  Haberdashery.prototype.updateColor = Haberdashery.updatesManually(function (newColor) {
-    this.snooColor = newColor;
-    _.each(this.elements, function (tailor) {
-      tailor.updateColor(newColor);
-    });
-    this.update();
-  });
-
-  /**
-   * returns the URI encoded serialized state for the nth possible combination
-   * of tailor options.  has to do some calculations the first time it is called,
-   * and it isn't _actually_ used anywhere now, but it is useful for generating
-   * random options
-   * @param  {int} n nth combination
-   * @return {string} URI encoded state
-   */
-  Haberdashery.prototype.nth = function (n) {
-    var tailors = this.elements;
-    var total = 1;
-    var totalsMap = {}
-    var l = tailors.length;
-    for (var i = 0; i < l; i++) {
-      totalsMap[i] = total;
-      total *= tailors[i].elements.length;
-    }
-
-    this.nth = nth;
-    return nth(n);
-
-    function nth(n) {
-      n = n % total;
-      var i = tailors.length;
-      var m, t;
-      var components = [];
-      while (i--) {
-        t = totalsMap[i];
-        m = (n / t | 0);
-        components.push(
-          encodeURIComponent(tailors[i].name) + '=' +
-          encodeURIComponent(tailors[i].elements[m].name)
-        );
-        n -= m * t;
-      }
-      return components.join('&');
     }
   };
 
