@@ -484,6 +484,8 @@
               }, {})
               .value();
 
+            console.log('I:', obj.svgRulesTree.depsOn);
+
             // detect colors and etc.
             obj.updateColors();
 
@@ -806,7 +808,7 @@
     },
 
     getRandomColor: function () {
-      return '#' + window.Math.floor(window.Math.random() * 16777215).toString(16);
+      return '#' + ('000000' + window.Math.floor(window.Math.random() * 16777215).toString(16)).slice(-6);
     },
 
     getRandomInt: function (min, max) {

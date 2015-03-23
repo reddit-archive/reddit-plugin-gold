@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g>
+	<polygon fill="#353564" stroke="#1C1C1C" stroke-width="7" stroke-linejoin="round" points="228.4,296.3 228.4,324.4 245.6,302 
+		245.6,284.7 	"/>
+	<polygon fill="#6B6B6B" stroke="#1C1C1C" stroke-width="7" stroke-linejoin="round" points="317.4,296.3 317.4,324.4 300.4,302 
+		300.4,284.7 	"/>
+	<polygon fill="#B8B8B8" stroke="#1C1C1C" stroke-width="7" stroke-linejoin="round" points="228.4,296.3 317.4,296.3 300.4,284.7 
+		245.6,284.7 	"/>
+	<rect x="228.4" y="296.3" fill="#727272" stroke="#1C1C1C" stroke-width="7" stroke-linejoin="round" width="89.1" height="28.2"/>
+	<path fill="#282828" stroke="#1C1C1C" stroke-width="7" stroke-linejoin="round" d="M291.7,289.5c0,2.5-8.4,4.6-18.8,4.6
+		c-10.4,0-18.8-2.1-18.8-4.6c0-2.5,8.4-4.6,18.8-4.6C283.3,284.9,291.7,287,291.7,289.5L291.7,289.5z"/>
+	<path fill="#F9F1AA" stroke="#1C1C1C" stroke-width="7" stroke-linejoin="round" d="M272.9,250.3L272.9,250.3
+		c4.5,0,8.1,2.3,8.1,5.2V289c0,2.9-3.6,5.2-8.1,5.2c-4.5,0-8.1-2.3-8.1-5.2v-33.4C264.8,252.7,268.5,250.3,272.9,250.3z"/>
+	<path fill="#FD2800" stroke="#1C1C1C" stroke-width="7" stroke-linejoin="round" d="M272.9,231.1c-9.9,0-17.9,8-17.9,17.9
+		c0,5.5,2.5,10.4,6.4,13.7c2,1.7,4.4,3,7,3.6c1.5,0.4,3,0.6,4.6,0.6c1.6,0,3.1-0.2,4.6-0.6c2.6-0.7,5-2,7-3.6
+		c3.9-3.3,6.4-8.2,6.4-13.7C290.8,239.2,282.8,231.1,272.9,231.1"/>
+	
+		<radialGradient id="SVGID_1_" cx="0" cy="400" r="1" gradientTransform="matrix(20.5452 0 0 24.3045 272.9194 -9481.8271)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#FFDCD4"/>
+		<stop  offset="1" style="stop-color:#F1D9D4"/>
+	</radialGradient>
+	<path fill="url(#SVGID_1_)" d="M277.6,239.2c-3.1,0-5.6,2.5-5.6,5.6c0,3.1,2.5,5.6,5.6,5.6c3.1,0,5.6-2.5,5.6-5.6
+		C283.1,241.7,280.6,239.2,277.6,239.2"/>
+	<polygon fill="#6B6B6B" stroke="#1C1C1C" stroke-width="7" stroke-linejoin="round" points="228.4,300.2 317.4,300.2 303.1,289.1 
+		248.3,289.1 	"/>
+</g>
+<path id="snoo-body-f::fill::hand" fill="#00FF00" stroke="#1C1C1C" stroke-width="11" d="M298.4,327.7c0,10.5-11.3,19-25.2,19
+	c-13.9,0-25.2-8.5-25.2-19v0c0-10.5,11.3-19,25.2-19C287.1,308.6,298.4,317.2,298.4,327.7L298.4,327.7z"/>
+</svg>

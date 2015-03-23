@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g id="clip_1_">
+	<defs>
+		<path id="XMLID_14_" d="M277.4,314.1c15.7-15.7,22.5-36,20.3-50.2c-0.5-4.7-2.2-8.7-5.2-11.7c-0.1-0.1-0.2-0.2-0.2-0.2
+			c-0.1-0.1-0.2-0.2-0.2-0.2c-3-3-7-4.7-11.7-5.2c-14-2.3-34.4,4.5-50.2,20.3c-15.8,15.7-22.5,36-20.3,50.2
+			c0.5,4.7,2.2,8.7,5.2,11.7c0.1,0.1,0.2,0.2,0.2,0.2c0.1,0.1,0.2,0.2,0.2,0.2c3,3,7,4.7,11.7,5.2
+			C241.4,336.6,261.7,329.8,277.4,314.1z"/>
+	</defs>
+	<use xlink:href="#XMLID_14_"  overflow="visible" fill="#634A1D"/>
+	<clipPath id="XMLID_2_">
+		<use xlink:href="#XMLID_14_"  overflow="visible"/>
+	</clipPath>
+	<g clip-path="url(#XMLID_2_)">
+		<path id="XMLID_15_" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" d="
+			M270.4,254.7c-10.6,5-21.2,12.2-30.7,21.6c-8.9,8.9-15.8,18.8-20.8,28.8"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" x1="251.7" y1="259.1" x2="261.1" y2="268.5"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" x1="245.3" y1="264.5" x2="254.7" y2="274"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" x1="238.7" y1="269.9" x2="248.2" y2="279.3"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" x1="232.1" y1="275.1" x2="241.5" y2="284.6"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" x1="226.8" y1="281.8" x2="236.2" y2="291.2"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" x1="222" y1="288.8" x2="231.4" y2="298.2"/>
+	</g>
+	
+		<rect x="243.2" y="260.9" transform="matrix(0.7071 0.7071 -0.7071 0.7071 270.8047 -120.0072)" clip-path="url(#XMLID_2_)" fill="#FFFFFF" width="74.1" height="11.9"/>
+	
+		<rect x="193.7" y="310.5" transform="matrix(0.7071 0.7071 -0.7071 0.7071 291.3248 -70.4674)" clip-path="url(#XMLID_2_)" fill="#FFFFFF" width="74.1" height="11.9"/>
+	<use xlink:href="#XMLID_14_"  overflow="visible" fill="none" stroke="#231F20" stroke-width="9" stroke-miterlimit="10"/>
+</g>
+<path id="snoo-body-f::fill::hand" fill="#00FF00" stroke="#000000" stroke-width="11" d="M268.9,298.9c10.6-0.2,19.3,8.3,19.4,18.9
+	c0.2,10.6-8.3,19.3-18.9,19.4c-10.6,0.2-19.3-8.3-19.4-18.9C249.9,307.7,258.4,299,268.9,298.9z"/>
+</svg>

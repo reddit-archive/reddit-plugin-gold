@@ -119,10 +119,43 @@
         "name": "flipped_grippables", 
         "dressings": [
             {
+                "name": "american-football"
+            }, 
+            {
                 "name": "baby"
             }, 
             {
+                "name": "baseball-bat"
+            }, 
+            {
+                "name": "baseball"
+            }, 
+            {
+                "name": "basketball"
+            }, 
+            {
+                "name": "book"
+            }, 
+            {
+                "name": "bowl"
+            }, 
+            {
+                "name": "cake"
+            }, 
+            {
+                "name": "camera"
+            }, 
+            {
+                "name": "can"
+            }, 
+            {
                 "name": "cat"
+            }, 
+            {
+                "name": "champagne"
+            }, 
+            {
+                "name": "cupcake"
             }, 
             {
                 "name": "dog"
@@ -131,22 +164,94 @@
                 "name": "downvote"
             }, 
             {
+                "name": "ds"
+            }, 
+            {
+                "name": "erlenmeyer"
+            }, 
+            {
+                "name": "field-hockey-stick"
+            }, 
+            {
+                "name": "fish"
+            }, 
+            {
+                "name": "flower-pot"
+            }, 
+            {
+                "name": "flower"
+            }, 
+            {
+                "name": "garden-fork"
+            }, 
+            {
                 "name": "gilder"
             }, 
             {
                 "name": "handbag"
             }, 
             {
+                "name": "ice-hockey-stick"
+            }, 
+            {
+                "name": "joystick"
+            }, 
+            {
+                "name": "keyboard"
+            }, 
+            {
+                "name": "laptop"
+            }, 
+            {
                 "name": "magnifying-glass"
             }, 
             {
+                "name": "megaphone"
+            }, 
+            {
+                "name": "mug"
+            }, 
+            {
+                "name": "phone"
+            }, 
+            {
                 "name": "rabbit"
+            }, 
+            {
+                "name": "rubiks"
+            }, 
+            {
+                "name": "rugby-ball"
+            }, 
+            {
+                "name": "skateboard"
+            }, 
+            {
+                "name": "soccerball"
+            }, 
+            {
+                "name": "sonic-screwdriver"
+            }, 
+            {
+                "name": "spoon"
+            }, 
+            {
+                "name": "star-wand"
             }, 
             {
                 "name": "upvote"
             }, 
             {
                 "name": "wand"
+            }, 
+            {
+                "name": "whisk"
+            }, 
+            {
+                "name": "wiimote"
+            }, 
+            {
+                "name": "wrench"
             }
         ], 
         "use_dynamic_color": true, 
@@ -161,10 +266,43 @@
         "name": "grippables", 
         "dressings": [
             {
+                "name": "american-football"
+            }, 
+            {
                 "name": "baby"
             }, 
             {
+                "name": "baseball-bat"
+            }, 
+            {
+                "name": "baseball"
+            }, 
+            {
+                "name": "basketball"
+            }, 
+            {
+                "name": "book"
+            }, 
+            {
+                "name": "bowl"
+            }, 
+            {
+                "name": "cake"
+            }, 
+            {
+                "name": "camera"
+            }, 
+            {
+                "name": "can"
+            }, 
+            {
                 "name": "cat"
+            }, 
+            {
+                "name": "champagne"
+            }, 
+            {
+                "name": "cupcake"
             }, 
             {
                 "name": "dog"
@@ -173,22 +311,94 @@
                 "name": "downvote"
             }, 
             {
+                "name": "ds"
+            }, 
+            {
+                "name": "erlenmeyer"
+            }, 
+            {
+                "name": "field-hockey-stick"
+            }, 
+            {
+                "name": "fish"
+            }, 
+            {
+                "name": "flower-pot"
+            }, 
+            {
+                "name": "flower"
+            }, 
+            {
+                "name": "garden-fork"
+            }, 
+            {
                 "name": "gilder"
             }, 
             {
                 "name": "handbag"
             }, 
             {
+                "name": "ice-hockey-stick"
+            }, 
+            {
+                "name": "joystick"
+            }, 
+            {
+                "name": "keyboard"
+            }, 
+            {
+                "name": "laptop"
+            }, 
+            {
                 "name": "magnifying-glass"
             }, 
             {
+                "name": "megaphone"
+            }, 
+            {
+                "name": "mug"
+            }, 
+            {
+                "name": "phone"
+            }, 
+            {
                 "name": "rabbit"
+            }, 
+            {
+                "name": "rubiks"
+            }, 
+            {
+                "name": "rugby-ball"
+            }, 
+            {
+                "name": "skateboard"
+            }, 
+            {
+                "name": "soccerball"
+            }, 
+            {
+                "name": "sonic-screwdriver"
+            }, 
+            {
+                "name": "spoon"
+            }, 
+            {
+                "name": "star-wand"
             }, 
             {
                 "name": "upvote"
             }, 
             {
                 "name": "wand"
+            }, 
+            {
+                "name": "whisk"
+            }, 
+            {
+                "name": "wiimote"
+            }, 
+            {
+                "name": "wrench"
             }
         ], 
         "use_dynamic_color": true, 

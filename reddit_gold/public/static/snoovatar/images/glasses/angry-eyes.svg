@@ -5,8 +5,8 @@
 	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
 <g id="snoo-body-f::fill::angry-eyes">
 	
-		<rect x="143.6" y="110.8" transform="matrix(-0.9659 -0.2588 0.2588 -0.9659 289.9408 279.6714)" fill="#00FF00" width="39.6" height="20"/>
+		<rect x="143.6" y="110.7" transform="matrix(0.9659 0.2588 -0.2588 0.9659 36.8052 -38.1704)" fill="#00FF00" width="39.6" height="20"/>
 	
-		<rect x="218.6" y="110.8" transform="matrix(0.9659 -0.2588 0.2588 0.9659 -23.1298 65.8118)" fill="#00FF00" width="39.6" height="20"/>
+		<rect x="218.6" y="110.8" transform="matrix(-0.9659 0.2588 -0.2588 -0.9659 499.9475 175.7728)" fill="#00FF00" width="39.6" height="20"/>
 </g>
 </svg>

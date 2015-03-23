@@ -5,8 +5,8 @@
 	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
 <g id="snoo-body-f::fill::dopey-eyes">
 	
-		<rect x="133.6" y="110.8" transform="matrix(0.9659 -0.2588 0.2588 0.9659 -26.0261 43.8122)" fill="#00FF00" width="39.6" height="20"/>
+		<rect x="133.6" y="110.8" transform="matrix(-0.9659 0.2588 -0.2588 -0.9659 332.8474 197.7678)" fill="#00FF00" width="39.6" height="20"/>
 	
-		<rect x="228.1" y="110.8" transform="matrix(-0.9659 -0.2588 0.2588 -0.9659 456.0615 301.5417)" fill="#00FF00" width="39.6" height="20"/>
+		<rect x="228.1" y="110.7" transform="matrix(0.9659 0.2588 -0.2588 0.9659 39.6847 -60.0402)" fill="#00FF00" width="39.6" height="20"/>
 </g>
 </svg>

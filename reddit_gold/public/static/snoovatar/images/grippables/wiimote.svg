@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g>
+	<path fill="#FFFFFF" stroke="#000000" stroke-width="7" stroke-linejoin="round" d="M273.2,290.6l59.4,32c1.9,1,1.7,2.7-0.3,3.9
+		l-24.7,13.9c-2,1.1-5.2,1.2-7,0.2l-59.4-32c-1.9-1-1.7-2.7,0.3-3.9l24.7-13.9C268.2,289.8,271.4,289.6,273.2,290.6z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-width="7" stroke-linejoin="round" d="M311.2,359.8c-8-4.2-9.9-5-17.5-8.9
+		c-8.8-1.1-32.8-16.1-45.6-23.8c-1-0.6-2.5-2.8-3.3-5l-4.6-13.2c-0.8-2.2-0.5-3.5,0.6-2.9l62.8,34.2c1.1,0.6,2.6,2.8,3.3,5
+		C308.7,350,310.2,354.9,311.2,359.8z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-width="7" stroke-linejoin="round" d="M334.1,324.6l-29.4,17c-0.3,0.2,0,2.1,0.8,4.3
+		l4.6,13c0.8,2.2,6.1,1.1,6.4,1c7.5-3,14.7-6.3,20.5-12c0.2-0.2,4.4-4.7,3.6-6.9l-4.5-12.8C335.3,326,334.4,324.4,334.1,324.6z"/>
+</g>
+<ellipse transform="matrix(-0.331 -0.9436 0.9436 -0.331 92.473 700.3359)" fill="#262626" cx="294.5" cy="317.4" rx="3.4" ry="5.5"/>
+<g>
+	<polygon fill="#262626" points="311,318.9 315.2,321.4 302.3,329.9 298.1,327.4 	"/>
+	<polygon fill="#262626" points="314.7,326.2 310,329.4 298.6,322.6 303.3,319.4 	"/>
+</g>
+<path fill="#262626" d="M315.7,342.1l12.1-7c1.4-0.8,3-0.2,3.6,1.3l1.6,4.2c0.6,1.5-0.3,3.1-1.5,4.2c-3.4,3.4-7.3,5.9-12.1,7
+	c-1.6,0.4-3,0.2-3.6-1.3l-1.6-4.2C313.6,344.8,314.3,342.9,315.7,342.1z"/>
+<circle id="snoo-body-f::fill::hand" fill="#00FF00" stroke="#000000" stroke-width="11" stroke-miterlimit="10" cx="271.6" cy="304.4" r="20"/>
+</svg>
