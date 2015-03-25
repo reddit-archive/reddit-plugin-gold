@@ -484,8 +484,6 @@
               }, {})
               .value();
 
-            console.log('I:', obj.svgRulesTree.depsOn);
-
             // detect colors and etc.
             obj.updateColors();
 
