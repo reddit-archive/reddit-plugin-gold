@@ -499,6 +499,19 @@
           obj.tailors = tailors || {};
           obj.components = components || {};
 
+          // check if components are blank, let's populate with empty set
+          if (!_.keys(obj.components).length) {
+            obj.components = _.reduce(obj.tailors, function (memo, tailor, name) {
+              memo[name] = {};
+
+              if (!tailor.allow_clear && tailor.dressings.length) {
+                memo[name].dressingName = tailor.dressings[0].name;
+              }
+
+              return memo;
+            }, {});
+          }
+
           // create canvas itself
           obj.canvas = window.document.createElement('canvas');
           $(uiSelectors.canvasContainer).append(obj.canvas);
@@ -863,7 +876,7 @@
         'head_stroke': 'head'
       };
 
-      return _.reduce(components, function (memo, value, key) {
+      return _.reduce(components || {}, function (memo, value, key) {
         if (deprecatedComponents.indexOf(key) < 0) {
           value = value || {};
 
