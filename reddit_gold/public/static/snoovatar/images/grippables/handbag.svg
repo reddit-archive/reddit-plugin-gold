@@ -5,10 +5,10 @@
 	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
 <g id="bag">
 	
-		<path id="bag-f:darken::stroke::accent:2" fill="none" stroke="#872A0E" stroke-width="10.5038" stroke-linecap="round" stroke-linejoin="round" d="
+		<path id="bag-f:darker::stroke::accent:2" fill="none" stroke="#872A0E" stroke-width="10.5038" stroke-linecap="round" stroke-linejoin="round" d="
 		M307,347.7c0,0,6.9-68.8-26.2-76.4c-33.1,7.6-26.2,76.4-26.2,76.4"/>
 	<path id="fill::bag" fill="#A61C00" d="M281.3,305.1c23.9-1.3,40.6,77.4,40.6,77.4h-81.3C240.6,382.5,257.4,306.4,281.3,305.1z"/>
-	<g id="bag-f:darken::stroke::accent:1">
+	<g id="bag-f:darker::stroke::accent:1">
 		<path fill="none" stroke="#872A0E" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M281.3,305.1
 			c23.9-1.3,40.6,77.4,40.6,77.4h-81.3C240.6,382.5,257.4,306.4,281.3,305.1z"/>
 		
