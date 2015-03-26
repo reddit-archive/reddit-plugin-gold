@@ -1,4 +1,4 @@
-!function (window, r, $, _, paper) {
+!function snoovararInit(window, r, $, _, paper) {
   r.snoovatar = {};
   var exports = r.snoovatar;
 
@@ -39,7 +39,7 @@
    */
   function bond(fnc) {
     var d = $.Deferred();
-    var agent = function () {
+    var agent = function() {
       d.resolve.apply(d, arguments).then(fnc);
     };
     agent.isReady = d.promise();
@@ -54,7 +54,7 @@
   function waitForDOM() {
     var def = $.Deferred();
     var args = Array.prototype.slice.call(arguments, 0);
-    $(function () {
+    $(function() {
       def.resolve.apply(def, args);
     });
     return def.promise();
@@ -66,15 +66,15 @@
    * @return {$.Promise}
    * @resolve {JSON with SVG}
    */
-  $.preloadSVGs = function (sources) {
-    return $.when.apply(window, $.map(sources, function (src) {
+  $.preloadSVGs = function(sources) {
+    return $.when.apply(window, $.map(sources, function(src) {
       var isJson = _.isObject(src);
       var def = $.Deferred();
       r.ajax({
         url: src.url,
         type: 'GET'
       })
-        .done(function (data, textStatus, jqXHR) {
+        .done(function(data, textStatus, jqXHR) {
           var data = jqXHR.responseText;
           if (isJson) {
             try {
@@ -87,7 +87,7 @@
             data: data
           });
         })
-        .fail(function (jqXHR, textStatus, errorThrown) {
+        .fail(function(jqXHR, textStatus, errorThrown) {
           def.resolve({
             tailor: src.tailor,
             data: null
@@ -103,8 +103,8 @@
    * @param  {object} data tailors.json data
    * @return {object}
    */
-  exports.initTailors = bond(function (data) {
-    data.sort(function (a, b) {
+  exports.initTailors = bond(function(data) {
+    data.sort(function(a, b) {
       a = a['z-index'];
       b = b['z-index'];
       return a - b;
@@ -118,14 +118,14 @@
    * @param  {object} data saved snoovatar data (see ajax call below)
    * @return {object}
    */
-  exports.initSnoovatar = bond(function (data) {
+  exports.initSnoovatar = bond(function(data) {
     return data;
   });
 
   // test for canvas support and opt out early
   var testCanvas = document.createElement('canvas');
   if (!(testCanvas.getContext && testCanvas.getContext('2d'))) {
-    return $(function () {
+    return $(function() {
       $(uiSelectors.canvasContainer).text(
         r._('your browser doesn\'t support snoovatars :(')
       );
@@ -159,10 +159,10 @@
   var svgsAreReady = $.when(
     exports.initTailors.isReady
   )
-    .then(function (tailorData) {
+    .then(function(tailorData) {
       var svgBundlesToLoad = _.chain(tailorData)
         .pluck('asset_path')
-        .map(function (tailor) {
+        .map(function(tailor) {
           return {
             tailor: tailor,
             url: imagePath + tailor + '/svg_bundle.json'
@@ -185,13 +185,13 @@
   )
     .then(function buildSvgMap(svgs, tailorData, snoovatarData) {
       // transform map to object literal for easier lookup
-      var svgMap = _.reduce(svgs, function (aggr, svg) {
+      var svgMap = _.reduce(svgs, function(aggr, svg) {
         aggr[svg.tailor] = svg.data;
         return aggr;
       }, {});
 
-      var tailors = _.reduce(tailorData, function (memo, obj) {
-        obj.dressings = _.reduce(obj.dressings || [], function (aggr, dressing) {
+      var tailors = _.reduce(tailorData, function(memo, obj) {
+        obj.dressings = _.reduce(obj.dressings || [], function(aggr, dressing) {
           if (dressing.name) {
             dressing.svg = svgMap[obj.asset_path][dressing.name];
           }
@@ -230,7 +230,7 @@
     var obj = {
       _svgNameSeparator: '::::',
       // builds out a Color-SVG map that can be used to color the canvas
-      _buildColorSvgMap: function (componentColorProp, tailorName) {
+      _buildColorSvgMap: function(componentColorProp, tailorName) {
         if (componentColorProp && tailorName) {
           var color = obj.components[tailorName][componentColorProp] || defaultColor;
           var allowedTailors = obj.svgRulesTree.getUIAdjustableTailors()[tailorName] || [];
@@ -241,7 +241,7 @@
             //       where [svgRefNames] is an array of SVG refs that should be colored;
             //       color and prop values are the same across all SVGs inside of rule
             var svgColorSet = {};
-            svgColorSet[ruleName] = _.reduce(obj.svgRulesTree.local[ruleName] || [], function (memo, rule) {
+            svgColorSet[ruleName] = _.reduce(obj.svgRulesTree.local[ruleName] || [], function(memo, rule) {
               // for local rules we have to verify tailor; otherwise,
               // we could end up changing color of several components
               // with similar name for both SVG and path/group
@@ -262,7 +262,7 @@
             //       each individual SVG instance
             var depsOnRules = obj.svgRulesTree.depsOn[ruleName] || [];
             if (depsOnRules.length) {
-              svgColorSet['_' + ruleName] = _.reduce(depsOnRules, function (memo, rule) {
+              svgColorSet['_' + ruleName] = _.reduce(depsOnRules, function(memo, rule) {
                 var item = {
                   color: svgColorSet[ruleName].color,
                   prop: rule.prop === 'fill' ? 'fillColor' : 'strokeColor',
@@ -289,7 +289,7 @@
         return null;
       },
       // colors the canvas
-      _applyColorSvgMap: function (maps) {
+      _applyColorSvgMap: function(maps) {
         // make sure we deal with array of maps,
         // because in a single color change the incoming
         // maps property is a singular map object
@@ -297,13 +297,13 @@
 
         _.chain(maps)
           .compact()
-          .each(function (map) {
-            _.each(map, function (data, key) {
+          .each(function(map) {
+            _.each(map, function(data, key) {
               var isDepsOnRule = key.indexOf('_') === 0;
               if (isDepsOnRule) {
                 // "depends on" rules are represented as an array,
                 // so iterate through each individual rule
-                data.forEach(function (dataItem) {
+                data.forEach(function(dataItem) {
                   if (obj.svgMap[dataItem.svgRefName]) {
                     obj.svgMap[dataItem.svgRefName][dataItem.prop] = dataItem.color;
                   }
@@ -311,7 +311,7 @@
               } else {
                 // local rules have prop and color defined on top
                 // and svgRefNames as an array to iterate through individual SVG refs
-                data.svgRefNames.forEach(function (svgRefName) {
+                data.svgRefNames.forEach(function(svgRefName) {
                   if (obj.svgMap[svgRefName]) {
                     obj.svgMap[svgRefName][data.prop] = data.color;
                   }
@@ -341,7 +341,7 @@
       svgMap: null,
       // changes color of a component's color type in current tailor
       // NOTE: for colorType use obj.colorTypes dict
-      changeColor: function (color, colorType, tailorName) {
+      changeColor: function(color, colorType, tailorName) {
         if (obj.canvas && obj.project) {
           // detect color property
           var colorProp = _.keys(obj.colorTypes)[colorType || 0];
@@ -358,15 +358,15 @@
         return obj;
       },
       // updates the canvas to reflect all the components colors
-      updateColors: function () {
+      updateColors: function() {
         if (obj.canvas && obj.project) {
           var colorProps = _.keys(obj.colorTypes);
           var maps = [];
 
           // iterate through each component and...
-          _.each(obj.components, function (data, tailorName) {
+          _.each(obj.components, function(data, tailorName) {
             // ...check if there are any color properties presented
-            _.each(colorProps, function (colorProp) {
+            _.each(colorProps, function(colorProp) {
               // if so, then calculate color SVG map
               if (data[colorProp]) {
                 maps.push(obj._buildColorSvgMap(colorProp, tailorName));
@@ -385,7 +385,7 @@
       },
       // clears the provided tailor's colors
       // NOTE: if components isn't provided obj.components gets used instead
-      clearTailorColors: function (tailorName, components) {
+      clearTailorColors: function(tailorName, components) {
         var local = components || obj.components;
         if (local && tailorName && local[tailorName]) {
           local[tailorName] = _.omit(local[tailorName], _.keys(obj.colorTypes));
@@ -394,17 +394,17 @@
       },
       // clears all the tailors
       // NOTE: if components isn't provided obj.components gets used instead
-      clearAllTailorsColors: function (components) {
+      clearAllTailorsColors: function(components) {
         var local = components || obj.components;
         if (local) {
-          _.keys(local).forEach(function (tailorName) {
+          _.keys(local).forEach(function(tailorName) {
             obj.clearTailorColors(tailorName, local);
           });
         }
         return obj;
       },
       // clears the canvas
-      clear: function () {
+      clear: function() {
         if (obj.canvas && obj.project) {
           if ((obj.project.layers || []).length) {
             obj.project.clear();
@@ -414,14 +414,14 @@
         return obj;
       },
       // refreshes the canvas
-      update: function () {
+      update: function() {
         if (obj.canvas && obj.project) {
           obj.project.view.draw();
         }
         return obj;
       },
       // draws new components
-      draw: function (newComponents, newBaseColor) {
+      draw: function(newComponents, newBaseColor) {
         if (obj.canvas && obj.project) {
           // add new set of components if provided
           if (newComponents) {
@@ -442,7 +442,7 @@
 
             // extract all the required SVGs
             obj.svgMap = _.chain(obj.components)
-              .map(function (data, key) {
+              .map(function(data, key) {
                 var tailor = obj.tailors[key];
                 return {
                   tailorName: key,
@@ -451,9 +451,9 @@
                   zIndex: tailor['z-index']
                 };
               })
-              .filter(function (data) { return data.svgSrc; })
-              .sortBy(function (data) { return data.zIndex; })
-              .reduce(function (memo, data) {
+              .filter(function(data) { return data.svgSrc; })
+              .sortBy(function(data) { return data.zIndex; })
+              .reduce(function(memo, data) {
                 var svgRef = obj.project.importSVG(data.svgSrc);
                 var parsed = svgChildrenParser.parse(svgRef);
 
@@ -467,13 +467,13 @@
                 }
 
                 // add SVGs to rules tree
-                parsed.forEach(function (item) {
+                parsed.forEach(function(item) {
                   // we have to prepend tailor name to avoid rules overwrite
                   var itemName = data.tailorName + obj._svgNameSeparator + item.name;
 
-                  obj.svgRulesTree.addLocal(_.filter(item.rules, function (r) { return !r.depOnName; }),
+                  obj.svgRulesTree.addLocal(_.filter(item.rules, function(r) { return !r.depOnName; }),
                     itemName, data.tailorName);
-                  obj.svgRulesTree.addDepsOn(_.filter(item.rules, function (r) { return r.depOnName; }),
+                  obj.svgRulesTree.addDepsOn(_.filter(item.rules, function(r) { return r.depOnName; }),
                     itemName, data.tailorName);
 
                   // add ref to svg map
@@ -494,14 +494,14 @@
         return obj;
       },
       // initializes the canvas
-      init: function (components, tailors) {
+      init: function(components, tailors) {
         if (!obj.canvas || !obj.project) {
           obj.tailors = tailors || {};
           obj.components = components || {};
 
           // check if components are blank, let's populate with empty set
           if (!_.keys(obj.components).length) {
-            obj.components = _.reduce(obj.tailors, function (memo, tailor, name) {
+            obj.components = _.reduce(obj.tailors, function(memo, tailor, name) {
               memo[name] = {};
 
               if (!tailor.allow_clear && tailor.dressings.length) {
@@ -526,7 +526,7 @@
         return obj;
       },
       // updates UI for the components change
-      updateUI: function ($container) {
+      updateUI: function($container) {
         // enabled/disable component navigation
         if ((obj.tailors[obj.activeTailor].dressings || []).length <= 1) {
           $container
@@ -555,7 +555,7 @@
         return obj;
       },
       // wires up user interactions
-      wireup: function () {
+      wireup: function() {
         // bail before building UI if we're in read-only mode
         if (!options.isViewEditable || !obj.canvas || !obj.project) {
           return obj;
@@ -568,9 +568,9 @@
           var buttonTemplate = _.template('<li id="<%-name%>" class="button <%-classNameMod%>"><div class="icon"></div></li>');
           var buttons = _.chain(obj.tailors)
             .values()
-            .filter(function (data) { return data.dressings.length > 1; })
-            .sortBy(function (a, b) { return a['ui-order'] - b['ui-order']; })
-            .map(function (data) { return buttonTemplate(_.extend({ classNameMod: '' }, data)); })
+            .filter(function(data) { return data.dressings.length > 1; })
+            .sortBy(function(a, b) { return a['ui-order'] - b['ui-order']; })
+            .map(function(data) { return buttonTemplate(_.extend({ classNameMod: '' }, data)); })
             .value();
 
           // add body item here because it doesn't follow above algorithm
@@ -587,7 +587,7 @@
 
         $container
           .off('.snoovatar')
-          .on('click.snoovatar', uiSelectors.tailorButtons, function (event) {
+          .on('click.snoovatar', uiSelectors.tailorButtons, function(event) {
             $container.find(uiSelectors.tailorButtons).removeClass('selected');
 
             var $el = $(event.currentTarget);
@@ -599,7 +599,7 @@
 
             return true;
           })
-          .on('click.snoovatar', uiSelectors.nextButton + ':not([disabled])', function (event) {
+          .on('click.snoovatar', uiSelectors.nextButton + ':not([disabled])', function(event) {
             if (obj.activeTailor) {
               var $el = $(event.currentTarget).attr('disabled', 'disabled');
 
@@ -620,7 +620,7 @@
             }
             return true;
           })
-          .on('click.snoovatar', uiSelectors.prevButton + ':not([disabled])', function (event) {
+          .on('click.snoovatar', uiSelectors.prevButton + ':not([disabled])', function(event) {
             if (obj.activeTailor) {
               var $el = $(event.currentTarget).attr('disabled', 'disabled');
 
@@ -641,7 +641,7 @@
             }
             return true;
           })
-          .on('click.snoovatar', uiSelectors.randomButton + ':not([disabled])', function (event) {
+          .on('click.snoovatar', uiSelectors.randomButton + ':not([disabled])', function(event) {
             var $el = $(event.currentTarget).attr('disabled', 'disabled');
 
             // clear all the previously colors, draw and update the UI
@@ -655,21 +655,21 @@
 
             return true;
           })
-          .on('click.snoovatar', uiSelectors.clearButton + ':not([disabled])', function (event) {
+          .on('click.snoovatar', uiSelectors.clearButton + ':not([disabled])', function(event) {
             var $el = $(event.currentTarget).attr('disabled', 'disabled');
 
             // cannot-be-cleared components
             var componentsToStay = _.chain(obj.tailors)
               .values()
               .where({ allow_clear: false })
-              .reduce(function (aggr, tailor) {
+              .reduce(function(aggr, tailor) {
                 aggr[tailor.name] = tailor.dressings[0].name;
                 return aggr;
               }, {})
               .value();
 
             // create a "clear" set of components
-            var components = _.reduce(obj.components, function (memo, component, name) {
+            var components = _.reduce(obj.components, function(memo, component, name) {
               memo[name] = componentsToStay[name] ? { dressingName: componentsToStay[name] } : {};
               return memo;
             }, {});
@@ -685,7 +685,7 @@
 
             return true;
           })
-          .on('click.snoovatar', uiSelectors.saveButton + ':not([disabled])', function (event) {
+          .on('click.snoovatar', uiSelectors.saveButton + ':not([disabled])', function(event) {
             var $el = $(event.currentTarget).attr('disabled', 'disabled');
 
             $.request('gold/snoovatar', {
@@ -693,7 +693,7 @@
               'public': $container.find(uiSelectors.publicCheckbox).is(':checked'),
               'snoo_color': obj.components[snooBaseTailor].color || defaultColor,
               'components': window.JSON.stringify(obj.components)
-            }, function (res) {
+            }, function(res) {
               $el.removeAttr('disabled');
               $el = null;
 
@@ -716,7 +716,7 @@
 
             return true;
           })
-          .on('click.snoovatar', uiSelectors.downloadButton + ':not([disabled])', function (event) {
+          .on('click.snoovatar', uiSelectors.downloadButton + ':not([disabled])', function(event) {
             var $el = $(event.currentTarget).attr('disabled', 'disabled');
 
             $el[0].href = obj.canvas.toDataURL('image/png');
@@ -726,11 +726,11 @@
 
             return true;
           })
-          .on('change.snoovatar', uiSelectors.color, function (event) {
+          .on('change.snoovatar', uiSelectors.color, function(event) {
             obj.changeColor(event.currentTarget.value, obj.colorTypes.color, obj.activeTailor);
             return true;
           })
-          .on('change.snoovatar', uiSelectors.altColor, function (event) {
+          .on('change.snoovatar', uiSelectors.altColor, function(event) {
             obj.changeColor(event.currentTarget.value, obj.colorTypes.altColor, obj.activeTailor);
             return true;
           });
@@ -744,13 +744,13 @@
         // keeps "depends on" rules that can only be changed using local value as a base
         depsOn: {},
         // clears the state
-        clear: function () {
+        clear: function() {
           obj.svgRulesTree.local = {};
           obj.svgRulesTree.depsOn = {};
         },
         // adds a new local rule
-        addLocal: function (rules, svgRefName, tailorName) {
-          obj.svgRulesTree.local = _.reduce(rules, function (memo, rule) {
+        addLocal: function(rules, svgRefName, tailorName) {
+          obj.svgRulesTree.local = _.reduce(rules, function(memo, rule) {
             var key = rule.prop + '::' + rule.name;
             memo[key] = memo[key] || [];
             memo[key].push({
@@ -762,8 +762,8 @@
           }, obj.svgRulesTree.local);
         },
         // adds a new "depends on" rule
-        addDepsOn: function (rules, svgRefName, tailorName) {
-          obj.svgRulesTree.depsOn = _.reduce(rules, function (memo, rule) {
+        addDepsOn: function(rules, svgRefName, tailorName) {
+          obj.svgRulesTree.depsOn = _.reduce(rules, function(memo, rule) {
             var parentKey = rule.depOnProp + '::' + rule.depOnName;
             memo[parentKey] = memo[parentKey] || [];
             memo[parentKey].push({
@@ -779,9 +779,9 @@
         // NOTE: returns an array for each tailor because there could be
         //       more than one color per component (alt colors and etc.);
         //       we also assume that [0] is main color, [1] is alt color
-        getUIAdjustableTailors: function () {
-          return _.reduce(obj.svgRulesTree.local, function (memo, items, name) {
-            (items || []).forEach(function (item) {
+        getUIAdjustableTailors: function() {
+          return _.reduce(obj.svgRulesTree.local, function(memo, items, name) {
+            (items || []).forEach(function(item) {
               memo[item.tailorName] = memo[item.tailorName] || [];
               // avoid rules duplication
               if (memo[item.tailorName].indexOf(name) < 0) {
@@ -799,7 +799,7 @@
   }
 
   var helpers = {
-    colorLuminance: function (hex, lum) {
+    colorLuminance: function(hex, lum) {
       // validate hex string
       hex = window.String(hex).replace(/[^0-9a-f]/gi, '');
       if (hex.length < 6) {
@@ -818,20 +818,20 @@
       return rgb;
     },
 
-    getRandomColor: function () {
+    getRandomColor: function() {
       return '#' + ('000000' + window.Math.floor(window.Math.random() * 16777215).toString(16)).slice(-6);
     },
 
-    getRandomInt: function (min, max) {
+    getRandomInt: function(min, max) {
       return window.Math.floor(window.Math.random() * (max - min + 1)) + min;
     },
 
-    randomizeComponents: function (tailors) {
-      return _.reduce(tailors, function (memo, data) {
+    randomizeComponents: function(tailors) {
+      return _.reduce(tailors, function(memo, data) {
         var keys = _.pluck(data.dressings, 'name');
         if (keys && keys.length) {
           memo[data.name] = {
-            dressingName: (function (keys) {
+            dressingName: (function(keys) {
               if (keys.length === 1) {
                 return keys[0];
               } else {
@@ -844,7 +844,7 @@
       }, {});
     },
 
-    getNextDressingsName: function (dressings, activeName) {
+    getNextDressingsName: function(dressings, activeName) {
       var dressingNames = _.pluck(dressings, 'name') || [];
       var idx = dressingNames.indexOf(activeName) + 1;
       if (idx >= dressingNames.length) {
@@ -853,7 +853,7 @@
       return dressingNames[idx];
     },
 
-    getPrevDressingsName: function (dressings, activeName) {
+    getPrevDressingsName: function(dressings, activeName) {
       var dressingNames = _.pluck(dressings, 'name') || [];
       var idx = dressingNames.indexOf(activeName) - 1;
       if (idx < 0) {
@@ -865,7 +865,7 @@
     // make sure we convert legacy version of components
     // the idea here is before we stored just a name of dressing,
     // and now it's a complex object - name, color, etc.
-    convertLegacyComponents: function (components, snooColor) {
+    convertLegacyComponents: function(components, snooColor) {
       var deprecatedComponents = ['body-fill', 'head-fill'];
       var renamedTailors = {
         'body-stroke': 'snoo-body',
@@ -876,7 +876,7 @@
         'head_stroke': 'head'
       };
 
-      return _.reduce(components || {}, function (memo, value, key) {
+      return _.reduce(components || {}, function(memo, value, key) {
         if (deprecatedComponents.indexOf(key) < 0) {
           value = value || {};
 
@@ -899,7 +899,7 @@
   };
 
   var svgChildrenParser = {
-    parse: function (svgObj) {
+    parse: function(svgObj) {
       var result = [];
       if (svgObj) {
         // parse current svg name
@@ -915,7 +915,7 @@
         }
 
         // check if there are children to process
-        (svgObj.children || []).forEach(function (child) {
+        (svgObj.children || []).forEach(function(child) {
           result = result.concat(svgChildrenParser.parse(child));
         });
       }
@@ -930,19 +930,19 @@
       modifier: ':',
       prop: '-'
     },
-    _splitGroups: function (name) {
+    _splitGroups: function(name) {
       return name.split(svgRuleParser._separators.group) || [];
     },
-    _splitClauses: function (name) {
+    _splitClauses: function(name) {
       return name.split(svgRuleParser._separators.clause) || [];
     },
-    _splitModifiers: function (name) {
+    _splitModifiers: function(name) {
       return name.split(svgRuleParser._separators.modifier) || [];
     },
-    _splitProps: function (name) {
+    _splitProps: function(name) {
       return name.split(svgRuleParser._separators.prop) || [];
     },
-    _parseProps: function (name) {
+    _parseProps: function(name) {
       // parses props: snoo-body-f
       //  => { depOnName: 'snoo-body', depOnProp: 'fill' }
 
@@ -963,7 +963,7 @@
       }
       return null;
     },
-    _parseModifiers: function (name) {
+    _parseModifiers: function(name) {
       // parses modifiers: snoo-body-f:darker
       //  => { depOnName: 'snoo-body', depOnProp: 'fill', depOnModifier: 'darker' }
 
@@ -979,7 +979,7 @@
       }
       return null;
     },
-    _parseName: function (name) {
+    _parseName: function(name) {
       // parses grouped names: military:1
       //  => { name: 'military', group: 1 }
 
@@ -998,7 +998,7 @@
       }
       return null;
     },
-    _parseRule: function (name) {
+    _parseRule: function(name) {
       // parses one rule
 
       var clauses = svgRuleParser._splitClauses(name);
@@ -1016,7 +1016,7 @@
       }
       return null;
     },
-    parse: function (name) {
+    parse: function(name) {
       // SVG naming rules:
       //
       //  1) simple
@@ -1062,7 +1062,7 @@
 
       if (name) {
         var groups = svgRuleParser._splitGroups(name);
-        result = _.reduce(groups, function (memo, group) {
+        result = _.reduce(groups, function(memo, group) {
           var parsedGroup = svgRuleParser._parseRule(group);
           if (parsedGroup) {
             memo.push(parsedGroup);
@@ -1075,3 +1075,4 @@
     }
   };
 }(window, window.r, window.jQuery, window._, window.paper);
+

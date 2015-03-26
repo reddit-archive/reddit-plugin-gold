@@ -22,13 +22,17 @@ class Gold(Plugin):
     }
 
     js = {
+        'gold-lib': Module('gold-lib.js',
+            'paper-core.js',
+            prefix='lib/',
+        ),
+
         'gold': Module('gold.js',
             'gold.js',
             prefix='gold/',
         ),
 
         "snoovatar": LocalizedModule("snoovatar.js",
-            "paper-core.min.js",
             "snoovatar.js",
             DataSource(
                 wrap="r.snoovatar.initTailors({content})",
@@ -66,3 +70,4 @@ class Gold(Plugin):
             __name__,
             "data/tailors.json",
         ))
+
