@@ -3,9 +3,9 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
-<path id="fill::solo" inkscape:connector-curvature="0" fill="#5B3E2B" stroke="#000000" stroke-width="11" d="M248.7,347.5
+<path id="fill::solo" fill="#5B3E2B" stroke="#000000" stroke-width="11" d="M248.7,347.5
 	c-8.3,22.1-20,38.4-33.5,45.5h-29.9c-13.5-7-25.3-23.3-33.5-45.5l0.2,0.1c14.8,3.8,31.3,6.2,48.4,6.2c17.1,0,33.3-2.4,48.1-6.2
 	L248.7,347.5z"/>
-<path fill="#939393" stroke="#0E0902" stroke-width="6" d="M206.8,371.2h-12c-2.2,0-4-1.8-4-4v-12c0-2.2,1.8-4,4-4h12
+<path id="fill::buckle" fill="#939393" stroke="#0E0902" stroke-width="6" d="M206.8,371.2h-12c-2.2,0-4-1.8-4-4v-12c0-2.2,1.8-4,4-4h12
 	c2.2,0,4,1.8,4,4v12C210.8,369.5,209,371.2,206.8,371.2z"/>
 </svg>

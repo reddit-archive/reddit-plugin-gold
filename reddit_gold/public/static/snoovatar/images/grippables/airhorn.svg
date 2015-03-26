@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="airhorn" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g>
+	<path fill="#FFFFFF" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M296.8,281.4l-10.7,54
+		c-9.9,6.7-27.8,3.2-34.4-6.8l10.7-54l13.5-14.6l14,2.8L296.8,281.4z"/>
+	<g>
+		<path id="path4102_1_" fill="#EC1300" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="
+			M286,234.1c0,0,10.4,2.1,15.6,3.1c15.6,3.1,25.6,5.8,40.6,0.6l-5.2,26.3c-11.9-10.6-22.2-11.9-37.8-15c-5.2-1-15.6-3.1-15.6-3.1
+			L286,234.1z"/>
+		<path id="path4098_1_" fill="#EC1300" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="
+			M267,221.7l19.7,9l-3.8,18.9l-21.7,0.7L267,221.7z"/>
+		<path id="path4094_1_" fill="#E60B00" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="
+			M283.3,223l14,2.8l-7.4,37l-14-2.8L283.3,223z"/>
+	</g>
+</g>
+<ellipse id="snoo-body-f::fill::hand" transform="matrix(-0.3494 0.937 -0.937 -0.3494 687.6235 142.4842)" fill="#00FF00" stroke="#000000" stroke-width="11" cx="294.3" cy="310" rx="22.3" ry="16.8"/>
+</svg>

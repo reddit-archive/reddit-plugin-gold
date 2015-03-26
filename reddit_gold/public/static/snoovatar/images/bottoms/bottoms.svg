@@ -3,7 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="bottoms" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
-<path id="fill:bottoms" inkscape:connector-curvature="0" fill="#EFEA47" stroke="#000000" stroke-width="11" d="M248.7,347.5
+<path id="fill::bottoms" fill="#EFEA47" stroke="#000000" stroke-width="11" d="M248.7,347.5
 	c-8.3,22.1-20,38.4-33.5,45.5h-29.9c-13.5-7-25.3-23.3-33.5-45.5l0.2,0.1c14.8,3.8,31.3,6.2,48.4,6.2c17.1,0,33.3-2.4,48.1-6.2
 	L248.7,347.5z"/>
 </svg>
