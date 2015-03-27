@@ -5,8 +5,8 @@
 	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
 <path id="fill::cowboy_x26__x26_cowboy-f:darker::stroke::hat-outline" fill="#754C28" stroke="#000000" stroke-width="9" stroke-linejoin="round" stroke-miterlimit="10" d="
 	M303.2,77c-4.3,1-51.5,7.3-51.5,7.3S244,17.9,233.8,6c-10.6-3.6-25.1,1.7-30.7,5.3c-0.8,0.5-1.5,0.9-2.3,1.2
-	c-0.8-0.3-1.6-0.7-2.3-1.2c-5.6-3.6-20.2-8.9-30.7-5.3c-10.2,11.9-17.8,78.3-17.8,78.3S102.5,78,98.2,77s-15.2-4.9-12.6,5
+	c-0.8-0.3-1.6-0.7-2.3-1.2c-5.6-3.6-20.2-8.9-30.7-5.3C157.6,17.9,150,84.3,150,84.3S102.5,78,98.2,77S83,72.1,85.6,82
 	c60.8,48.7,102.9,50.1,115,49.3c12.1,0.8,54.2-0.7,115-49.3C318.4,72.1,307.5,76,303.2,77z"/>
-<path id="cowboy-f:lighter::fill::band_x26__x26_hat-outline-s::stroke::band-outline" fill="#9A653A" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+<path id="cowboy-f:lighter::fill::band_x26__x26_cowboy-f:darker::stroke::band-outline" fill="#9A653A" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 	M150.2,85c0,0,44.3,30.4,101.4,0l-2-13.5c-57.2,30.4-98.1,0-98.1,0L150.2,85z"/>
 </svg>
