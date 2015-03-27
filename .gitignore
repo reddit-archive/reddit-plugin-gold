@@ -6,4 +6,5 @@ reddit_gold.egg-info
 /build
 
 reddit_gold/data/tailors.json
+reddit_gold/public/static/snoovatar/images/**/svg_bundle.json
 
