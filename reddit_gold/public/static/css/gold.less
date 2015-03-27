@@ -445,7 +445,7 @@ section#about-gold, section#about-gold-partners {
 
     section#terms {
         text-align: center;
-        
+
         #giveaway-rules {
             display: none;
             text-align: left;
@@ -686,6 +686,10 @@ section#postcard {
       &:active {
         margin-top: 2px;
       }
+
+      &[disabled] {
+        visibility: hidden;
+      }
     }
 
     .selectors {
@@ -704,13 +708,65 @@ section#postcard {
         text-align: center;
     }
 
-    .uses-icon(@filename, @width:70px, @height:70px) {
+    .button{
+        width: 70px;
+        height: 70px;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        border: 3px solid #81b0df;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+        vertical-align: middle;
+
+        .linear-gradient(#bed6ef, #a9c9ea);
+        .user-select(none);
+
+        &:hover {
+            .linear-gradient(#bed6ef, #bed6ef);
+        }
+
+        &.selected {
+            background: linear-gradient(#8EC2F6,#6D9ED1);
+        }
+    }
+
+    @iconSize: 60px;
+    @biggerIconSize: 70px;
+
+    .selectors {
+        .button {
+            border-radius: 0;
+            border-right-width: 0;
+            height: @iconSize;
+            width: @iconSize;
+
+            &:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+
+            &:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+                border-right-width: 3px;
+            }
+        }
+    }
+
+    .uses-icon(@filename, @size: @iconSize) {
         .icon {
             background: url(~'../snoovatar/icons/@{filename}.png') no-repeat center center;
-            width: @width;
-            height: @height;
-            background-size: @width @height;
+            width: @size;
+            height: @size;
+            background-size: @size @size;
         }
+    }
+
+    #snoo-body {
+        .uses-icon('snoo-body');
     }
 
     #glasses {
@@ -738,55 +794,11 @@ section#postcard {
     }
 
     #random {
-        .uses-icon('random');
+        .uses-icon('random', @biggerIconSize);
     }
 
     #clear {
-        .uses-icon('clear');
-    }
-
-    .button{
-        width: 70px;
-        height: 70px;
-        display: inline-block;
-        margin: 0;
-        padding: 0;
-        border: 3px solid;
-        border-color: #81b0df;
-        border-radius: 5px;
-        color: #FFFFFF;
-        font-weight: bold;
-        font-size: 16px;
-        vertical-align: middle;
-
-        .linear-gradient(#bed6ef, #a9c9ea);
-        .user-select(none);
-
-        &:hover {
-            .linear-gradient(#bed6ef, #bed6ef);
-        }
-
-        &.selected {
-            background: linear-gradient(#8EC2F6,#6D9ED1);
-        }
-    }
-
-    .selectors {
-        .button {
-            border-radius: 0;
-            border-right-width: 0;
-
-            &:first-child {
-                border-top-left-radius: 5px;
-                border-bottom-left-radius: 5px;
-            }
-
-            &:last-child {
-                border-top-right-radius: 5px;
-                border-bottom-right-radius: 5px;
-                border-right-width: 3px;
-            }
-        }
+        .uses-icon('clear', @biggerIconSize);
     }
 
     .button-big {
@@ -800,7 +812,7 @@ section#postcard {
         box-sizing: border-box;
 
         .linear-gradient(#ff9e48, #ff8c24);
-        
+
         &:hover {
             .linear-gradient(#ff9e48, #ff9e48);
         }
@@ -818,6 +830,10 @@ section#postcard {
         display: block;
         line-height: 50px;
         .user-select(none);
+
+        &.is-hidden {
+            display: none;
+        }
 
         .label {
             display: inline-block;
@@ -846,7 +862,7 @@ section#postcard {
             box-shadow: 0 1px 1px #fff inset;
 
             .linear-gradient(#fefefe, #d7d7d7);
-            
+
             &:after {
                 display: inline-block;
                 content: ' ';
@@ -887,7 +903,7 @@ section#postcard {
         a {
             color: #9A7D2E;
         }
-        
+
         strong {
             font-weight: bold;
         }

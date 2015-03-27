@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g>
+	<polyline fill="#393939" points="319.2,200.4 327.5,204.4 309.4,241.3 301.2,237.3 319.2,200.4 	"/>
+	
+		<radialGradient id="path4408_1_" cx="165.6779" cy="-99.4502" r="14.1543" gradientTransform="matrix(1.9867 0.9703 -0.9703 1.9867 -106.5198 248.5611)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#6EFF00"/>
+		<stop  offset="1" style="stop-color:#6EFF00;stop-opacity:0"/>
+	</radialGradient>
+	<path id="path4408" fill="url(#path4408_1_)" d="M347.2,225.5c-7.6,15.5-26.3,22-41.8,14.4s-22-26.3-14.4-41.8s26.3-22,41.8-14.4
+		C348.4,191.3,354.8,210,347.2,225.5z"/>
+	<g>
+		<polygon fill="#393939" points="296.2,233.1 294.6,214.7 310.1,198.8 319,206.7 305.6,218.2 305.1,235.9 		"/>
+		<polygon fill="#393939" points="316.1,242.8 331.6,232.8 334.6,210.8 322.9,208.6 322.1,226.2 308.4,237.5 		"/>
+	</g>
+	<g>
+		
+			<rect x="288.8" y="237.2" transform="matrix(0.8986 0.4388 -0.4388 0.8986 142.4055 -104.4769)" fill="#A9794B" stroke="#000000" stroke-width="6" stroke-linejoin="round" width="16.9" height="37.3"/>
+		<path fill="#A9794B" stroke="#000000" stroke-width="6" stroke-linejoin="round" d="M283.3,267.4c-1.2-0.6-2.8,0-3.5,1.5
+			l-35.9,73.4c-0.7,1.5-0.2,3.1,1,3.7v1.5l-1.4,2.8c-0.1,0.1,0.5,0.5,1.3,0.9l9.5,4.7c0.8,0.4,1.5,0.6,1.5,0.5l1.4-2.8l1.2-1
+			c0.9-0.7,2.8,0,3.5-1.5l35.9-73.4c0.7-1.5,0.2-3.1-1-3.7L283.3,267.4z"/>
+		<path fill="#291B0E" stroke="#000000" stroke-width="6" stroke-linejoin="round" d="M277.8,278.2l13.7,6.7
+			c1.2,0.6,1.9,1.4,1.7,1.8l-10.7,22c-0.2,0.4-1.3,0.3-2.5-0.2l-13.7-6.7c-1.2-0.6-1.9-1.4-1.7-1.8l10.7-22
+			C275.5,277.6,276.6,277.7,277.8,278.2z"/>
+		<path fill="#E7CEB6" stroke="#000000" stroke-width="6" stroke-linejoin="round" d="M266.6,301.3l13.7,6.7c1.2,0.6,1.9,1.5,1.6,2
+			l-13.6,27.8c-0.3,0.6-1.4,0.5-2.6,0L252,331c-1.2-0.6-1.9-1.5-1.6-2l13.6-27.8C264.2,300.7,265.4,300.7,266.6,301.3z"/>
+	</g>
+	<path id="snoo-body-f::fill::hand" fill="#00FF00" stroke="#000000" stroke-width="11" d="M275.2,295.9l1.1,0.7
+		c8.6,5,11.2,16.5,5.9,25.8l-0.1,0.1c-5.3,9.3-16.6,12.7-25.2,7.8l-1.1-0.7c-8.6-5-11.2-16.5-5.9-25.8l0.1-0.1
+		C255.3,294.4,266.6,290.9,275.2,295.9z"/>
+</g>
+<circle opacity="0.6" fill="none" stroke="#07DB3E" stroke-width="2.8359" enable-background="new    " cx="314.5" cy="219.3" r="31.3"/>
+</svg>

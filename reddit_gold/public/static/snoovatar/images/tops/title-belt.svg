@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g id="fill::belt">
+	<polygon fill="#3F3F3F" stroke="#000303" stroke-width="6" stroke-linejoin="round" points="172.1,365.2 177,318.5 142.9,318.6 
+		148,365.3 	"/>
+	<polygon fill="#3F3F3F" stroke="#000303" stroke-width="6" stroke-linejoin="round" points="171.7,209.5 176.8,256.2 142.8,256.3 
+		147.7,209.5 	"/>
+	<circle fill="#3F3F3F" stroke="#000303" stroke-width="6" stroke-linejoin="round" cx="159.9" cy="286.9" r="33.7"/>
+</g>
+<g id="fill::decoration">
+	<polygon fill="#AD9000" stroke="#000303" stroke-width="4.188" stroke-linejoin="round" points="165.7,358.3 169.1,326.4 
+		150.9,326.5 154.3,358.3 	"/>
+	<polygon fill="#AD9000" stroke="#000303" stroke-width="4.188" stroke-linejoin="round" points="154,215.7 150.7,247.6 
+		168.9,247.6 165.4,215.7 	"/>
+	<circle fill="#AD9000" stroke="#000303" stroke-width="4.188" stroke-linejoin="round" cx="159.9" cy="286.9" r="23.5"/>
+</g>
+</svg>

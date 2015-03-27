@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="imperium" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<g id="fill::imperium:2">
+	<path fill="#3E3E3E" stroke="#000000" stroke-width="9" stroke-linejoin="round" stroke-miterlimit="10" d="M291.6,280.2
+		c0,28.4-17.9,51.5-40,51.5s-40-23-40-51.5c0-28.4,18-51.5,40-51.5c22.1,0,40.1,23,40.1,51.4v0.1H291.6z"/>
+	<path fill="#3E3E3E" stroke="#000000" stroke-width="9" stroke-linejoin="round" stroke-miterlimit="10" d="M105.2,280.2
+		L105.2,280.2c0-28.5,18-51.5,40.1-51.5s40,23.1,40,51.5s-17.9,51.5-40,51.5S105.3,308.7,105.2,280.2L105.2,280.2z"/>
+</g>
+<path fill="#6B6B45" d="M200.3,237.2c-18.8,0-51.2,9.7-51.2,33.3c0,29.1-5.2,55.9,2.8,77.2c14.8,3.8,31.3,6.2,48.4,6.2
+	s33.3-2.4,48.1-6.2c8-21.3,2.8-48.1,2.8-77.2C251.2,246.9,219.1,237.2,200.3,237.2z"/>
+<path id="fill::sash:1" fill="#FF0000" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M143.5,302.3
+	c2.1,15.4,4.9,29.7,8.3,42.6c14.8,5.5,31.3,9,48.4,9s33.3-3.5,48.1-9c3.6-13.7,6.5-29,8.7-45.4l-8.7,9.5c-14.9,5.5-31,9-48.1,9
+	s-33.6-3.5-48.4-9L143.5,302.3z"/>
+<g>
+	<path opacity="0.5" enable-background="new    " d="M151,321.6c15.1,5.6,31.8,9.1,49.3,9.1c17.4,0,33.9-3.5,49-9.1l-1.7-4.5
+		c-14.6,5.4-30.5,8.8-47.3,8.8s-33-3.4-47.6-8.8L151,321.6L151,321.6z"/>
+	<path opacity="0.5" enable-background="new    " d="M151,330.1c15.1,5.6,31.8,9.1,49.3,9.1c17.4,0,33.9-3.5,49-9.1l-1.7-4.5
+		c-14.6,5.4-30.5,8.8-47.3,8.8s-33-3.4-47.6-8.8L151,330.1L151,330.1z"/>
+	<path opacity="0.5" enable-background="new    " d="M151,339c15.1,5.6,31.8,9.1,49.3,9.1c17.4,0,33.9-3.5,49-9.1l-1.7-4.5
+		c-14.6,5.4-30.5,8.8-47.3,8.8s-33-3.4-47.6-8.8L151,339L151,339z"/>
+</g>
+<g>
+	<polygon id="fill::sash:2" fill="#FF0000" points="207.5,317.4 238.8,315.7 245.8,369.2 214.9,373.2 	"/>
+	<g>
+		<defs>
+			<polygon id="SVGID_1_" points="207.5,317.4 238.8,315.7 245.8,369.2 214.9,373.2 			"/>
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_"  overflow="visible"/>
+		</clipPath>
+		<polyline opacity="0.5" clip-path="url(#SVGID_2_)" enable-background="new    " points="213.1,318.4 220.5,374.6 225.1,374 
+			217.7,317.8 		"/>
+		<polyline opacity="0.5" clip-path="url(#SVGID_2_)" enable-background="new    " points="221.1,318.4 228.5,373.3 233,372.7 
+			225.7,317.8 		"/>
+		<polyline opacity="0.5" clip-path="url(#SVGID_2_)" enable-background="new    " points="229.1,318.8 236.9,372.3 241.5,371.7 
+			233.7,318.1 		"/>
+	</g>
+	<polygon fill="none" stroke="#000000" stroke-width="6" stroke-miterlimit="10" points="207.5,317.4 238.8,315.7 245.8,369.2 
+		214.9,373.2 	"/>
+</g>
+<g id="fill::imperium:1">
+	<path fill="#3E3E3E" stroke="#000000" stroke-width="9" stroke-linejoin="round" stroke-miterlimit="10" d="M151.5,225.5
+		c-20.8,68.3-51.1,123.5-84.9,157l66.7-1.6c21-30.6,45.5-52,53.7-147.2L151.5,225.5z"/>
+	<path fill="#3E3E3E" stroke="#000000" stroke-width="9" stroke-linejoin="round" stroke-miterlimit="10" d="M209.9,233.6
+		c8.2,95.3,32.7,116.6,53.7,147.2l66.7,1.6c-33.8-33.5-64.1-88.7-84.9-157L209.9,233.6z"/>
+</g>
+<g>
+	<path fill="#141414" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M210.7,239.7c19.4-5.7,36.3-16.5,51.6-26.3
+		l2.4,15.8l-10.5,12.7l-41.4,10.4L210.7,239.7z"/>
+	<path fill="#141414" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M193.5,239.7c-19.4-5.7-36.3-16.5-51.6-26.3
+		l-2.4,15.8l10.5,12.7l41.4,10.4L193.5,239.7z"/>
+</g>
+<polygon fill="#515151" stroke="#000000" stroke-width="8" stroke-miterlimit="10" points="166.5,235.7 198.8,261.1 231.6,235.7 "/>
+<polygon fill="#323232" points="177.1,235.7 197.4,251.4 199.3,252.8 201.2,251.4 221.5,235.7 211.6,235.7 199.3,245.2 187.1,235.7 
+	"/>
+</svg>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 400" enable-background="new 0 0 400 400" xml:space="preserve">
+<ellipse id="fill::boater:1" transform="matrix(0.9978 6.624679e-02 -6.624679e-02 0.9978 6.2122 -13.125)" fill="#E7B98A" stroke="#5A3D1B" stroke-width="8.5095" cx="201" cy="87.1" rx="152.4" ry="19.8"/>
+<g>
+	<defs>
+		<path id="fill::accent" d="M274.2,41.9l-137.2-9.1c0,0-2.8,41.6-2.8,41.8c-0.4,6.1,30,13.1,67.8,15.6c37.9,2.5,68.9-0.4,69.3-6.5
+			C271.4,83.5,274.2,41.9,274.2,41.9z"/>
+	</defs>
+	<use xlink:href="#fill::accent"  overflow="visible" fill="#FF4500"/>
+	<clipPath id="fill::accent_1_">
+		<use xlink:href="#fill::accent"  overflow="visible"/>
+	</clipPath>
+	<path id="fill::boater:3" clip-path="url(#fill::accent_1_)" fill="#E7B98A" d="M272.8,63.1c0.4,6-30.8,8.9-69.3,6.5
+		c-37.9-2.4-68.2-9.5-67.8-15.6c0.1-2.2-2.9-21.5,4.1-22.8c12.4-2.2,43.2,2.9,67.5,4.5c31.2,2.1,59.2-2.1,67.2,3.1
+		C276.1,39.9,272.7,62,272.8,63.1z"/>
+	<use xlink:href="#fill::accent"  overflow="visible" fill="none" stroke="#5A3D1B" stroke-width="6.6202"/>
+</g>
+<ellipse id="fill::boater:2" transform="matrix(0.9978 6.624679e-02 -6.624679e-02 0.9978 2.8121 -13.5514)" fill="#E7B98A" stroke="#5A3D1B" stroke-width="8.5095" cx="205.7" cy="35.6" rx="68.7" ry="11.1"/>
+</svg>

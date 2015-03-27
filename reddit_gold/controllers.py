@@ -116,6 +116,7 @@ class GoldApiController(RedditController):
 
             for tailor in tailors:
                 tailor_name = tailor["name"]
+
                 component = unvalidated_components.get(tailor_name)
 
                 # if the tailor requires a selection, ensure there is one
@@ -123,9 +124,10 @@ class GoldApiController(RedditController):
                     require(component)
 
                 # ensure this dressing exists
-                if component:
-                    for dressing in tailor["dressings"]:
-                        if component == dressing["name"]:
+                dressing = component.get("dressingName")
+                if dressing:
+                    for d in tailor["dressings"]:
+                        if dressing == d["name"]:
                             break
                     else:
                         raise RequirementException
