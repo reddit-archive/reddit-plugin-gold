@@ -7,6 +7,11 @@ def write_tailor_config(sprite_folder, output_path):
     output_path = os.path.abspath(output_path)
     sprite_directories = os.walk(sprite_folder).next()[1]
     tailors = []
+
+    # make sure output folder exists
+    output_folder = os.path.dirname(output_path)
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
     
     # each folder == a tailor
     for directory in sprite_directories:
