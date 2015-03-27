@@ -11,7 +11,7 @@
 		<stop  offset="1" style="stop-color:#6EFF00;stop-opacity:0"/>
 	</radialGradient>
 	
-		<path id="path4408" sodipodi:type="arc" sodipodi:ry="1.4142135" sodipodi:cx="36.659069" sodipodi:rx="1.4142135" sodipodi:cy="15.538525" fill="url(#path4408_1_)" d="
+		<path id="path4408" fill="url(#path4408_1_)" d="
 		M347.2,225.5c-7.6,15.5-26.3,22-41.8,14.4c-15.5-7.6-22-26.3-14.4-41.8c7.6-15.5,26.3-22,41.8-14.4
 		C348.4,191.3,354.8,210,347.2,225.5z"/>
 	<g>
