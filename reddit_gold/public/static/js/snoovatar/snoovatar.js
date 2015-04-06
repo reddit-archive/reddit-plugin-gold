@@ -119,8 +119,7 @@
    * @return {object}
    */
   exports.initSnoovatar = bond(function(data) {
-    //return data;
-    return {"snoo_color": "#ffffff", "public": true, "components": {"head-stroke": "head_stroke", "grippables": "camera", "head-fill": "head_fill", "hats": "military_officer", "tops": "lab_coat", "body-stroke": "body_stroke", "grippables_left": "", "flipped_grippables": "baby", "grippables_right": "", "bottoms": "cords", "body-fill": "body_fill", "glasses": "deal_with_it"}};
+    return data;
   });
 
   // test for canvas support and opt out early
