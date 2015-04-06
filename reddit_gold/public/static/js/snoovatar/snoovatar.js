@@ -443,16 +443,18 @@
             // extract all the required SVGs
             obj.svgMap = _.chain(obj.components)
               .map(function(data, key) {
-                var tailor = obj.tailors[key];
-                return {
-                  tailorName: key,
-                  svgSrc: (_.where(tailor.dressings, { name: data.dressingName })[0] || {}).svg,
-                  isFlipX: tailor['flip_x'],
-                  zIndex: tailor['z-index']
-                };
+                if (data.dressingName) {
+                  var tailor = obj.tailors[key];
+                  return {
+                    tailorName: key,
+                    svgSrc: (_.where(tailor.dressings, { name: data.dressingName })[0] || {}).svg,
+                    isFlipX: tailor['flip_x'],
+                    zIndex: tailor['z-index']
+                  };
+                }
               })
-              .filter(function(data) { return data.svgSrc; })
-              .sortBy(function(data) { return data.zIndex; })
+              .filter(function(data) { return data && data.svgSrc; })
+              .sortBy(function(data) { return data && data.zIndex; })
               .reduce(function(memo, data) {
                 var svgRef = obj.project.importSVG(data.svgSrc);
                 var parsed = svgChildrenParser.parse(svgRef);
