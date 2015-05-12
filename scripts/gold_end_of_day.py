@@ -93,7 +93,7 @@ def post_if_goal_reached(date):
     UPVOTE = True
     queries.queue_vote(SYSTEM_ACCOUNT, link, UPVOTE, "127.0.0.1")
     queries.new_link(link)
-    queries.changed(link)
+    link.update_search_index()
 
     template = WikiPage.get(SERVERNAME_SR, "templates/notification-message")._get("content")
     subject_template, sep, body_template = template.partition("\r\n")
