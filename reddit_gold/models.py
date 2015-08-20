@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 
-from pylons import g
+from pylons import app_globals as g
 from sqlalchemy import func
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.schema import Column

@@ -2,7 +2,7 @@ from collections import deque, defaultdict
 from datetime import datetime
 import StringIO, csv, psycopg2
 
-from pylons import g
+from pylons import app_globals as g
 from r2.lib import emailer
 from r2.models.gold import Base, Session
 from sqlalchemy import create_engine

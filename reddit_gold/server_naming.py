@@ -1,7 +1,8 @@
 import datetime
 import json
 
-from pylons import g, c
+from pylons import tmpl_context as c
+from pylons import app_globals as g
 from sqlalchemy.sql.expression import select, distinct, func
 
 from r2.lib.base import abort

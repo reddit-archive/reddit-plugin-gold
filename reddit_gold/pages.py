@@ -1,4 +1,5 @@
-from pylons import c, g
+from pylons import tmpl_context as c
+from pylons import app_globals as g
 
 from r2.lib.pages import BoringPage, ProfilePage
 from r2.lib.wrapped import Templated

@@ -6,7 +6,7 @@ import re
 
 from itertools import chain
 
-from pylons import g
+from pylons import app_globals as g
 
 from r2.lib.amqp import worker
 from r2.lib.db import queries
