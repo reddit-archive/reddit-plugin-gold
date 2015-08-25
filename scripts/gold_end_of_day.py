@@ -62,32 +62,29 @@ def post_if_goal_reached(date):
         return
 
     buyer_count = len(gold_buyers_on(date))
+    template_wp = WikiPage.get(SERVERNAME_SR, "templates/selftext")
+    template = random.choice(template_wp._get("content").split("\r\n---\r\n"))
+    boilerplate = WikiPage.get(SERVERNAME_SR, "templates/boilerplate")._get("content")
+    selftext_template = template + "\n\n---\n\n" + boilerplate
 
     link = Link._submit(
+        is_self=True,
         title=date.strftime("%a %Y-%m-%d"),
-        url="self",
+        content=selftext_template % {
+            "percent": int(percent * 100),
+            "buyers": buyer_count,
+        },
         author=SYSTEM_ACCOUNT,
         sr=SERVERNAME_SR,
         ip="127.0.0.1",
         spam=False,
     )
 
-    template_wp = WikiPage.get(SERVERNAME_SR, "templates/selftext")
-    template = random.choice(template_wp._get("content").split("\r\n---\r\n"))
-    boilerplate = WikiPage.get(SERVERNAME_SR, "templates/boilerplate")._get("content")
-    selftext_template = template + "\n\n---\n\n" + boilerplate
-
     link.flair_text = "Name pending..."
     link.flair_css_class = "goal-bucket-%d-active" % bucket
     link.revenue_date = date
     link.revenue_bucket = bucket
     link.server_names = []
-    link.url = link.make_permalink(SERVERNAME_SR)
-    link.selftext = selftext_template % {
-        "percent": int(percent * 100),
-        "buyers": buyer_count,
-    }
-    link.is_self = True
     link._commit()
 
     UPVOTE = True
