@@ -52,9 +52,6 @@ class GoldController(RedditController):
         vuser=VExistingUname("username"),
     )
     def GET_snoovatar(self, vuser):
-        if not feature.is_enabled('snoovatars'):
-            self.abort404()
-
         if not vuser or vuser._deleted or not vuser.gold:
             self.abort404()
 
@@ -98,9 +95,6 @@ class GoldApiController(RedditController):
         unvalidated_components=VJSON("components"),
     )
     def POST_snoovatar(self, form, jquery, public, snoo_color, unvalidated_components):
-        if not feature.is_enabled('snoovatars'):
-            return
-
         if form.has_errors("components",
                            errors.NO_TEXT,
                            errors.TOO_LONG,
