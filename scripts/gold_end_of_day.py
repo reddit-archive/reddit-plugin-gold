@@ -87,8 +87,6 @@ def post_if_goal_reached(date):
     link.server_names = []
     link._commit()
 
-    UPVOTE = True
-    queries.queue_vote(SYSTEM_ACCOUNT, link, UPVOTE, "127.0.0.1")
     queries.new_link(link)
     link.update_search_index()
 
@@ -182,7 +180,6 @@ def activate_names(link, names):
             },
             ip="127.0.0.1",
         )
-        queries.queue_vote(SYSTEM_ACCOUNT, comment, dir=True, ip="127.0.0.1")
         queries.new_comment(comment, inbox_rel)
 
         # update the link's text
