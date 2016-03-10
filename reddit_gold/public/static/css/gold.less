@@ -56,7 +56,7 @@
     }
 }
 
-section#gold-letter, section#about-gold, section#about-gold-partners, section#postcard, .or-box {
+section#gold-letter, section#about-gold, section#postcard, .or-box {
     font-family: "Bitstream Charter", "Hoefler Text", "Palatino Linotype",
                  "Book Antiqua", Palatino, georgia, garamond, FreeSerif, serif;
 }
@@ -114,7 +114,7 @@ section#gold-letter {
     }
 }
 
-section#about-gold, section#about-gold-partners {
+section#about-gold {
     @section-width: 960px;
     width: @section-width;
     margin: 30px auto 40px;
@@ -364,73 +364,6 @@ section#about-gold, section#about-gold-partners {
                 vertical-align: middle;
             }
         }
-
-        &#category-nav {
-            line-height: 1em;
-            height: auto;
-            text-align: center;
-            font-size: 14px;
-
-            h1 {
-                font-size: 1.2em;
-                margin-bottom: 0.7em;
-            }
-
-            ul li {
-                display: inline;
-                margin-left: 0.5em;
-
-                &.active {
-                    font-weight: bold;
-                }
-            }
-
-            ul li + li:before {
-                content: '|';
-                margin-right: 0.5em;
-            }
-        }
-
-        &#partner-benefits {
-            height: auto;
-            line-height: inherit;
-            text-align: center;
-
-            h1 {
-                text-align: center;
-            }
-
-            li {
-                display: inline-block;
-                padding: 10px;
-                margin: 10px 12px;
-                text-align: center;
-                width: 210px;
-                height: 110px;
-                font-size: 18px;
-
-                .label-container {
-                    line-height: 2em;
-                    height: 2em;
-                    margin-bottom: 8px;
-                }
-
-                .partner-label {
-                    display: inline-block;
-                    line-height: 1em;
-                    vertical-align: middle;
-                }
-
-                .logo {
-                    .inset-white-with-shadow;
-
-                    img {
-                        width: 200px;
-                        padding-top: 5px;
-                    }
-                }
-            }
-        }
     }
 
     section.etc {
@@ -440,43 +373,6 @@ section#about-gold, section#about-gold-partners {
             color: black;
             font-size: 18px;
             margin-right: .5em;
-        }
-    }
-
-    section#terms {
-        text-align: center;
-
-        #giveaway-rules {
-            display: none;
-            text-align: left;
-
-            h2 {
-                text-align: center;
-                font-size: 2em;
-                color: #000;
-            }
-
-            h3 {
-                margin-top: 1em;
-                font-size: small;
-            }
-
-            p {
-                font-size: x-small;
-            }
-        }
-
-        #prize-details {
-            display: none;
-
-            ul {
-                margin-left: 20px;
-                list-style-type: disc;
-            }
-
-            ul li {
-                font-size: x-small;
-            }
         }
     }
 
@@ -516,31 +412,6 @@ section#about-gold, section#about-gold-partners {
 
     header, footer {
         text-shadow: 0 2px 1px rgba(255,255,255,.5);
-    }
-}
-
-section#about-gold-partners {
-    input.code {
-        font-weight: bold;
-        font-size: 16px;
-        float: right;
-        max-width: 200px;
-        line-height: 20px;
-        text-align: center;
-        margin-top: 7px;
-    }
-
-    span.error {
-        font-size: 16px;
-        float: right;
-    }
-
-    section {
-        .how-to-use p {
-            font-size: 13px;
-            font-style: italic;
-            margin-top: 10px;
-        }
     }
 }
 

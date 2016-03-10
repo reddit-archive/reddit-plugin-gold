@@ -15,18 +15,12 @@ from r2.lib.validator import (
     VExistingUname,
     VGold,
     VJSON,
-    VLength,
     VModhash,
     VUser,
 )
-from reddit_gold.models import (
-    GoldPartnerCodesExhaustedError,
-    GoldPartnerDealCode,
-    SnoovatarsByAccount,
-)
+from reddit_gold.models import SnoovatarsByAccount
 from reddit_gold.pages import (
     GoldInfoPage,
-    GoldPartnersPage,
     Snoovatar,
     SnoovatarProfilePage,
 )
@@ -43,11 +37,7 @@ class GoldController(RedditController):
         ).render()
 
     def GET_partners(self):
-        return GoldPartnersPage(
-            _("gold partners"),
-            show_sidebar=False,
-            page_classes=["gold-page-ga-tracking"]
-        ).render()
+        self.redirect("/gold/about", code=301)
 
     @validate(
         vuser=VExistingUname("username"),
@@ -75,18 +65,6 @@ class GoldController(RedditController):
 
 @add_controller
 class GoldApiController(RedditController):
-    @json_validate(VUser(),
-                   VGold(),
-                   VModhash(),
-                   deal=VLength('deal', 100))
-    def POST_claim_gold_partner_deal_code(self, responder, deal):
-        try:
-            return {'code': GoldPartnerDealCode.claim_code(c.user, deal)}
-        except GoldPartnerCodesExhaustedError:
-            return {'error': 'GOLD_PARTNER_CODES_EXHAUSTED',
-                    'explanation': _("sorry, we're out of codes!")}
-
-
     @validatedForm(
         VUser(),
         VGold(),
