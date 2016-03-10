@@ -17,7 +17,6 @@ class Gold(Plugin):
             "gold_hostname_file",
             "gold_servername_sr",
             "wiki_page_gold_features",
-            "wiki_page_gold_partners",
         ],
     }
 
@@ -25,11 +24,6 @@ class Gold(Plugin):
         'gold-lib': Module('gold-lib.js',
             'paper-core.js',
             prefix='lib/',
-        ),
-
-        'gold': Module('gold.js',
-            'gold.js',
-            prefix='gold/',
         ),
 
         "snoovatar": LocalizedModule("snoovatar.js",
@@ -55,7 +49,6 @@ class Gold(Plugin):
         mc('/about/gold', controller='redirect', action='redirect',
            dest='/gold/about')
         mc('/gold/partners', controller='gold', action='partners')
-        mc('/api/claim_gold_partner_deal_code', controller='goldapi', action='claim_gold_partner_deal_code')
 
         mc('/user/:username/snoo', controller='gold', action='snoovatar')
         mc("/api/gold/snoovatar", controller='goldapi', action='snoovatar')

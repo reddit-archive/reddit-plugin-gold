@@ -1,6 +1,6 @@
 # reddit gold plugin
 
-This plugin adds the /gold/about and /gold/partners pages.
+This plugin adds the /gold/about page.
 
 ## installation
 

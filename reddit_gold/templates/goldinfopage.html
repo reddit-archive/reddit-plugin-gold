@@ -11,8 +11,8 @@
   ${less_stylesheet('gold.less')}
 </%def>
 
-<%def name="feature_item(name, img_src, description_md, extra_class='', img_url=None, category='')">
-  <section id="${name}" ${classes(extra_class)} data-category="${category}">
+<%def name="feature_item(name, img_src, description_md, extra_class='', img_url=None)">
+  <section id="${name}" ${classes(extra_class)}>
     %if img_url:
       <a href="${img_url}">
     %endif
@@ -30,13 +30,6 @@
       %endif
     </div>
   </section>
-</%def>
-
-<%def name="partner_item(name, description_html, img_src)">
-  <a href="/gold/partners#${name}" target="_blank">
-    <div class="label-container"><span class="partner-label">${unsafe(description_html)}</span></div>
-    <div class="logo"><img src="${make_url_protocol_relative(img_src)}" alt="${name}"></div>
-  </a>
 </%def>
 
 <%def name="goldinfo_header(title, description=None, css_class=None)">
@@ -70,8 +63,7 @@
     <div class="letter-body">
       <img class="logo" src="${static('gold/reddit-gold-logo.png')}" alt="reddit gold">
       ${_md(
-        "reddit gold is our premium membership program. It comes with extra features to make your experience here better as well as special benefits from gold partners for exceptional products and services.\n\n"
-        "reddit takes no payment from gold partners for being in this program. We ask that they give all the benefits to you, our users. We hope in turn that this helps make gold a program worth subscribing to.\n\n"
+        "reddit gold is our premium membership program. It grants you access to extra features to improve your reddit experience. It also makes you really quite dapper.\n\n"
         "If you have questions about any of the benefits, please visit /r/goldbenefits. New benefits and features will also be announced there, and we hope you'll enjoy them."
       )}
     </div>
@@ -79,25 +71,7 @@
   <section id="about-gold">
     ${goldinfo_header(_('You can make reddit better.'), css_class='short')}
 
-    % for feature in thing.top_features:
-      ${feature_item(name=feature.id,
-                     img_src=feature.image_url,
-                     description_md='# {0}\n{1}'.format(feature.name, feature.description),
-                     extra_class=feature.extra_classes)}
-    % endfor
-    % if len(thing.top_partners) > 0:
-      <section id="partner-benefits">
-          <h1>${_('Awesome stuff for gold members:')}</h1>
-          <ul>
-            % for partner in thing.top_partners:
-              <li>${partner_item(partner.id, partner.about_page_desc, partner.image_url)}</li>
-            % endfor
-          </ul>
-          <h1><br><a href="/gold/partners">${_('Check out the rest of our partners and deals!')}</a></h1>
-      </section>
-    % endif
-
-    % for feature in thing.other_features:
+    % for feature in thing.features:
       ${feature_item(name=feature.id,
                      img_src=feature.image_url,
                      description_md='# {0}\n{1}'.format(feature.name, feature.description),
