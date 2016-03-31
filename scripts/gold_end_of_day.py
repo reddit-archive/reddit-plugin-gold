@@ -19,8 +19,8 @@ from r2.models.gold import (
     GoldRevenueGoalByDate,
     TIMEZONE,
 )
+from r2.models.comment_tree import CommentTree
 from r2.models.wiki import WikiPage
-from r2.lib.comment_tree import get_comment_tree
 from r2.lib.db import tdb_cassandra
 
 from reddit_gold.server_naming import gold_buyers_on
@@ -118,10 +118,10 @@ def activate_requested_names(but_not):
 
 valid_name_re = re.compile(r"(?:^|\*)([A-Za-z0-9-]{1,25})(?:$|\*)")
 def activate_names_requested_in(link):
-    tree = get_comment_tree(link)
+    comment_tree = CommentTree.by_link(link)
     acceptable_names = []
-    if tree.tree:
-        top_level_cids = tree.tree[None]
+    if comment_tree.tree:
+        top_level_cids = comment_tree.tree[None]
         comments = chain.from_iterable(Comment._byID(chunk, return_dict=False,
                                                      data=True)
                                        for chunk in in_chunks(top_level_cids))
