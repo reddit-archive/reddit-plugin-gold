@@ -77,7 +77,7 @@ def post_if_goal_reached(date):
         author=SYSTEM_ACCOUNT,
         sr=SERVERNAME_SR,
         ip="127.0.0.1",
-        spam=False,
+        sendreplies=False,
     )
 
     link.flair_text = "Name pending..."
