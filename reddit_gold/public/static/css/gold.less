@@ -56,7 +56,7 @@
     }
 }
 
-section#gold-letter, section#about-gold, section#postcard, .or-box {
+section#gold-letter, section#about-gold {
     font-family: "Bitstream Charter", "Hoefler Text", "Palatino Linotype",
                  "Book Antiqua", Palatino, georgia, garamond, FreeSerif, serif;
 }
@@ -128,7 +128,7 @@ section#about-gold {
         font-size: 18px;
     }
 
-    .buy-gold-button, .postcard-button {
+    .buy-gold-button {
         position: relative;
         border-radius: 5px;
         box-shadow: 0 3px 0 #bca88b;
@@ -168,30 +168,6 @@ section#about-gold {
             color: #f2ead4;
             &:after {
                 opacity: 1;
-            }
-        }
-    }
-
-    .postcard-button {
-        padding: 4px 10px 4px 5px;
-        color: #424242;
-        font-size: 18px;
-        background: #f5f0e6;
-        border: 3px solid #656158;
-        text-shadow: 0 1px 1px #bbb;
-
-        img {
-            margin-right: 9px;
-            width: 48px;
-            height: 58px;
-            vertical-align: middle;
-        }
-
-        &:hover {
-            border-color: #8d6411;
-            text-shadow: 0 1px #ecbe61;
-            img {
-                .transform(rotate(-8deg));
             }
         }
     }
@@ -412,88 +388,6 @@ section#about-gold {
 
     header, footer {
         text-shadow: 0 2px 1px rgba(255,255,255,.5);
-    }
-}
-
-
-.or-box {
-    background: #817461;
-    margin: 0 auto;
-    padding: 3px 0;
-    width: 48px;
-    border-radius: 4px;
-    color: white;
-    font-size: 16px;
-    text-align: center;
-}
-
-a.postcard {
-    display: block;
-    width: 765px;
-    height: 502px;
-    margin: 20px auto;
-}
-
-section#postcard {
-    @height: 502px;
-    @padding-top: 78px;
-    position: relative;
-    height: @height - @padding-top;
-    padding-left: 34px;
-    padding-right: 390px;
-    padding-top: @padding-top;
-    margin-left: 32px;
-    background: url(../gold/postcard.jpg);
-    color: #444;
-    text-align: center;
-
-    h1 {
-        span, strong {
-            display: block;
-            font-size: 22px;
-        }
-
-        strong {
-            font-size: 32px;
-        }
-
-        .for {
-            margin-top: 8px;
-            margin-bottom: 0px;
-        }
-
-        .of {
-            font-size: 17px;
-            margin: 20px 0;
-        }
-
-        .gold-typo {
-            display: inline-block;
-            width: 170px;
-            height: 40px;
-            background: url(../gold/reddit-gold.png) no-repeat;
-            text-indent: -9999px;
-        }
-    }
-
-    .sticker {
-        position: absolute;
-        top: 174px;
-        left: 306px;
-        width: 85px;
-        height: 86px;
-        background: url(../gold/sticker.png) no-repeat;
-
-        div {
-            color: white;
-            padding: 20px 0;
-            font: bold 13px sans-serif;
-            .transform(rotate(-15deg));
-        }
-    }
-
-    &:hover .sticker {
-        background-position: 0 bottom;
     }
 }
 

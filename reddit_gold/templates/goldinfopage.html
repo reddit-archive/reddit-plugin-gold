@@ -40,9 +40,7 @@
       <p>${description}</p>
     % endif
     <div class="actions">
-      <a class="buy-gold-button" href="/gold?goldtype=autorenew&source=about">${_('buy reddit gold')}</a>&#32;
-      <span class="or">${_('or')}</span>
-      <a class="postcard-button" href="/gold/about#postcard"><img src="${static('gold/stamp.png')}" alt=""> ${_('send us a postcard')}</a>
+      <a class="buy-gold-button" href="/gold?goldtype=autorenew&source=about">${_('buy reddit gold')}</a>
     </div>
     %if caller:
       ${caller.body()}
@@ -89,32 +87,4 @@
     </section>
     ${goldinfo_footer()}
   </section>
-  <div class="or-box">${_('or')}</div>
-  <a class="postcard" href="/about/postcards" target="_blank" alt="reddit, PO Box 7775 #16093, San Francisco, CA 94120-7775">
-    <section id="postcard">
-      ## TRANSLATORS: this string is displayed as the content of a postcard
-      ## with pretty typographical formatting.
-      ## If you use '|' characters to split the translated string into 5 parts,
-      ## the parts will be split onto separate lines with fancy typographic
-      ## formatting specific to each line (see the site for an example).
-      ## If this fancy formatting isn't a good fit for your language, omit the
-      ## '|' characters. The translated string will be displayed in full size
-      ## without any typographic effects.
-      <% parts = _('send us a postcard | for | 1 free month | of | reddit gold').split('|') %>
-      <h1>
-        % if len(parts) == 5:
-          <strong>${parts[0]}</strong>
-          <span class="for">${parts[1]}</span>
-          <strong>${parts[2]}</strong>
-          <span class="of">&mdash;&mdash;${parts[3]}&mdash;&mdash;</span>
-          <span class="gold-typo">${parts[4]}</span>
-        % else:
-          <strong>${parts[0]}</strong>
-        % endif
-      </h1>
-      <div class="sticker">
-        <div>${_('view the postcard gallery')}</div>
-      </div>
-    </section>
-  </a>
 </%def>
