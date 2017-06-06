@@ -207,12 +207,12 @@ class GoldTransaction(Base):
             query = query.filter(cls.date >= start_date)
         if end_date:
             query = query.filter(cls.date < end_date)
-        
+
         query = query.order_by(cls.date, cls.trans_id)
-        transactions = query.all()
+        query = query.yield_per(1000)   # retrieve 1000 rows at a time
 
         overrides = {}
-        for trans in transactions:
+        for trans in query:
             if overrides or not trans.is_split:
                 trans.overrides = overrides
                 overrides = {}
