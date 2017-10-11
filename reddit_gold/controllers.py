@@ -1,5 +1,8 @@
+import json
+
 from pylons import tmpl_context as c
 from pylons import app_globals as g
+from pylons import response
 from pylons.i18n import _
 
 from r2.config import feature
@@ -65,6 +68,15 @@ class GoldController(RedditController):
 
 @add_controller
 class GoldApiController(RedditController):
+    @validate(
+        VUser(),
+        VGold(),
+    )
+    def GET_snoovatar(self):
+        snoovatar = SnoovatarsByAccount.load(c.user, "snoo")
+        response.content_type = "application/json"
+        return json.dumps(snoovatar)
+
     @validatedForm(
         VUser(),
         VGold(),
