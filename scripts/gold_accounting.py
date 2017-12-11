@@ -153,7 +153,9 @@ class GoldTransaction(Base):
     # used for the trans types that cover 2 rows in the db
     @property
     def is_split(self):
-        if self.type in ('gilding', 'gift', 'rg-elves'):
+        if self.type in ('gilding', 'gift'):
+            return True
+        if self.type == 'rg-elves' and self.secret.startswith("gift-"):
             return True
         return False
 
