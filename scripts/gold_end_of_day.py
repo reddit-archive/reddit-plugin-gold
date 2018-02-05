@@ -9,6 +9,7 @@ from itertools import chain
 from pylons import app_globals as g
 
 from r2.lib.amqp import worker
+from r2.lib.baseplate_integration import with_server_span
 from r2.lib.db import queries
 from r2.lib.utils import in_chunks
 from r2.models import Thing, Account, Subreddit, Link, Comment
@@ -251,6 +252,7 @@ def determine_gold_goal(date):
     gold_goal_on(date, _update=True)
 
 
+@with_server_span('gold_end_of_day')
 def main():
     now = datetime.datetime.now(TIMEZONE)
 

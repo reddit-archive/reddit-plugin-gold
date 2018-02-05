@@ -4,6 +4,7 @@ import StringIO, csv, psycopg2
 
 from pylons import app_globals as g
 from r2.lib import emailer
+from r2.lib.baseplate_integration import with_server_span
 from r2.models.gold import Base, Session
 from sqlalchemy import create_engine
 from sqlalchemy import Column, String, DateTime, Integer
@@ -256,6 +257,7 @@ def get_creddit_balances_on(date):
     return user_creddits
 
 
+@with_server_span('gold_accounting')
 def run_for_prev_month():
     end_date = datetime(datetime.now().year, datetime.now().month, 1)
     if end_date.month == 1:
