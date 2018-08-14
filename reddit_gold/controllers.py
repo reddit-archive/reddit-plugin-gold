@@ -46,7 +46,7 @@ class GoldController(RedditController):
         vuser=VExistingUname("username"),
     )
     def GET_snoovatar(self, vuser):
-        if not vuser or vuser._deleted or not vuser.gold:
+        if not vuser or vuser._deleted:
             self.abort404()
 
         snoovatar = SnoovatarsByAccount.load(vuser, "snoo")
@@ -70,7 +70,6 @@ class GoldController(RedditController):
 class GoldApiController(RedditController):
     @validate(
         VUser(),
-        VGold(),
     )
     def GET_snoovatar(self):
         snoovatar = SnoovatarsByAccount.load(c.user, "snoo")
@@ -79,7 +78,6 @@ class GoldApiController(RedditController):
 
     @validatedForm(
         VUser(),
-        VGold(),
         VModhash(),
         public=VBoolean("public"),
         snoo_color=VSnooColor("snoo_color"),
